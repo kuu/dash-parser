@@ -93,7 +93,6 @@ out
 
 # Nuxt.js build / generate output
 .nuxt
-dist
 
 # Gatsby files
 .cache/
@@ -133,7 +132,16 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-# Typescript intermediate files
-*.d.ts
-*.js
-!test/**/*.js
+src
+test
+.git
+.github
+.gitignore
+.npmignore
+tsconfig.*
+jestconfig.*
+.xo-config.*
+webpack.config.*
+LICENSE
+*.ts
+!*.d.ts

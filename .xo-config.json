@@ -1,0 +1,17 @@
+{
+  "esnext": true,
+  "space": true,
+  "rules": {
+    "capitalized-comments": 0,
+    "import/extensions": 0,
+    "new-cap": 0,
+    "n/file-extension-in-import": 0,
+    "unicorn/catch-error-name": 0,
+    "unicorn/no-array-reduce": 0,
+    "unicorn/prevent-abbreviations": 0,
+    "@typescript-eslint/naming-convention": 0,
+    "@typescript-eslint/no-confusing-void-expression": 0,
+    "@typescript-eslint/padding-line-between-statements": 0,
+    "@typescript-eslint/prefer-function-type": 0
+  }
+}
