@@ -1,13 +1,14 @@
-import type * as types from './types';
+import type {ParsedObject, Element, MPD} from './types';
 import {toXML} from './xml';
 
-export function stringify(manifest: types.MPD): string | undefined {
+export function stringify(manifest: MPD): string | undefined {
   return toXML({MPD: convertToXMLObject(manifest)});
 }
 
-function convertToXMLObject(element: types.Element): types.ParsedObject {
-  const obj: types.ParsedObject = {'@': element.serializedProps};
-  for (const child of element.elements) {
+function convertToXMLObject(element: Element): ParsedObject {
+  element.verify();
+  const obj: ParsedObject = {'@': element.serializedProps};
+  for (const child of element.children) {
     const key = child.name;
     const childObj = convertToXMLObject(child);
     if (!childObj) {
@@ -17,7 +18,7 @@ function convertToXMLObject(element: types.Element): types.ParsedObject {
       if (!Array.isArray(obj[key])) {
         obj[key] = [obj[key]];
       }
-      (obj[key] as types.ParsedObject[]).push(childObj);
+      (obj[key] as ParsedObject[]).push(childObj);
     } else {
       obj[key] = childObj;
     }

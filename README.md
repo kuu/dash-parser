@@ -6,7 +6,7 @@
 
 # dash-parser
 
-A simple library to synchronously read/write MPEG-DASH manifests that conform to [ISO/IEC 23009-1:2022](https://dashif.org/news/5th-edition/) (the fifth edition of the MPEG-DASH spec.)
+A simple library to synchronously read/write MPEG-DASH manifests that conform to [ISO/IEC 23009-1:2022](https://dashif.org/news/5th-edition/)
 
 ## Install
 [![NPM](https://nodei.co/npm/dash-parser.png?mini=true)](https://nodei.co/npm/dash-parser/)
@@ -16,42 +16,59 @@ A simple library to synchronously read/write MPEG-DASH manifests that conform to
 ```js
 import * as DASH from 'dash-parser';
 
-// Parse the manifest
-const manifest = DASH.parse(textData);
-// You can access the manifest as a JS object
+// Parse an existing manifest file and create a MPD object
+const mpdObject = DASH.parse(textData);
 
-// Create a new manifest
-const {MPD, Period} = DASH.types;
-const obj = new MPD({
+// Or create an object from scratch
+const {MPD, BaseURL, Period, AdaptationSet} = DASH;
+const mpdObject = new MPD({
   type: "static",
-  mediaPresentationDuration: new Date(pdt),
-  minBufferTime: 1.2,
-  profiles: 'VOD',
-  baseUrls: [
+  minBufferTime: 2,
+  profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
+  mediaPresentationDuration: 512,
+  children: [
     new BaseURL({
       url: "http://cdn1.example.com",
     }),
     new BaseURL({
       url: "http://cdn2.example.com",
     }),
-  ],
-  periods: [
     new Period({
-      // Create internal objects
-    }
+      duration: 512,
+      children: [
+        new AdaptationSet({
+          contentType: 'video',
+          mimeType: 'video/mp4',
+          codecs: 'avc1.4d401f',
+          frameRate: 24,
+          width: 1280,
+          height: 720,
+          children: [
+            // ...
+          ],
+        }),
+        new AdaptationSet({
+          contentType: 'audio',
+          mimeType: 'audio/mp4',
+          codecs: 'mp4a.40.2',
+          audioSamplingRate: 48000,
+          children: [
+            // ...
+          ],
+        }),
+      ],
+    },
   ],
 });
 
-// Convert the object into a text
-DASH.stringify(obj);
+// Convert the MPD object into a text
+DASH.stringify(mpdObject);
 /*
 <?xml version="1.0" encoding="UTF-8"?>
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns="urn:mpeg:dash:schema:mpd:2011"
-    xsi:schemaLocation="urn:mpeg:dash:schema:mpd:2011 DASH-MPD.xsd"
+  <MPD
     type="static"
-    mediaPresentationDuration="PT3256S"
-    minBufferTime="PT1.2S"
+    mediaPresentationDuration="PT512S"
+    minBufferTime="PT2S"
     profiles="urn:mpeg:dash:profile:isoff-on-demand:2011">
     
     <BaseURL>http://cdn1.example.com/</BaseURL>
@@ -65,7 +82,7 @@ DASH.stringify(obj);
 ## API
 
 ### `DASH.parse(str)`
-Converts a plain text manifest into a structured JS object
+Converts a plain text manifest into a structured MPD object
 
 #### params
 | Name    | Type   | Required | Default | Description   |
@@ -75,15 +92,15 @@ Converts a plain text manifest into a structured JS object
 #### return value
 | Type   | Description   |
 | ------ | ------------- |
-| `MPD` (See **Data format** below.) | undefined  | An object representing Media Presentation Description (or `undefined` in case of error) |
+| `MPD` (See **Data structure** below.) | undefined  | An object representing Media Presentation Description (or `undefined` in case of error) |
 
-### `DASH.stringify(obj, postProcess)`
-Converts a JS object into a plain text manifest
+### `DASH.stringify(obj)`
+Converts an MPD object into a plain text manifest
 
 #### params
 | Name    | Type   | Required | Default | Description   |
 | ------- | ------ | -------- | ------- | ------------- |
-| obj     | `MPD` (See **Data format** below.)  | Yes      | N/A     | An object returned by `DASH.parse()` or a manually created object |
+| obj     | `MPD` (See **Data structure** below.)  | Yes      | N/A     | An object returned by `DASH.parse()` or a manually created MPD object |
 
 #### return value
 | Type   | Description   |
@@ -122,10 +139,7 @@ Retrieves the current global option values
 | ------ | ------------- |
 | object | A cloned object containing the current option values |
 
-### `DASH.types`
-An object that holds all the classes described below. (See **Data format** below.)
 
-
-## Data format
+## Data structure
 This section describes the structure of the object returned by `parse()` method.
 

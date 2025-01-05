@@ -4,7 +4,7 @@ import {
   XMLValidator,
 } from 'fast-xml-parser';
 import type {ParsedObject} from './types';
-import {printError} from './utils';
+import {throwError} from './utils';
 
 const parser = new XMLParser({
   ignoreDeclaration: false,
@@ -15,7 +15,7 @@ const parser = new XMLParser({
   trimValues: true,
   attributesGroupName: '@',
   attributeNamePrefix: '',
-  allowBooleanAttributes: true,
+  allowBooleanAttributes: false,
 });
 
 const builder = new XMLBuilder({
@@ -24,11 +24,12 @@ const builder = new XMLBuilder({
   attributeNamePrefix: '',
   format: true,
   suppressEmptyNode: true,
+  suppressBooleanAttributes: false,
 });
 
 export function fromXML(xml: string): ParsedObject | undefined {
   if (!XMLValidator.validate(xml)) {
-    printError(`Invalid XML:\n---\n${xml}\n---`);
+    throwError(`Invalid XML:\n---\n${xml}\n---`);
     return undefined;
   }
   return parser.parse(xml) as ParsedObject;

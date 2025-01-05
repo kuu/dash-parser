@@ -7,6 +7,7 @@
     "new-cap": 0,
     "n/file-extension-in-import": 0,
     "unicorn/catch-error-name": 0,
+    "unicorn/filename-case": 0,
     "unicorn/no-array-reduce": 0,
     "unicorn/prevent-abbreviations": 0,
     "@typescript-eslint/naming-convention": 0,

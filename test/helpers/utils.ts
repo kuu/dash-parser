@@ -1,35 +1,5 @@
 import * as DASH from '../../src/index';
 import type {MPD} from '../../src/types';
-import {printError} from '../../src/utils';
-
-export function parsePass(text: string) {
-  let obj: MPD | undefined;
-  try {
-    obj = DASH.parse(text);
-  } catch (err) {
-    printError(err as string);
-    return undefined;
-  }
-  console.log(JSON.stringify(obj, null, 2));
-  return obj;
-}
-
-export function stringifyPass(obj: MPD): string | undefined {
-  let text: string | undefined;
-  try {
-    text = DASH.stringify(obj);
-  } catch (err) {
-    printError(err as string);
-    return undefined;
-  }
-  console.log(text);
-  return text;
-}
-
-export function bothPass(text: string): string | undefined {
-  const obj = parsePass(text);
-  return obj ? stringifyPass(obj) : undefined;
-}
 
 export function stripSpaces(text: string): string {
   const chars = new Array<string>();
@@ -75,7 +45,7 @@ export function stripCommentsAndLineBreaks(text: string): string {
     } else if (insideTag) {
       if (curr.endsWith('>')) {
         insideTag = false;
-      } else if (!next.startsWith('>')) {
+      } else if (!next.startsWith('>') && !next.startsWith('/>')) {
         curr += ' ';
       }
     }
@@ -86,4 +56,14 @@ export function stripCommentsAndLineBreaks(text: string): string {
     }
   }
   return lines.join('');
+}
+
+export function bothPass(xml: string, obj: MPD): void {
+  expect(DASH.parse(xml)).toEqual(obj);
+  expect(stripCommentsAndLineBreaks(DASH.stringify(obj) ?? '')).toEqual(stripCommentsAndLineBreaks(xml));
+}
+
+export function bothFail(xml: string, obj: MPD): void {
+  expect(() => DASH.parse(xml)).toThrow();
+  expect(() => DASH.stringify(obj)).toThrow();
 }

@@ -22,11 +22,8 @@ describe('API check', () => {
   test('Prase manifest', () => {
     expect(typeof DASH.parse(`
       <?xml version="1.0" encoding="UTF-8"?>
-      <MPD
-        profiles="urn:mpeg:dash:profile:isoff-on-demand"
-        minBufferTime="PT2S"
-      >
-        <Period />
+      <MPD profiles="urn:mpeg:dash:profile:isoff-on-demand:2011" minBufferTime="PT2S">
+        <Period duration="0"/>
       </MPD>
     `)).toBe('object');
   });
@@ -35,7 +32,8 @@ describe('API check', () => {
     expect(typeof DASH.stringify(
       new DASH.MPD({
         minBufferTime: 2,
-        profiles: ['urn:mpeg:dash:profile:isoff-on-demand'],
+        profiles: ['urn:mpeg:dash:profile:isoff-on-demand:2011'],
+        children: [new DASH.Period({duration: 0})],
       }),
     )).toBe('string');
   });

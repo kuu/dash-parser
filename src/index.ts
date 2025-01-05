@@ -12,7 +12,4 @@ export {
   stringify,
 } from './stringify';
 
-export {
-  MPD,
-  Period,
-} from './types';
+export * from './types';
