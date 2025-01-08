@@ -1,12 +1,12 @@
 import type {ParsedObject} from './types';
 import {Element} from './Element';
 
-export class SegmentList extends Element {
-  public xlinkHref?: string;
-  public xlinkActuate?: 'onLoad' | 'onRequest';
+export class RandomAccess extends Element {
+  public interval?: number;
+  public type?: 'closed"' | 'open' | 'gradual';
 
-  constructor(initialValues?: Partial<SegmentList>) {
-    super('SegmentList');
+  constructor(initialValues?: Partial<RandomAccess>) {
+    super('RandomAccess');
     this.formatParams(initialValues);
     Object.assign(this, initialValues);
   }

@@ -1,10 +1,7 @@
 import type {ParsedObject} from './types';
-import {Element} from './Element';
+import {DescriptorType} from './DescriptorType';
 
-export class SupplementalProperty extends Element {
-  public schemeIdUri?: string;
-  public value?: string;
-
+export class SupplementalProperty extends DescriptorType {
   constructor(initialValues?: Partial<SupplementalProperty>) {
     super('SupplementalProperty');
     this.formatParams(initialValues);
@@ -12,18 +9,18 @@ export class SupplementalProperty extends Element {
   }
 
   override formatParams(initialValues?: Partial<ParsedObject>): void {
-    // NOP
+    super.formatParams(initialValues);
   }
 
   override verifyAttributes(): void {
-    // NOP
+    super.verifyAttributes();
   }
 
   override verifyChildren(): void {
-    // NOP
+    super.verifyChildren();
   }
 
   override get serializedProps(): ParsedObject {
-    return {};
+    return super.serializedProps;
   }
 }

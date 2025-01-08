@@ -1,12 +1,16 @@
 import type {ParsedObject} from './types';
 import {Element} from './Element';
 
-export class SegmentList extends Element {
-  public xlinkHref?: string;
-  public xlinkActuate?: 'onLoad' | 'onRequest';
+export class ProducerReferenceTime extends Element {
+  public id?: string;
+  public inband?: boolean;
+  public type?: string;
+  public applicationScheme?: string;
+  public wallClockTime?: string;
+  public presentationTime?: string;
 
-  constructor(initialValues?: Partial<SegmentList>) {
-    super('SegmentList');
+  constructor(initialValues?: Partial<ProducerReferenceTime>) {
+    super('ProducerReferenceTime');
     this.formatParams(initialValues);
     Object.assign(this, initialValues);
   }

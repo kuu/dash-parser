@@ -4,6 +4,7 @@ import {Element} from './Element';
 
 export class Period extends Element {
   static override readonly ALLOWED_CHILDREN = [
+    ...(super.ALLOWED_CHILDREN ?? []),
     'BaseURL',
     'SegmentBase',
     'SegmentList',
@@ -77,6 +78,11 @@ export class Period extends Element {
     }
     if (!(typeof this.duration === 'number' && this.duration === 0) && this.getElements('AdaptationSet').length === 0) {
       this.reject('At least one AdaptationSet shall be present in each Period unless @duration is set to zero');
+    }
+    // eslint-disable-next-line @typescript-eslint/dot-notation
+    const ids = this.getElements('AdaptationSet').filter(elem => typeof elem['id'] === 'number').map(elem => elem['id'] as number);
+    if (Array.isArray(ids) && ids.length !== new Set(ids).size) {
+      this.reject('AdaptationSet@id shall be a unique value in the scope of the containing Period');
     }
   }
 

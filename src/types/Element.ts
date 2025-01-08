@@ -1,4 +1,4 @@
-import {printError, throwError} from '../utils';
+import {throwError} from '../utils';
 import type {ParsedObject, Range} from './types';
 
 export abstract class Element {
@@ -20,16 +20,20 @@ export abstract class Element {
     this.children.push(element);
   }
 
-  getElements(name: string, recursive = false): Element[] | Array<[child: Element, parent: Element]> {
-    if (!recursive) {
-      return this.children.filter(child => child.name === name);
-    }
+  getElements(name: string): Element[] {
+    return this.children.filter(child => child.name === name);
+  }
+
+  getAllElements(name: string | ((e: Element) => boolean)): Array<[child: Element, parent: Element]> {
     const result: Array<[Element, Element]> = [];
     for (const child of this.children) {
-      if (child.name === name) {
+      if (
+        (typeof name === 'function' && name(child))
+        || (typeof name === 'string' && child.name === name)
+      ) {
         result.push([child, this]);
       }
-      result.push(...child.getElements(name, recursive) as Array<[Element, Element]>);
+      result.push(...child.getAllElements(name));
     }
     return result;
   }

@@ -9,7 +9,7 @@ describe('ISO_IEC-23009-1_2022/5.3.2.2', () => {
     });
   });
 
-  test('@xlink:href', () => {
+  test('Period@xlink:href', () => {
     // @xlink:href specifies a reference to a remote element entity that is either empty or contains one or multiple
     // top-level elements of type Period.
     bothPass(`
@@ -32,7 +32,7 @@ describe('ISO_IEC-23009-1_2022/5.3.2.2', () => {
     }));
   });
 
-  test('@xlink:actuate', () => {
+  test('Period@xlink:actuate', () => {
     // @xlink:actuate specifies the processing instructions, which can be either "onLoad" or "onRequest".
     // This attribute shall not be present if the @xlink:href attribute is not present.
     bothPass(`
@@ -97,7 +97,7 @@ describe('ISO_IEC-23009-1_2022/5.3.2.2', () => {
     }));
   });
 
-  test('@id', () => {
+  test('Period@id', () => {
     // @id sspecifies an identifier for this Period. The identifier shall be unique within the scope of the Media Presentation.
     // If the MPD@type is "dynamic", then this attribute shall be present and shall not change in case the MPD is updated.
     // If not present, no identifier for the Period is provided.
@@ -125,7 +125,7 @@ describe('ISO_IEC-23009-1_2022/5.3.2.2', () => {
     }));
   });
 
-  test('@start', () => {
+  test('Period@start', () => {
     // if present, specifies the PeriodStart time of the Period. The PeriodStart time is used as an anchor to determine
     // the MPD start time of each Media Segment as well as to determine the presentation time of each access unit in the
     // Media Presentation timeline.
@@ -152,7 +152,7 @@ describe('ISO_IEC-23009-1_2022/5.3.2.2', () => {
     }));
   });
 
-  test('@duration', () => {
+  test('Period@duration', () => {
     // if present, specifies the duration of the Period to determine the PeriodStart time of the next Period.
     // If not present, refer to the details in subclause 5.3.2.1.
     bothPass(`
@@ -173,7 +173,7 @@ describe('ISO_IEC-23009-1_2022/5.3.2.2', () => {
     }));
   });
 
-  test('@bitstreamSwitching', () => {
+  test('Period@bitstreamSwitching', () => {
     // When set to 'true', this is equivalent as if the AdaptationSet@bitstreamSwitching for each Adaptation Set contained
     // in this Period is set to ′true′. In this case, the AdaptationSet@bitstreamSwitching attribute shall not be set to 'false'
     // for any Adaptation Set in this Period.
@@ -197,7 +197,7 @@ describe('ISO_IEC-23009-1_2022/5.3.2.2', () => {
     }));
   });
 
-  test('child:ContentProtection', () => {
+  test('Period.ContentProtection', () => {
     // ContentProtection specifies information about content protection and encryption schemes used in this Media Presentation.
     // If present on this level, it shall include the @refId attribute.
     bothPass(`
@@ -237,14 +237,14 @@ describe('ISO_IEC-23009-1_2022/5.3.2.2', () => {
     }));
   });
 
-  test('child:AdaptationSet', () => {
+  test('Period.AdaptationSet', () => {
     // At least one Adaptation Set shall be present in each Period unless the value of the @duration
     // attribute of the Period is set to zero.
     bothPass(`
       <?xml version="1.0" encoding="UTF-8"?>
       <MPD profiles="urn:mpeg:dash:profile:isoff-on-demand:2011" minBufferTime="PT2S">
         <Period duration="PT30S">
-          <AdaptationSet/>
+          <AdaptationSet mimeType="video/mp4"/>
         </Period>
       </MPD>
     `, new DASH.MPD({
@@ -253,7 +253,7 @@ describe('ISO_IEC-23009-1_2022/5.3.2.2', () => {
       children: [
         new DASH.Period({
           duration: 30,
-          children: [new DASH.AdaptationSet()],
+          children: [new DASH.AdaptationSet({mimeType: 'video/mp4'})],
         }),
       ],
     }));
@@ -290,7 +290,7 @@ describe('ISO_IEC-23009-1_2022/5.3.2.2', () => {
   });
 
   /* WIP
-  test('child:EmptyAdaptationSet', () => {
+  test('Period.EmptyAdaptationSet', () => {
     // EmptyAdaptationSet specifies an Adaptation Set that does not contain any Representation element.
     // The empty Adaptation Set is of the same type as a regular Adaptation Set but shall neither contain
     // an xlink nor contain any Representation element.
