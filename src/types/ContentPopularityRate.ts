@@ -1,12 +1,12 @@
 import type {ParsedObject} from './types';
 import {Element} from './Element';
 
-export class SegmentList extends Element {
-  public xlinkHref?: string;
-  public xlinkActuate?: 'onLoad' | 'onRequest';
+export class ContentPopularityRate extends Element {
+  public source?: string;
+  public sourceDescription?: string;
 
-  constructor(initialValues?: Partial<SegmentList>) {
-    super('SegmentList');
+  constructor(initialValues?: Partial<ContentPopularityRate>) {
+    super('ContentPopularityRate');
     this.formatParams(initialValues);
     Object.assign(this, initialValues);
   }

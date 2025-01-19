@@ -1,29 +1,26 @@
 import type {ParsedObject} from './types';
-import {Element} from './Element';
+import {DescriptorType} from './DescriptorType';
 
-export class SegmentList extends Element {
-  public xlinkHref?: string;
-  public xlinkActuate?: 'onLoad' | 'onRequest';
-
-  constructor(initialValues?: Partial<SegmentList>) {
-    super('SegmentList');
+export class FramePacking extends DescriptorType {
+  constructor(initialValues?: Partial<FramePacking>) {
+    super('FramePacking');
     this.formatParams(initialValues);
     Object.assign(this, initialValues);
   }
 
   override formatParams(initialValues?: Partial<ParsedObject>): void {
-    // NOP
+    super.formatParams(initialValues);
   }
 
   override verifyAttributes(): void {
-    // NOP
+    super.verifyAttributes();
   }
 
   override verifyChildren(): void {
-    // NOP
+    super.verifyChildren();
   }
 
   override get serializedProps(): ParsedObject {
-    return {};
+    return super.serializedProps;
   }
 }

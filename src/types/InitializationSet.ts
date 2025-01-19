@@ -2,6 +2,7 @@ import type {ParsedObject} from './types';
 import {Element} from './Element';
 
 export class InitializationSet extends Element {
+  public id?: number;
   public sourceURL?: string;
 
   constructor(initialValues?: Partial<InitializationSet>) {

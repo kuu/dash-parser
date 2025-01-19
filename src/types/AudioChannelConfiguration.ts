@@ -1,9 +1,9 @@
 import type {ParsedObject} from './types';
-import {LabelType} from './LabelType';
+import {DescriptorType} from './DescriptorType';
 
-export class GroupLabel extends LabelType {
-  constructor(initialValues?: Partial<GroupLabel>) {
-    super('GroupLabel');
+export class AudioChannelConfiguration extends DescriptorType {
+  constructor(initialValues?: Partial<AudioChannelConfiguration>) {
+    super('AudioChannelConfiguration');
     this.formatParams(initialValues);
     Object.assign(this, initialValues);
   }

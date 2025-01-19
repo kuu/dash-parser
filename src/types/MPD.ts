@@ -4,6 +4,7 @@ import {Element} from './Element';
 
 export class MPD extends Element {
   static override readonly ALLOWED_CHILDREN = [
+    ...(super.ALLOWED_CHILDREN ?? []),
     'ProgramInformation',
     'BaseURL',
     'Location',

@@ -77,7 +77,7 @@ describe('ISO_IEC-23009-1_2022/5.3.1.2', () => {
     }));
   });
 
-  test('@id', () => {
+  test('MPD@id', () => {
     // @id specifies an identifier for the Media Presentation.
     // It is recommended to use an identifier that is unique within the scope in which the Media Presentation is published.
     // If not specified, no MPD-internal identifier is provided.
@@ -99,7 +99,7 @@ describe('ISO_IEC-23009-1_2022/5.3.1.2', () => {
     }));
   });
 
-  test('@profiles', () => {
+  test('MPD@profiles', () => {
     // @profiles specifies a list of Media Presentation profiles as described in 8.
     // The contents of this attribute shall conform to either the pro-simple or pro-fancy productions of IETF RFC 6381:2011, Section 4.5,
     // without the enclosing DQUOTE characters, i.e. including only the unencodedv or encodedv elements respectively.
@@ -133,7 +133,7 @@ describe('ISO_IEC-23009-1_2022/5.3.1.2', () => {
     }));
   });
 
-  test('@type', () => {
+  test('MPD@type', () => {
     // @type specifies the type of the Media Presentation.
     // For static Media Presentations (@type="static"), all Segments are available between the @availabilityStartTime and the @availabilityEndTime.
     // For dynamic Media Presentations (@type="dynamic"), Segments typically have different availability times.
@@ -156,7 +156,7 @@ describe('ISO_IEC-23009-1_2022/5.3.1.2', () => {
     }));
   });
 
-  test('@availabilityStartTime', () => {
+  test('MPD@availabilityStartTime', () => {
     // For @type='dynamic', this attribute shall be present. In this case, it specifies the anchor for
     // the computation of the earliest availability time (in UTC) for any Segment in the Media Presentation.
     // For @type=static” if present, it specifies the Segment availability start time for all Segments
@@ -213,7 +213,7 @@ describe('ISO_IEC-23009-1_2022/5.3.1.2', () => {
     }));
   });
 
-  test('@publishTime', () => {
+  test('MPD@publishTime', () => {
     // @publishTime specifies the wall-clock time when the MPD was generated and published at the origin server.
     // MPDs with a later value of @publishTime shall be an update as defined in subclause 5.4 to MPDs with earlier @publishTime.
     bothPass(`
@@ -233,7 +233,7 @@ describe('ISO_IEC-23009-1_2022/5.3.1.2', () => {
     }));
   });
 
-  test('@availabilityEndTime', () => {
+  test('MPD@availabilityEndTime', () => {
     // @availabilityEndTime specifies the latest Segment availability end time for any Segment in the Media Presentation.
     // When not present, the value is unknown.
     bothPass(`
@@ -271,7 +271,7 @@ describe('ISO_IEC-23009-1_2022/5.3.1.2', () => {
     }));
   });
 
-  test('@mediaPresentationDuration', () => {
+  test('MPD@mediaPresentationDuration', () => {
     // @mediaPresentationDuration specifies the duration of the entire Media Presentation.
     // If the attribute is not present, the duration of the Media Presentation is unknown.
     // This attribute shall be present when neither the attribute MPD@minimumUpdatePeriod
@@ -341,7 +341,7 @@ describe('ISO_IEC-23009-1_2022/5.3.1.2', () => {
     }));
   });
 
-  test('@minimumUpdatePeriod', () => {
+  test('MPD@minimumUpdatePeriod', () => {
     // If this attribute is present, it specifies the smallest period between potential changes to the MPD.
     // This can be useful to control the frequency at which a client checks for updates.
     // From a client perspective, after a client fetches an MPD, it specifies the minimum period during which
@@ -387,7 +387,7 @@ describe('ISO_IEC-23009-1_2022/5.3.1.2', () => {
     }));
   });
 
-  test('@minBufferTime', () => {
+  test('MPD@minBufferTime', () => {
     // @minBufferTime specifies a common duration used in the definition of the Representation data rate
     // (see @bandwidth attribute in subclauses 5.3.5.2 and 5.3.5.4).
     bothPass(`
@@ -405,7 +405,7 @@ describe('ISO_IEC-23009-1_2022/5.3.1.2', () => {
     }));
   });
 
-  test('@timeShiftBufferDepth', () => {
+  test('MPD@timeShiftBufferDepth', () => {
     // @timeShiftBufferDepth specifies the duration of the smallest time shifting buffer for any Representation in the MPD
     // that is guaranteed to be available for a Media Presentation with type 'dynamic'. When not present, the value is infinite.
     // This value of the attribute is undefined if the type attribute is equal to 'static'.
@@ -448,7 +448,7 @@ describe('ISO_IEC-23009-1_2022/5.3.1.2', () => {
     }));
   });
 
-  test('@suggestedPresentationDelay', () => {
+  test('MPD@suggestedPresentationDelay', () => {
     // When @type is 'dynamic', @suggestedPresentationDelay specifies a fixed delay offset in time
     // from the presentation time of each access unit that is suggested to be used for presentation of each access unit.
     // For more details, refer to subclause 7.2.1. When not specified, then no value is provided and the client is
@@ -493,7 +493,7 @@ describe('ISO_IEC-23009-1_2022/5.3.1.2', () => {
     }));
   });
 
-  test('@maxSegmentDuration', () => {
+  test('MPD@maxSegmentDuration', () => {
     // @maxSegmentDuration specifies the maximum duration of any Segment in any Representation in the Media Presentation,
     // i.e. documented in this MPD and any future update of the MPD. If not present, then the maximum Segment duration
     // shall be the maximum duration of any Segment documented in this MPD.
@@ -514,7 +514,7 @@ describe('ISO_IEC-23009-1_2022/5.3.1.2', () => {
     }));
   });
 
-  test('@maxSubsegmentDuration', () => {
+  test('MPD@maxSubsegmentDuration', () => {
     // @maxSubsegmentDuration specifies the maximum duration of any Media Subsegment in any Representation in the Media Presentation.
     // If not present, the same value as for the maximum Segment duration is implied.
     bothPass(`
@@ -536,7 +536,7 @@ describe('ISO_IEC-23009-1_2022/5.3.1.2', () => {
     }));
   });
 
-  test('child:PatchLocation', () => {
+  test('MPD.PatchLocation', () => {
     // PatchLocation specifies a location at which the MPD patch document is available. Details on the MPD patch document,
     // this element, and expected processing models are available in subclause 5.15.
     // If this element is present, the MPD@id attribute and the MPD@publishTime shall be present.
@@ -648,7 +648,7 @@ describe('ISO_IEC-23009-1_2022/5.3.1.2', () => {
   });
 
   /* WIP
-  test('child:InitializationSet', () => {
+  test('MPD.InitializationSet', () => {
     // InitializationSet specifies a suitable initialization for a specific media type for the presentation.
     // If present, at least one Period of the Media Presentation shall include at least one Adaptation Set
     // that can be played when initialized by this Initialization Set.

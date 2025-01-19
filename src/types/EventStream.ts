@@ -1,10 +1,7 @@
 import type {ParsedObject} from './types';
-import {Element} from './Element';
+import {EventStreamType} from './EventStreamType';
 
-export class EventStream extends Element {
-  public xlinkHref?: string;
-  public xlinkActuate?: 'onLoad" | "onRequest';
-
+export class EventStream extends EventStreamType {
   constructor(initialValues?: Partial<EventStream>) {
     super('EventStream');
     this.formatParams(initialValues);
@@ -12,18 +9,18 @@ export class EventStream extends Element {
   }
 
   override formatParams(initialValues?: Partial<ParsedObject>): void {
-    // NOP
+    super.formatParams(initialValues);
   }
 
   override verifyAttributes(): void {
-    // NOP
+    super.verifyAttributes();
   }
 
   override verifyChildren(): void {
-    // NOP
+    super.verifyChildren();
   }
 
   override get serializedProps(): ParsedObject {
-    return {};
+    return super.serializedProps;
   }
 }
