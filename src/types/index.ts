@@ -3,6 +3,7 @@ export * from './AdaptationSet';
 export * from './AssetIdentifier';
 export * from './AudioChannelConfiguration';
 export * from './BaseURL';
+export * from './ContentComponent';
 export * from './ContentPopularityRate';
 export * from './ContentProtection';
 export * from './Element';
