@@ -10,7 +10,7 @@ describe('ISO_IEC-23009-1_2022/5.3.4.2', () => {
   });
 
   test('ContentComponent@id', () => {
-    // @id sspecifies an identifier for this media component.
+    // @id specifies an identifier for this media component.
     // The attribute shall be unique in the scope of the containing Adaptation Set.
     // The value of this attribute should be the media component identifier in the media segment
     // (i.e. the Track Id in ISO BMFF segments and PID in MPEG-2 TS segments) described by this ContentComponent element.

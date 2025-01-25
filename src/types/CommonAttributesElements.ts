@@ -84,7 +84,7 @@ export class CommonAttributesElements extends Element {
     }
   }
 
-  override verifyAttributes(): void {
+  override verifyAttributes(ctx: ParsedObject): void {
     if (typeof this.width === 'number' && (typeof this.mimeType === 'string' && !this.mimeType.startsWith('video'))) {
       this.reject('@width is only allowed for video content types');
     }
@@ -139,12 +139,14 @@ export class CommonAttributesElements extends Element {
     if (Array.isArray(this.audioSamplingRate) && this.audioSamplingRate[0] >= this.audioSamplingRate[1]) {
       this.reject('@audioSamplingRate a pair of decimal integer values specifies the minimum and maximum sampling rate');
     }
-    if (typeof this.mimeType !== 'string') {
+    if (this.name === 'AdaptationSet' && typeof this.mimeType === 'string') {
+      ctx.mimeTypeIsDefined = true;
+    } else if (!ctx.mimeTypeIsDefined && typeof this.mimeType !== 'string') {
       this.reject('@mimeType should be defined');
     }
   }
 
-  override verifyChildren(): void {
+  override verifyChildren(ctx: ParsedObject): void {
     // NOP
   }
 

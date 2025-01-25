@@ -28,6 +28,7 @@ export * from './Preselection';
 export * from './ProducerReferenceTime';
 export * from './ProgramInformation';
 export * from './RandomAccess';
+export * from './Representation';
 export * from './Resync';
 export * from './SegmentBase';
 export * from './SegmentList';
