@@ -94,12 +94,22 @@ export class AdaptationSet extends CommonAttributesElements {
     if (typeof this.group === 'number' && (!Number.isInteger(this.group) || this.group < 0)) {
       this.reject('@group should be an unsigned integer');
     }
-    if (this.par && typeof this.width === 'number' && typeof this.height === 'number') {
-      const [parX, parY] = this.par;
+    if (typeof this.width === 'number' && typeof this.height === 'number') {
+      const elems = [this, ...this.getElements('ContentComponent')];
+      // eslint-disable-next-line @typescript-eslint/dot-notation
+      const pars = elems.filter(elem => Array.isArray(elem['par'])).map(elem => elem['par'] as [number, number]);
       const [sarX, sarY] = this.sar ?? [1, 1];
-      if ((this.width * sarX) / (this.height * sarY) !== (parX / parY)) {
-        this.reject(`@par(${parX}:${parY}) and @width(${this.width}), @height(${this.height}), @sar(${sarX}:${sarY}) are not consistent`);
+      for (const par of pars) {
+        const [parX, parY] = par;
+        if ((this.width * sarX) / (this.height * sarY) !== (parX / parY)) {
+          this.reject(`@par(${parX}:${parY}) and @width(${this.width}), @height(${this.height}), @sar(${sarX}:${sarY}) are not consistent`);
+        }
       }
+    }
+    // eslint-disable-next-line @typescript-eslint/dot-notation
+    const componentIds = this.getElements('ContentComponent').filter(item => typeof item['id'] === 'string').map(item => item['id'] as string);
+    if (componentIds.length > 1 && new Set(componentIds).size !== componentIds.length) {
+      this.reject('ContentComponent@id shall be unique in the scope of the containing Adaptation Set.');
     }
   }
 
