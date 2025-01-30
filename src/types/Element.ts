@@ -26,15 +26,7 @@ export abstract class Element {
 
   getAllElements(name: string | ((e: Element) => boolean)): Array<[child: Element, parent: Element]> {
     const result: Array<[Element, Element]> = [];
-    for (const child of this.children) {
-      if (
-        (typeof name === 'function' && name(child))
-        || (typeof name === 'string' && child.name === name)
-      ) {
-        result.push([child, this]);
-      }
-      result.push(...child.getAllElements(name));
-    }
+    this.getElementsRecursively(name, result);
     return result;
   }
 
@@ -42,13 +34,25 @@ export abstract class Element {
     throwError(`${this.name}: ${message}`);
   }
 
-  verify(): void {
-    this.verifyAttributes();
-    this.verifyChildren();
+  verify(ctx: ParsedObject): void {
+    this.verifyAttributes(ctx);
+    this.verifyChildren(ctx);
   }
 
   abstract formatParams(initialValues?: Partial<ParsedObject>): void;
-  abstract verifyAttributes(): void;
-  abstract verifyChildren(): void;
+  abstract verifyAttributes(ctx: ParsedObject): void;
+  abstract verifyChildren(ctx: ParsedObject): void;
   abstract get serializedProps(): ParsedObject;
+
+  private getElementsRecursively(name: string | ((e: Element) => boolean), result: Array<[child: Element, parent: Element]>): void {
+    for (const child of this.children) {
+      if (
+        (typeof name === 'function' && name(child))
+        || (typeof name === 'string' && child.name === name)
+      ) {
+        result.push([child, this]);
+      }
+      child.getElementsRecursively(name, result);
+    }
+  }
 }

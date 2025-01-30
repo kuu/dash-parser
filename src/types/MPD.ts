@@ -114,12 +114,6 @@ export class MPD extends Element {
     if (this.availabilityStartTime && this.availabilityEndTime && this.availabilityStartTime >= this.availabilityEndTime) {
       this.reject('@availabilityStartTime shall be less than @availabilityEndTime');
     }
-    if (!this.mediaPresentationDuration && !this.minimumUpdatePeriod) {
-      const lastPeriod = this.getElements('Period').at(-1);
-      if (lastPeriod && lastPeriod['duration'] === undefined) { // eslint-disable-line @typescript-eslint/dot-notation
-        this.reject('@mediaPresentationDuration shall be present when neither @minimumUpdatePeriod nor @duration of the last Period are present.');
-      }
-    }
     if (this.minimumUpdatePeriod && this.type !== 'dynamic') {
       this.reject('@minimumUpdatePeriod shall not be present when @type is not "dynamic"');
     }
@@ -129,22 +123,27 @@ export class MPD extends Element {
     if (this.suggestedPresentationDelay && this.type !== 'dynamic') {
       this.reject('@suggestedPresentationDelay shall not be present when @type is not "dynamic"');
     }
-    if (this.getElements('PatchLocation').length > 0 && (typeof this.id !== 'string' || !this.publishTime)) {
-      this.reject('If PatchLocation is present, @id and @publishTime shall be present');
-    }
-    if (this.getElements('PatchLocation').length > 0 && (this.type !== 'dynamic' || !this.minimumUpdatePeriod)) {
-      this.reject('PatchLocation shall not be present when @type is not "dynamic" or the @minimumUpdatePeriod is not present');
-    }
   }
 
   override verifyChildren(): void {
-    const spec = this.static.CHILDRREN_SPEC;
-    for (const key of Object.keys(spec)) {
+    for (const key of Object.keys(this.static.CHILDRREN_SPEC)) {
       const [min, max] = this.static.CHILDRREN_SPEC[key];
       const count = this.children.filter(el => el.name === key).length;
       if (count < min || count > max) {
         this.reject(`Number of ${key} is ${count}, but should be between ${min} and ${max}`);
       }
+    }
+    if (!this.mediaPresentationDuration && !this.minimumUpdatePeriod) {
+      const lastPeriod = this.getElements('Period').at(-1);
+      if (lastPeriod && lastPeriod['duration'] === undefined) { // eslint-disable-line @typescript-eslint/dot-notation
+        this.reject('@mediaPresentationDuration shall be present when neither @minimumUpdatePeriod nor @duration of the last Period are present.');
+      }
+    }
+    if (this.getElements('PatchLocation').length > 0 && (typeof this.id !== 'string' || !this.publishTime)) {
+      this.reject('If PatchLocation is present, @id and @publishTime shall be present');
+    }
+    if (this.getElements('PatchLocation').length > 0 && (this.type !== 'dynamic' || !this.minimumUpdatePeriod)) {
+      this.reject('PatchLocation shall not be present when @type is not "dynamic" or the @minimumUpdatePeriod is not present');
     }
   }
 

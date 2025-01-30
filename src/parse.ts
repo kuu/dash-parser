@@ -1,4 +1,5 @@
 import * as types from './types';
+import {print} from './utils';
 import {fromXML} from './xml';
 
 export function parse(text: string): types.MPD | undefined {
@@ -7,15 +8,16 @@ export function parse(text: string): types.MPD | undefined {
     return undefined;
   }
   const mpd = new types.MPD(xmlObject['@'] as types.ParsedObject);
-  parseElement(mpd, xmlObject);
+  parseElement(mpd, xmlObject, {});
   return mpd;
 }
 
-function parseElement(element: types.Element, obj: types.ParsedObject | undefined): void {
-  // console.log('=== parseElement: Enter');
+function parseElement(element: types.Element, obj: types.ParsedObject | undefined, ctx: types.ParsedObject): void {
+  // console.log(`=== parseElement: Enter: element.name=${element.name}, ctx=${JSON.stringify(ctx, null, 2)}`);
+  element.verifyAttributes(ctx);
   if (!obj) {
     // console.log('=== parseElement: Exit-1');
-    return element.verify();
+    return element.verifyChildren(ctx);
   }
   // console.log(JSON.stringify(obj, null, 2));
   for (const key of Object.keys(obj)) {
@@ -27,6 +29,7 @@ function parseElement(element: types.Element, obj: types.ParsedObject | undefine
 
     const type = types[key] as {new (obj: types.ParsedObject): types.Element};
     if (!type) {
+      print(`Unknown element: ${key}`);
       // console.log('--- parse key end-2');
       continue;
     }
@@ -36,9 +39,9 @@ function parseElement(element: types.Element, obj: types.ParsedObject | undefine
       // console.log(`--- addElement: '${key}'`);
       const elem = new type(child['@'] as types.ParsedObject);
       element.addElement(elem);
-      parseElement(elem, child as types.ParsedObject);
+      parseElement(elem, child as types.ParsedObject, ctx);
     }
   }
-  element.verify();
+  element.verifyChildren(ctx);
   // console.log('=== parseElement: Exit-2');
 }

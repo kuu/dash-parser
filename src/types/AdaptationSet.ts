@@ -86,14 +86,18 @@ export class AdaptationSet extends CommonAttributesElements {
     }
   }
 
-  override verifyAttributes(): void {
-    super.verifyAttributes();
+  override verifyAttributes(ctx: ParsedObject): void {
+    super.verifyAttributes(ctx);
     if (typeof this.id === 'number' && (!Number.isInteger(this.id) || this.id < 0)) {
       this.reject('@id should be an unsigned integer');
     }
     if (typeof this.group === 'number' && (!Number.isInteger(this.group) || this.group < 0)) {
       this.reject('@group should be an unsigned integer');
     }
+  }
+
+  override verifyChildren(ctx: ParsedObject): void {
+    super.verifyChildren(ctx);
     if (typeof this.width === 'number' && typeof this.height === 'number') {
       const elems = [this, ...this.getElements('ContentComponent')];
       // eslint-disable-next-line @typescript-eslint/dot-notation
@@ -111,10 +115,6 @@ export class AdaptationSet extends CommonAttributesElements {
     if (componentIds.length > 1 && new Set(componentIds).size !== componentIds.length) {
       this.reject('ContentComponent@id shall be unique in the scope of the containing Adaptation Set.');
     }
-  }
-
-  override verifyChildren(): void {
-    super.verifyChildren();
   }
 
   override get serializedProps(): ParsedObject {

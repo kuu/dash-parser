@@ -39,9 +39,7 @@ export class ContentComponent extends Element {
   }
 
   override verifyAttributes(): void {
-    if (typeof this.id === 'number' && (!Number.isInteger(this.id) || this.id < 0)) {
-      this.reject('@id should be an unsigned integer');
-    }
+    // NOP
   }
 
   override verifyChildren(): void {
