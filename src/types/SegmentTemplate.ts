@@ -3,6 +3,7 @@ import {Element} from './Element';
 
 export class SegmentTemplate extends Element {
   public media?: string;
+  public timescale?: number;
 
   constructor(initialValues?: Partial<SegmentTemplate>) {
     super('SegmentTemplate');
@@ -23,6 +24,10 @@ export class SegmentTemplate extends Element {
   }
 
   override get serializedProps(): ParsedObject {
-    return {};
+    const obj: ParsedObject = {};
+    if (typeof this.timescale === 'number') {
+      obj.timescale = this.timescale;
+    }
+    return obj;
   }
 }

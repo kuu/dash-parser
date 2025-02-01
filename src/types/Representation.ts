@@ -100,10 +100,10 @@ export class Representation extends CommonAttributesElements {
   }
 
   override get serializedProps(): ParsedObject {
-    const obj = super.serializedProps;
-    if (typeof this.id === 'string') {
-      obj.id = this.id;
-    }
+    const obj: ParsedObject = {
+      id: this.id,
+      ...super.serializedProps,
+    };
     if (typeof this.bandwidth === 'number') {
       obj.bandwidth = this.bandwidth;
     }

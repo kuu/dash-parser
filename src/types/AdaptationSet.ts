@@ -115,6 +115,15 @@ export class AdaptationSet extends CommonAttributesElements {
     if (componentIds.length > 1 && new Set(componentIds).size !== componentIds.length) {
       this.reject('ContentComponent@id shall be unique in the scope of the containing Adaptation Set.');
     }
+
+    const randomAccessList = this.getAllElements('RandomAccess');
+    if (randomAccessList.length > 0) {
+      // eslint-disable-next-line @typescript-eslint/dot-notation
+      const timsScaleList = this.getAllElements(e => e['timescale'] !== undefined);
+      if (timsScaleList.length === 0) {
+        this.reject('No @timescale found. RandomAccess@interval shall be specified in the scale of the @timescale on Representation level.');
+      }
+    }
   }
 
   override get serializedProps(): ParsedObject {
