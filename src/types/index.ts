@@ -35,6 +35,7 @@ export * from './SegmentBase';
 export * from './SegmentList';
 export * from './SegmentTemplate';
 export * from './ServiceDescription';
+export * from './SubRepresentation';
 export * from './Subset';
 export * from './SupplementalProperty';
 export * from './Switching';
