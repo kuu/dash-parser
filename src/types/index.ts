@@ -10,6 +10,7 @@ export * from './Element';
 export * from './EmptyAdaptationSet';
 export * from './EssentialProperty';
 export * from './EventStream';
+export * from './ExtendedBandwidth';
 export * from './FramePacking';
 export * from './GroupLabel';
 export * from './InbandEventStream';

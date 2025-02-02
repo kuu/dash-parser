@@ -154,6 +154,43 @@ describe('ISO_IEC-23009-1_2022/5.3.5.5', () => {
         }),
       ],
     }));
+
+    bothPass(`
+      <?xml version="1.0" encoding="UTF-8"?>
+      <MPD profiles="urn:mpeg:dash:profile:isoff-on-demand:2011" minBufferTime="PT2S">
+        <Period duration="PT30S">
+          <AdaptationSet mimeType="video/mp4">
+            <Representation id="1" bandwidth="1250000">
+              <RandomAccess interval="3000" type="open"/>
+              <SegmentTemplate timescale="90000"/>
+            </Representation>
+          </AdaptationSet>
+        </Period>
+      </MPD>
+    `, new DASH.MPD({
+      profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
+      minBufferTime: 2,
+      children: [
+        new DASH.Period({
+          duration: 30,
+          children: [
+            new DASH.AdaptationSet({
+              mimeType: 'video/mp4',
+              children: [
+                new DASH.Representation({
+                  id: '1',
+                  bandwidth: 1_250_000,
+                  children: [
+                    new DASH.RandomAccess({interval: 3000, type: 'open'}),
+                    new DASH.SegmentTemplate({timescale: 90_000}),
+                  ],
+                }),
+              ],
+            }),
+          ],
+        }),
+      ],
+    }));
   });
 
   test('RandomAccess@minBufferTime', () => {
