@@ -2,7 +2,7 @@ import type {ParsedObject} from './types';
 import {Element} from './Element';
 
 export class Subset extends Element {
-  public contains?: string;
+  public contains?: number[];
   public id?: string;
 
   constructor(initialValues?: Partial<Subset>) {
@@ -12,11 +12,29 @@ export class Subset extends Element {
   }
 
   override formatParams(initialValues?: Partial<ParsedObject>): void {
-    // NOP
+    if (!initialValues) {
+      return;
+    }
+
+    const {
+      contains,
+      id,
+    } = initialValues;
+
+    if (typeof contains === 'string') {
+      initialValues.contains = contains.split(' ').map(level => Number.parseInt(level, 10));
+    } else if (typeof contains === 'number') {
+      initialValues.contains = [contains];
+    }
+    if (typeof id === 'number') {
+      initialValues.id = `${id}`;
+    }
   }
 
   override verifyAttributes(): void {
-    // NOP
+    if (!Array.isArray(this.contains) || this.contains.length === 0) {
+      this.reject('@contains attribute must be present.');
+    }
   }
 
   override verifyChildren(): void {
@@ -24,6 +42,13 @@ export class Subset extends Element {
   }
 
   override get serializedProps(): ParsedObject {
-    return {};
+    const obj: ParsedObject = {};
+    if (Array.isArray(this.contains)) {
+      obj.contains = this.contains.join(' ');
+    }
+    if (typeof this.id === 'string') {
+      obj.id = this.id;
+    }
+    return obj;
   }
 }
