@@ -92,6 +92,31 @@ export class Period extends Element {
     if (Array.isArray(representationIds) && representationIds.length !== new Set(representationIds).size) {
       this.reject('Representation@id shall be unique within a Period');
     }
+    const subsets = this.getElements('Subset');
+    if (subsets.length > 0) {
+      if (!Array.isArray(adaptationSetIds)) {
+        this.reject('AdaptationSet@id shall be present when Subset is present');
+      }
+      const subsetIds: string[] = [];
+      for (const subset of subsets) {
+        const contains = subset['contains'] as number[]; // eslint-disable-line @typescript-eslint/dot-notation
+        for (const id of contains) {
+          if (!adaptationSetIds.includes(id)) {
+            this.reject('Subset@contains shall reference AdaptationSet@id');
+          }
+        }
+        if (contains.length === adaptationSetIds.length) {
+          this.reject('No Subset shall contain all the Adaptation Sets');
+        }
+        const id = subset['id'] as string; // eslint-disable-line @typescript-eslint/dot-notation
+        if (id) {
+          if (subsetIds.includes(id)) {
+            this.reject('Subset@id shall be unique within a Period');
+          }
+          subsetIds.push(id);
+        }
+      }
+    }
   }
 
   override get serializedProps(): ParsedObject {
