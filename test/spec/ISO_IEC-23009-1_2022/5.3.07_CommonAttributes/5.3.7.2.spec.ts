@@ -1146,6 +1146,61 @@ describe('ISO_IEC-23009-1_2022/5.3.7.2', () => {
     }));
   });
 
+  test('CommonAttributes.OutputProtection', () => {
+    // OutputProtection (0...1) specifies information about output protection schemes required for presenting the associated Representations.
+    bothPass(`
+      <?xml version="1.0" encoding="UTF-8"?>
+      <MPD profiles="urn:mpeg:dash:profile:isoff-on-demand:2011" minBufferTime="PT2S">
+        <Period duration="PT30S">
+          <AdaptationSet mimeType="video/mp4">
+            <OutputProtection/>
+          </AdaptationSet>
+        </Period>
+      </MPD>
+    `, new DASH.MPD({
+      profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
+      minBufferTime: 2,
+      children: [
+        new DASH.Period({
+          duration: 30,
+          children: [new DASH.AdaptationSet({
+            mimeType: 'video/mp4',
+            children: [
+              new DASH.OutputProtection(),
+            ],
+          })],
+        }),
+      ],
+    }));
+
+    bothFail(`
+      <?xml version="1.0" encoding="UTF-8"?>
+      <MPD profiles="urn:mpeg:dash:profile:isoff-on-demand:2011" minBufferTime="PT2S">
+        <Period duration="PT30S">
+          <AdaptationSet mimeType="video/mp4">
+            <OutputProtection/>
+            <OutputProtection/>
+          </AdaptationSet>
+        </Period>
+      </MPD>
+    `, new DASH.MPD({
+      profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
+      minBufferTime: 2,
+      children: [
+        new DASH.Period({
+          duration: 30,
+          children: [new DASH.AdaptationSet({
+            mimeType: 'video/mp4',
+            children: [
+              new DASH.OutputProtection(),
+              new DASH.OutputProtection(),
+            ],
+          })],
+        }),
+      ],
+    }));
+  });
+
   /* WIP
   test('CommonAttributes.FramePacking', ()json => {
     // FramePacking specifies frame-packing arrangement information of the video media component type.

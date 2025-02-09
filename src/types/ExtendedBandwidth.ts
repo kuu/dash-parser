@@ -1,4 +1,4 @@
-import {Temporal} from '@js-temporal/polyfill';
+import {toTemporalDurationString, fromTemporalDurationString} from '../utils';
 import type {ParsedObject} from './types';
 import {Element} from './Element';
 
@@ -66,7 +66,7 @@ export class ModelPair extends Element {
     } = initialValues;
 
     if (typeof bufferTime === 'string') {
-      initialValues.bufferTime = Temporal.Duration.from(bufferTime).total({unit: 'seconds'});
+      initialValues.bufferTime = fromTemporalDurationString(bufferTime);
     }
   }
 
@@ -85,7 +85,7 @@ export class ModelPair extends Element {
 
   override get serializedProps(): ParsedObject {
     const obj: ParsedObject = {
-      bufferTime: Temporal.Duration.from({seconds: this.bufferTime}).toString(),
+      bufferTime: toTemporalDurationString(this.bufferTime!),
       bandwidth: this.bandwidth,
     };
     return obj;

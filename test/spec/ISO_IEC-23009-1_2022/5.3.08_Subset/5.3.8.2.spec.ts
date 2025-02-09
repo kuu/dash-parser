@@ -171,7 +171,7 @@ describe('ISO_IEC-23009-1_2022/5.3.8.2', () => {
     }));
   });
 
-  test('Subset@od', () => {
+  test('Subset@id', () => {
     // @id specifies a unique identifier for the Subset.
     bothPass(`
       <?xml version="1.0" encoding="UTF-8"?>

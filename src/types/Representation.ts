@@ -82,9 +82,10 @@ export class Representation extends CommonAttributesElements {
     if (this.id?.includes(' ')) {
       this.reject('Representation@id shall not contain whitespace characters');
     }
-    if (typeof this.bandwidth !== 'number' || this.bandwidth <= 0) {
-      this.reject('Representation@bandwidth should be an unsigned integer');
+    if (this.bandwidth === undefined) {
+      this.reject('Representation@bandwidth is a mandatory attribute');
     }
+    this.verifyUnsignedInt('bandwidth');
     if (Array.isArray(this.associationTypes)) {
       if (!this.associationTypes.every(t => t.length === 4)) {
         this.reject('Representation@associationType should be 4 character codes (4CCs)');

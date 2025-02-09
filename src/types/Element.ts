@@ -44,6 +44,23 @@ export abstract class Element {
   abstract verifyChildren(ctx: ParsedObject): void;
   abstract get serializedProps(): ParsedObject;
 
+  protected verifyUnsignedInt(key: string) {
+    const value = this[key] as unknown;
+    if (typeof value === 'number' && (value < 0 || !Number.isInteger(value))) {
+      this.reject(`@${key} should be an unsigned integer`);
+    }
+  }
+
+  protected verifyChidrenSpec(spec: Record<string, Range>) {
+    for (const key of Object.keys(spec)) {
+      const [min, max] = spec[key];
+      const count = this.children.filter(el => el.name === key).length;
+      if (count < min || count > max) {
+        this.reject(`Number of ${key} is ${count}, but should be between ${min} and ${max}`);
+      }
+    }
+  }
+
   private getElementsRecursively(name: string | ((e: Element) => boolean), result: Array<[child: Element, parent: Element]>): void {
     for (const child of this.children) {
       if (

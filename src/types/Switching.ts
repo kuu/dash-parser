@@ -16,9 +16,10 @@ export class Switching extends Element {
   }
 
   override verifyAttributes(): void {
-    if (typeof this.interval !== 'number' || this.interval < 0) {
-      this.reject('@interval should be an unsigned integer');
+    if (this.interval === undefined) {
+      this.reject('@interval is a mandatory attribute');
     }
+    this.verifyUnsignedInt('interval');
     if (typeof this.type === 'string' && this.type !== 'media' && this.type !== 'bitstream') {
       this.reject('@type should be either "media" or "bitstream"');
     }

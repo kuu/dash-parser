@@ -48,9 +48,7 @@ export class SubRepresentation extends CommonAttributesElements {
     if (typeof this.level === 'number' && this.bandwidth === undefined) {
       this.reject('@bandwidth shall be present if the @level attribute is present.');
     }
-    if (typeof this.bandwidth === 'number' && this.bandwidth < 0) {
-      this.reject('@bandwidth shall be an unsigned integer.');
-    }
+    this.verifyUnsignedInt('bandwidth');
   }
 
   override verifyChildren(ctx: ParsedObject): void {

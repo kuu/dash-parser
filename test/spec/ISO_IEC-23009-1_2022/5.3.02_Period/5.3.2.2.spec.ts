@@ -289,6 +289,55 @@ describe('ISO_IEC-23009-1_2022/5.3.2.2', () => {
     }));
   });
 
+  test('Period.AssetIdentifier', () => {
+    // AssetIdentifier (0...1) specifies that this Period belongs to a certain asset.
+    bothPass(`
+      <?xml version="1.0" encoding="UTF-8"?>
+      <MPD profiles="urn:mpeg:dash:profile:isoff-live:2011" minBufferTime="PT2S">
+        <Period duration="PT30S">
+          <AdaptationSet mimeType="video/mp4"/>
+          <AssetIdentifier schemeIdUri="urn:org:dashif:asset-id:2013" value="xxx"/>
+        </Period>
+      </MPD>
+    `, new DASH.MPD({
+      profiles: 'urn:mpeg:dash:profile:isoff-live:2011',
+      minBufferTime: 2,
+      children: [
+        new DASH.Period({
+          duration: 30,
+          children: [
+            new DASH.AdaptationSet({mimeType: 'video/mp4'}),
+            new DASH.AssetIdentifier({schemeIdUri: 'urn:org:dashif:asset-id:2013', value: 'xxx'}),
+          ],
+        }),
+      ],
+    }));
+
+    bothFail(`
+      <?xml version="1.0" encoding="UTF-8"?>
+      <MPD profiles="urn:mpeg:dash:profile:isoff-live:2011" minBufferTime="PT2S">
+        <Period duration="PT30S">
+          <AdaptationSet mimeType="video/mp4"/>
+          <AssetIdentifier schemeIdUri="urn:org:dashif:asset-id:2013" value="xxx"/>
+          <AssetIdentifier schemeIdUri="urn:org:dashif:asset-id:2013" value="yyy"/>
+        </Period>
+      </MPD>
+    `, new DASH.MPD({
+      profiles: 'urn:mpeg:dash:profile:isoff-live:2011',
+      minBufferTime: 2,
+      children: [
+        new DASH.Period({
+          duration: 30,
+          children: [
+            new DASH.AdaptationSet({mimeType: 'video/mp4'}),
+            new DASH.AssetIdentifier({schemeIdUri: 'urn:org:dashif:asset-id:2013', value: 'xxx'}),
+            new DASH.AssetIdentifier({schemeIdUri: 'urn:org:dashif:asset-id:2013', value: 'yyy'}),
+          ],
+        }),
+      ],
+    }));
+  });
+
   /* WIP
   test('Period.EmptyAdaptationSet', () => {
     // EmptyAdaptationSet specifies an Adaptation Set that does not contain any Representation element.

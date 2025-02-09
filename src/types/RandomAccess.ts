@@ -1,4 +1,4 @@
-import {Temporal} from '@js-temporal/polyfill';
+import {toTemporalDurationString, fromTemporalDurationString} from '../utils';
 import type {ParsedObject} from './types';
 import {Element} from './Element';
 
@@ -24,7 +24,7 @@ export class RandomAccess extends Element {
     } = initialValues;
 
     if (typeof minBufferTime === 'string') {
-      initialValues.minBufferTime = Temporal.Duration.from(minBufferTime).total({unit: 'seconds'});
+      initialValues.minBufferTime = fromTemporalDurationString(minBufferTime);
     }
   }
 
@@ -46,7 +46,7 @@ export class RandomAccess extends Element {
       obj.type = this.type;
     }
     if (typeof this.minBufferTime === 'number') {
-      obj.minBufferTime = Temporal.Duration.from({seconds: this.minBufferTime}).toString();
+      obj.minBufferTime = toTemporalDurationString(this.minBufferTime);
     }
     if (typeof this.bandwidth === 'number') {
       obj.bandwidth = this.bandwidth;
