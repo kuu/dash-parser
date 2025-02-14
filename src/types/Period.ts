@@ -1,5 +1,5 @@
-import {Temporal} from '@js-temporal/polyfill';
-import type {ParsedObject} from './types';
+import {toTemporalDurationString, fromTemporalDurationString} from '../utils';
+import type {ParsedObject, Range} from './types';
 import {Element} from './Element';
 
 export class Period extends Element {
@@ -20,6 +20,10 @@ export class Period extends Element {
     'GroupLabel',
     'Preselection',
   ];
+
+  static override readonly CHILDRREN_SPEC: Record<string, Range> = {
+    AssetIdentifier: [0, 1],
+  };
 
   public xlinkHref?: string;
   public xlinkActuate?: 'onLoad' | 'onRequest';
@@ -61,7 +65,7 @@ export class Period extends Element {
       initialValues.start = new Date(start);
     }
     if (typeof duration === 'string') {
-      initialValues.duration = Temporal.Duration.from(duration).total({unit: 'seconds'});
+      initialValues.duration = fromTemporalDurationString(duration);
     }
     if (typeof bitstreamSwitching === 'string') {
       initialValues.bitstreamSwitching = bitstreamSwitching === 'true';
@@ -75,6 +79,7 @@ export class Period extends Element {
   }
 
   override verifyChildren(): void {
+    this.verifyChidrenSpec(this.static.CHILDRREN_SPEC);
     if (!(typeof this.duration === 'number' && this.duration === 0) && this.getElements('AdaptationSet').length === 0) {
       this.reject('At least one AdaptationSet shall be present in each Period unless @duration is set to zero');
     }
@@ -135,7 +140,7 @@ export class Period extends Element {
       obj.start = this.start.toISOString();
     }
     if (typeof this.duration === 'number') {
-      obj.duration = Temporal.Duration.from({seconds: this.duration}).toString();
+      obj.duration = toTemporalDurationString(this.duration);
     }
     if (typeof this.bitstreamSwitching === 'boolean') {
       obj.bitstreamSwitching = `${this.bitstreamSwitching}`;

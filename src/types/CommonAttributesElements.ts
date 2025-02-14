@@ -1,4 +1,4 @@
-import type {ParsedObject} from './types';
+import type {ParsedObject, Range} from './types';
 import {Element} from './Element';
 
 export class CommonAttributesElements extends Element {
@@ -19,6 +19,10 @@ export class CommonAttributesElements extends Element {
     'ContentPopularityRate',
     'Resync',
   ];
+
+  static override readonly CHILDRREN_SPEC: Record<string, Range> = {
+    OutputProtection: [0, 1],
+  };
 
   public profiles?: string | string[];
   public width?: number;
@@ -88,15 +92,11 @@ export class CommonAttributesElements extends Element {
     if (typeof this.width === 'number' && (typeof this.mimeType === 'string' && !this.mimeType.startsWith('video'))) {
       this.reject('@width is only allowed for video content types');
     }
-    if (typeof this.width === 'number' && (!Number.isInteger(this.width) || this.width < 1)) {
-      this.reject('@width should be an unsigned integer');
-    }
+    this.verifyUnsignedInt('width');
     if (typeof this.height === 'number' && (typeof this.mimeType === 'string' && !this.mimeType.startsWith('video'))) {
       this.reject('@height is only allowed for video content types');
     }
-    if (typeof this.height === 'number' && (!Number.isInteger(this.height) || this.height < 1)) {
-      this.reject('@height should be an unsigned integer');
-    }
+    this.verifyUnsignedInt('height');
     if (this.sar && (typeof this.mimeType === 'string' && !this.mimeType.startsWith('video'))) {
       this.reject('@sar is only allowed for video content types');
     }
@@ -147,7 +147,7 @@ export class CommonAttributesElements extends Element {
   }
 
   override verifyChildren(ctx: ParsedObject): void {
-    // NOP
+    this.verifyChidrenSpec(this.static.CHILDRREN_SPEC);
   }
 
   override get serializedProps(): ParsedObject {

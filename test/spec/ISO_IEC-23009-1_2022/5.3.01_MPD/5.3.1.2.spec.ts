@@ -417,7 +417,7 @@ describe('ISO_IEC-23009-1_2022/5.3.1.2', () => {
         type="dynamic"
         availabilityStartTime="2022-01-01T00:00:00.000Z"
         minimumUpdatePeriod="PT2S"
-        timeShiftBufferDepth="PT60S"
+        timeShiftBufferDepth="PT1M"
       >
         <Period duration="PT0S"/>
       </MPD>
@@ -436,7 +436,7 @@ describe('ISO_IEC-23009-1_2022/5.3.1.2', () => {
       <MPD
         profiles="urn:mpeg:dash:profile:isoff-on-demand:2011"
         minBufferTime="PT4S"
-        timeShiftBufferDepth="PT60S"
+        timeShiftBufferDepth="PT1M"
       >
         <Period duration="PT0S"/>
       </MPD>
@@ -643,6 +643,47 @@ describe('ISO_IEC-23009-1_2022/5.3.1.2', () => {
       children: [
         new DASH.Period({duration: 0}),
         new DASH.PatchLocation(),
+      ],
+    }));
+  });
+
+  test('MPD.LeapSecondInformation', () => {
+    // LeapSecondInformation specifies leap second information affecting MPD timing calculations.
+    bothPass(`
+      <?xml version="1.0" encoding="UTF-8"?>
+      <MPD
+        profiles="urn:mpeg:dash:profile:isoff-on-demand:2011"
+        minBufferTime="PT4S"
+      >
+        <Period duration="PT0S"/>
+        <LeapSecondInformation/>
+      </MPD>
+    `, new DASH.MPD({
+      profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
+      minBufferTime: 4,
+      children: [
+        new DASH.Period({duration: 0}),
+        new DASH.LeapSecondInformation(),
+      ],
+    }));
+
+    bothFail(`
+      <?xml version="1.0" encoding="UTF-8"?>
+      <MPD
+        profiles="urn:mpeg:dash:profile:isoff-on-demand:2011"
+        minBufferTime="PT4S"
+      >
+        <Period duration="PT0S"/>
+        <LeapSecondInformation/>
+        <LeapSecondInformation/>
+      </MPD>
+    `, new DASH.MPD({
+      profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
+      minBufferTime: 4,
+      children: [
+        new DASH.Period({duration: 0}),
+        new DASH.LeapSecondInformation(),
+        new DASH.LeapSecondInformation(),
       ],
     }));
   });

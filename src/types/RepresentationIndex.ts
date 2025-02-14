@@ -1,12 +1,11 @@
 import type {ParsedObject} from './types';
 import {Element} from './Element';
 
-export class AssetIdentifier extends Element {
-  public schemeIdUri?: string;
-  public value?: string;
+export class RepresentationIndex extends Element {
+  public sourceURL?: string;
 
-  constructor(initialValues?: Partial<AssetIdentifier>) {
-    super('AssetIdentifier');
+  constructor(initialValues?: Partial<RepresentationIndex>) {
+    super('RepresentationIndex');
     this.formatParams(initialValues);
     Object.assign(this, initialValues);
   }
@@ -25,11 +24,8 @@ export class AssetIdentifier extends Element {
 
   override get serializedProps(): ParsedObject {
     const obj: ParsedObject = {};
-    if (typeof this.schemeIdUri === 'string') {
-      obj.schemeIdUri = this.schemeIdUri;
-    }
-    if (typeof this.value === 'string') {
-      obj.value = this.value;
+    if (typeof this.sourceURL === 'string') {
+      obj.sourceURL = this.sourceURL;
     }
     return obj;
   }

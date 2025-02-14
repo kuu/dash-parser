@@ -88,12 +88,8 @@ export class AdaptationSet extends CommonAttributesElements {
 
   override verifyAttributes(ctx: ParsedObject): void {
     super.verifyAttributes(ctx);
-    if (typeof this.id === 'number' && (!Number.isInteger(this.id) || this.id < 0)) {
-      this.reject('@id should be an unsigned integer');
-    }
-    if (typeof this.group === 'number' && (!Number.isInteger(this.group) || this.group < 0)) {
-      this.reject('@group should be an unsigned integer');
-    }
+    this.verifyUnsignedInt('id');
+    this.verifyUnsignedInt('group');
   }
 
   override verifyChildren(ctx: ParsedObject): void {

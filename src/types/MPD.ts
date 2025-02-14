@@ -1,4 +1,4 @@
-import {Temporal} from '@js-temporal/polyfill';
+import {toTemporalDurationString, fromTemporalDurationString} from '../utils';
 import type {ParsedObject, Range} from './types';
 import {Element} from './Element';
 
@@ -24,6 +24,7 @@ export class MPD extends Element {
 
   static override readonly CHILDRREN_SPEC: Record<string, Range> = {
     Period: [1, Infinity],
+    LeapSecondInformation: [0, 1],
   };
 
   public id?: string;
@@ -82,25 +83,25 @@ export class MPD extends Element {
       initialValues.availabilityEndTime = new Date(availabilityEndTime);
     }
     if (typeof mediaPresentationDuration === 'string') {
-      initialValues.mediaPresentationDuration = Temporal.Duration.from(mediaPresentationDuration).total({unit: 'seconds'});
+      initialValues.mediaPresentationDuration = fromTemporalDurationString(mediaPresentationDuration);
     }
     if (typeof minimumUpdatePeriod === 'string') {
-      initialValues.minimumUpdatePeriod = Temporal.Duration.from(minimumUpdatePeriod).total({unit: 'seconds'});
+      initialValues.minimumUpdatePeriod = fromTemporalDurationString(minimumUpdatePeriod);
     }
     if (typeof minBufferTime === 'string') {
-      initialValues.minBufferTime = Temporal.Duration.from(minBufferTime).total({unit: 'seconds'});
+      initialValues.minBufferTime = fromTemporalDurationString(minBufferTime);
     }
     if (typeof timeShiftBufferDepth === 'string') {
-      initialValues.timeShiftBufferDepth = Temporal.Duration.from(timeShiftBufferDepth).total({unit: 'seconds'});
+      initialValues.timeShiftBufferDepth = fromTemporalDurationString(timeShiftBufferDepth);
     }
     if (typeof suggestedPresentationDelay === 'string') {
-      initialValues.suggestedPresentationDelay = Temporal.Duration.from(suggestedPresentationDelay).total({unit: 'seconds'});
+      initialValues.suggestedPresentationDelay = fromTemporalDurationString(suggestedPresentationDelay);
     }
     if (typeof maxSegmentDuration === 'string') {
-      initialValues.maxSegmentDuration = Temporal.Duration.from(maxSegmentDuration).total({unit: 'seconds'});
+      initialValues.maxSegmentDuration = fromTemporalDurationString(maxSegmentDuration);
     }
     if (typeof maxSubsegmentDuration === 'string') {
-      initialValues.maxSubsegmentDuration = Temporal.Duration.from(maxSubsegmentDuration).total({unit: 'seconds'});
+      initialValues.maxSubsegmentDuration = fromTemporalDurationString(maxSubsegmentDuration);
     }
   }
 
@@ -126,13 +127,7 @@ export class MPD extends Element {
   }
 
   override verifyChildren(): void {
-    for (const key of Object.keys(this.static.CHILDRREN_SPEC)) {
-      const [min, max] = this.static.CHILDRREN_SPEC[key];
-      const count = this.children.filter(el => el.name === key).length;
-      if (count < min || count > max) {
-        this.reject(`Number of ${key} is ${count}, but should be between ${min} and ${max}`);
-      }
-    }
+    this.verifyChidrenSpec(this.static.CHILDRREN_SPEC);
     if (!this.mediaPresentationDuration && !this.minimumUpdatePeriod) {
       const lastPeriod = this.getElements('Period').at(-1);
       if (lastPeriod && lastPeriod['duration'] === undefined) { // eslint-disable-line @typescript-eslint/dot-notation
@@ -145,12 +140,30 @@ export class MPD extends Element {
     if (this.getElements('PatchLocation').length > 0 && (this.type !== 'dynamic' || !this.minimumUpdatePeriod)) {
       this.reject('PatchLocation shall not be present when @type is not "dynamic" or the @minimumUpdatePeriod is not present');
     }
+    if (typeof this.timeShiftBufferDepth === 'number') {
+      this.getAllElements(elem => {
+        // eslint-disable-next-line @typescript-eslint/dot-notation
+        if (typeof elem['timeShiftBufferDepth'] === 'number' && elem['timeShiftBufferDepth'] < this.timeShiftBufferDepth!) {
+          this.reject('Representation-level @timeShiftBufferDepth shall be not smaller than the value on MPD level');
+        }
+        return true;
+      });
+    }
+    if (this.type !== 'dynamic') {
+      this.getAllElements(elem => {
+        // eslint-disable-next-line @typescript-eslint/dot-notation
+        if (typeof elem['timeShiftBufferDepth'] === 'number') {
+          this.reject('Representation-level @timeShiftBufferDepth shall not be defined if MPD@type is static');
+        }
+        return true;
+      });
+    }
   }
 
   override get serializedProps(): ParsedObject {
     const obj: ParsedObject = {
       profiles: this.profiles,
-      minBufferTime: Temporal.Duration.from({seconds: this.minBufferTime}).toString(),
+      minBufferTime: toTemporalDurationString(this.minBufferTime!),
     };
     if (this.id !== undefined) {
       obj.id = this.id;
@@ -171,22 +184,22 @@ export class MPD extends Element {
       obj.availabilityEndTime = this.availabilityEndTime.toISOString();
     }
     if (this.mediaPresentationDuration) {
-      obj.mediaPresentationDuration = Temporal.Duration.from({seconds: this.mediaPresentationDuration}).toString();
+      obj.mediaPresentationDuration = toTemporalDurationString(this.mediaPresentationDuration);
     }
     if (this.minimumUpdatePeriod) {
-      obj.minimumUpdatePeriod = Temporal.Duration.from({seconds: this.minimumUpdatePeriod}).toString();
+      obj.minimumUpdatePeriod = toTemporalDurationString(this.minimumUpdatePeriod);
     }
     if (this.timeShiftBufferDepth) {
-      obj.timeShiftBufferDepth = Temporal.Duration.from({seconds: this.timeShiftBufferDepth}).toString();
+      obj.timeShiftBufferDepth = toTemporalDurationString(this.timeShiftBufferDepth);
     }
     if (this.suggestedPresentationDelay) {
-      obj.suggestedPresentationDelay = Temporal.Duration.from({seconds: this.suggestedPresentationDelay}).toString();
+      obj.suggestedPresentationDelay = toTemporalDurationString(this.suggestedPresentationDelay);
     }
     if (this.maxSegmentDuration) {
-      obj.maxSegmentDuration = Temporal.Duration.from({seconds: this.maxSegmentDuration}).toString();
+      obj.maxSegmentDuration = toTemporalDurationString(this.maxSegmentDuration);
     }
     if (this.maxSubsegmentDuration) {
-      obj.maxSubsegmentDuration = Temporal.Duration.from({seconds: this.maxSubsegmentDuration}).toString();
+      obj.maxSubsegmentDuration = toTemporalDurationString(this.maxSubsegmentDuration);
     }
     return obj;
   }
