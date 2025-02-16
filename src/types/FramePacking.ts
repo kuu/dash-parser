@@ -1,23 +1,21 @@
 import type {ParsedObject} from './types';
-import {DescriptorType} from './DescriptorType';
+import {Descriptor} from './Descriptor';
 
-export class FramePacking extends DescriptorType {
+export class FramePacking extends Descriptor {
   constructor(initialValues?: Partial<FramePacking>) {
-    super('FramePacking');
-    this.formatParams(initialValues);
-    Object.assign(this, initialValues);
+    super({name: 'FramePacking', ...initialValues});
   }
 
   override formatParams(initialValues?: Partial<ParsedObject>): void {
     super.formatParams(initialValues);
   }
 
-  override verifyAttributes(): void {
-    super.verifyAttributes();
+  override verifyAttributes(ctx: ParsedObject): void {
+    super.verifyAttributes(ctx);
   }
 
-  override verifyChildren(): void {
-    super.verifyChildren();
+  override verifyChildren(ctx: ParsedObject): void {
+    super.verifyChildren(ctx);
   }
 
   override get serializedProps(): ParsedObject {

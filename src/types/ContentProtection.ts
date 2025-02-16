@@ -9,9 +9,7 @@ export class ContentProtection extends Element {
   public robustness?: number;
 
   constructor(initialValues?: Partial<ContentProtection>) {
-    super('ContentProtection');
-    this.formatParams(initialValues);
-    Object.assign(this, initialValues);
+    super({name: 'ContentProtection', ...initialValues});
   }
 
   override formatParams(initialValues?: Partial<ParsedObject>): void {
@@ -28,11 +26,11 @@ export class ContentProtection extends Element {
     }
   }
 
-  override verifyAttributes(): void {
+  override verifyAttributes(ctx: ParsedObject): void {
     // NOP
   }
 
-  override verifyChildren(): void {
+  override verifyChildren(ctx: ParsedObject): void {
     // NOP
   }
 

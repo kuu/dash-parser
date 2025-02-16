@@ -7,20 +7,18 @@ export class ProgramInformation extends Element {
   public lang?: string;
 
   constructor(initialValues?: Partial<ProgramInformation>) {
-    super('ProgramInformation');
-    this.formatParams(initialValues);
-    Object.assign(this, initialValues);
+    super({name: 'ProgramInformation', ...initialValues});
   }
 
   override formatParams(initialValues?: Partial<ParsedObject>): void {
     // NOP
   }
 
-  override verifyAttributes(): void {
+  override verifyAttributes(ctx: ParsedObject): void {
     // NOP
   }
 
-  override verifyChildren(): void {
+  override verifyChildren(ctx: ParsedObject): void {
     // NOP
   }
 

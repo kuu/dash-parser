@@ -9,9 +9,7 @@ export class RandomAccess extends Element {
   public bandwidth?: number;
 
   constructor(initialValues?: Partial<RandomAccess>) {
-    super('RandomAccess');
-    this.formatParams(initialValues);
-    Object.assign(this, initialValues);
+    super({name: 'RandomAccess', ...initialValues});
   }
 
   override formatParams(initialValues?: Partial<ParsedObject>): void {
@@ -28,13 +26,13 @@ export class RandomAccess extends Element {
     }
   }
 
-  override verifyAttributes(): void {
+  override verifyAttributes(ctx: ParsedObject): void {
     if (typeof this.interval !== 'number') {
       this.reject('RandomAccess must have @interval attribute');
     }
   }
 
-  override verifyChildren(): void {
+  override verifyChildren(ctx: ParsedObject): void {
     // NOP
   }
 

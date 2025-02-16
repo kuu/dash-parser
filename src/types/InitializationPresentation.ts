@@ -5,20 +5,18 @@ export class InitializationPresentation extends Element {
   public sourceURL?: string;
 
   constructor(initialValues?: Partial<InitializationPresentation>) {
-    super('InitializationPresentation');
-    this.formatParams(initialValues);
-    Object.assign(this, initialValues);
+    super({name: 'InitializationPresentation', ...initialValues});
   }
 
   override formatParams(initialValues?: Partial<ParsedObject>): void {
     // NOP
   }
 
-  override verifyAttributes(): void {
+  override verifyAttributes(ctx: ParsedObject): void {
     // NOP
   }
 
-  override verifyChildren(): void {
+  override verifyChildren(ctx: ParsedObject): void {
     // NOP
   }
 

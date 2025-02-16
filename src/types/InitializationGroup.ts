@@ -5,20 +5,18 @@ export class InitializationGroup extends Element {
   public sourceURL?: string;
 
   constructor(initialValues?: Partial<InitializationGroup>) {
-    super('InitializationGroup');
-    this.formatParams(initialValues);
-    Object.assign(this, initialValues);
+    super({name: 'InitializationGroup', ...initialValues});
   }
 
   override formatParams(initialValues?: Partial<ParsedObject>): void {
     // NOP
   }
 
-  override verifyAttributes(): void {
+  override verifyAttributes(ctx: ParsedObject): void {
     // NOP
   }
 
-  override verifyChildren(): void {
+  override verifyChildren(ctx: ParsedObject): void {
     // NOP
   }
 

@@ -6,20 +6,18 @@ export class AssetIdentifier extends Element {
   public value?: string;
 
   constructor(initialValues?: Partial<AssetIdentifier>) {
-    super('AssetIdentifier');
-    this.formatParams(initialValues);
-    Object.assign(this, initialValues);
+    super({name: 'AssetIdentifier', ...initialValues});
   }
 
   override formatParams(initialValues?: Partial<ParsedObject>): void {
     // NOP
   }
 
-  override verifyAttributes(): void {
+  override verifyAttributes(ctx: ParsedObject): void {
     // NOP
   }
 
-  override verifyChildren(): void {
+  override verifyChildren(ctx: ParsedObject): void {
     // NOP
   }
 

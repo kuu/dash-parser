@@ -1,23 +1,21 @@
 import type {ParsedObject} from './types';
-import {EventStreamType} from './EventStreamType';
+import {EventStream} from './EventStream';
 
-export class InbandEventStream extends EventStreamType {
+export class InbandEventStream extends EventStream {
   constructor(initialValues?: Partial<InbandEventStream>) {
-    super('InbandEventStream');
-    this.formatParams(initialValues);
-    Object.assign(this, initialValues);
+    super({name: 'InbandEventStream', ...initialValues});
   }
 
   override formatParams(initialValues?: Partial<ParsedObject>): void {
     super.formatParams(initialValues);
   }
 
-  override verifyAttributes(): void {
-    super.verifyAttributes();
+  override verifyAttributes(ctx: ParsedObject): void {
+    super.verifyAttributes(ctx);
   }
 
-  override verifyChildren(): void {
-    super.verifyChildren();
+  override verifyChildren(ctx: ParsedObject): void {
+    super.verifyChildren(ctx);
   }
 
   override get serializedProps(): ParsedObject {

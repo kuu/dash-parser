@@ -6,20 +6,18 @@ export class InitializationSet extends Element {
   public sourceURL?: string;
 
   constructor(initialValues?: Partial<InitializationSet>) {
-    super('InitializationSet');
-    this.formatParams(initialValues);
-    Object.assign(this, initialValues);
+    super({name: 'InitializationSet', ...initialValues});
   }
 
   override formatParams(initialValues?: Partial<ParsedObject>): void {
     // NOP
   }
 
-  override verifyAttributes(): void {
+  override verifyAttributes(ctx: ParsedObject): void {
     // NOP
   }
 
-  override verifyChildren(): void {
+  override verifyChildren(ctx: ParsedObject): void {
     // NOP
   }
 

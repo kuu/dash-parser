@@ -6,7 +6,7 @@ export class EssentialProperty extends Element {
   public value?: string;
 
   constructor(initialValues?: Partial<EssentialProperty>) {
-    super('EssentialProperty');
+    super({name: 'EssentialProperty'});
     this.formatParams(initialValues);
     Object.assign(this, initialValues);
   }
@@ -15,11 +15,11 @@ export class EssentialProperty extends Element {
     // NOP
   }
 
-  override verifyAttributes(): void {
+  override verifyAttributes(ctx: ParsedObject): void {
     // NOP
   }
 
-  override verifyChildren(): void {
+  override verifyChildren(ctx: ParsedObject): void {
     // NOP
   }
 

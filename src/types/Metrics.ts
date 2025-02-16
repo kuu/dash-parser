@@ -5,20 +5,18 @@ export class Metrics extends Element {
   public metrics?: string;
 
   constructor(initialValues?: Partial<Metrics>) {
-    super('Metrics');
-    this.formatParams(initialValues);
-    Object.assign(this, initialValues);
+    super({name: 'Metrics', ...initialValues});
   }
 
   override formatParams(initialValues?: Partial<ParsedObject>): void {
     // NOP
   }
 
-  override verifyAttributes(): void {
+  override verifyAttributes(ctx: ParsedObject): void {
     // NOP
   }
 
-  override verifyChildren(): void {
+  override verifyChildren(ctx: ParsedObject): void {
     // NOP
   }
 

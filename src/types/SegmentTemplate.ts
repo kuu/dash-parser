@@ -1,33 +1,27 @@
 import type {ParsedObject} from './types';
-import {Element} from './Element';
+import {MultipleSegmentBase} from './MultipleSegmentBase';
 
-export class SegmentTemplate extends Element {
+export class SegmentTemplate extends MultipleSegmentBase {
   public media?: string;
-  public timescale?: number;
 
   constructor(initialValues?: Partial<SegmentTemplate>) {
-    super('SegmentTemplate');
-    this.formatParams(initialValues);
-    Object.assign(this, initialValues);
+    super({name: 'SegmentTemplate', ...initialValues});
   }
 
   override formatParams(initialValues?: Partial<ParsedObject>): void {
-    // NOP
+    super.formatParams(initialValues);
   }
 
-  override verifyAttributes(): void {
-    // NOP
+  override verifyAttributes(ctx: ParsedObject): void {
+    super.verifyAttributes(ctx);
   }
 
-  override verifyChildren(): void {
-    // NOP
+  override verifyChildren(ctx: ParsedObject): void {
+    super.verifyChildren(ctx);
   }
 
   override get serializedProps(): ParsedObject {
-    const obj: ParsedObject = {};
-    if (typeof this.timescale === 'number') {
-      obj.timescale = this.timescale;
-    }
+    const obj = super.serializedProps;
     return obj;
   }
 }

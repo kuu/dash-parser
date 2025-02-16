@@ -1,9 +1,9 @@
 import type {ParsedObject} from './types';
-import {Descriptor} from './Descriptor';
+import {URLType} from './URLType';
 
-export class OutputProtection extends Descriptor {
-  constructor(initialValues?: Partial<OutputProtection>) {
-    super({name: 'OutputProtection', ...initialValues});
+export class BitstreamSwitching extends URLType {
+  constructor(initialValues?: Partial<BitstreamSwitching>) {
+    super({name: 'BitstreamSwitching', ...initialValues});
   }
 
   override formatParams(initialValues?: Partial<ParsedObject>): void {

@@ -8,8 +8,14 @@ export abstract class Element {
     return this.constructor as typeof Element;
   }
 
+  public name: string;
+
   children: Element[] = [];
-  constructor(readonly name: string) {}
+  constructor(initialValues?: Partial<Element>) {
+    this.formatParams(initialValues);
+    Object.assign(this, initialValues);
+    this.name ??= 'Element';
+  }
 
   addElement(element: Element): void {
     // console.log(`element.name = "${element.name}"`);

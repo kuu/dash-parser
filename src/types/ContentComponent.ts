@@ -15,9 +15,7 @@ export class ContentComponent extends Element {
   public par?: [w: number, h: number];
 
   constructor(initialValues?: Partial<ContentComponent>) {
-    super('ContentComponent');
-    this.formatParams(initialValues);
-    Object.assign(this, initialValues);
+    super({name: 'ContentComponent', ...initialValues});
   }
 
   override formatParams(initialValues?: Partial<ParsedObject>): void {
@@ -38,11 +36,11 @@ export class ContentComponent extends Element {
     }
   }
 
-  override verifyAttributes(): void {
+  override verifyAttributes(ctx: ParsedObject): void {
     // NOP
   }
 
-  override verifyChildren(): void {
+  override verifyChildren(ctx: ParsedObject): void {
     // NOP
   }
 

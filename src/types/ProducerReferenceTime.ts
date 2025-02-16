@@ -10,20 +10,18 @@ export class ProducerReferenceTime extends Element {
   public presentationTime?: string;
 
   constructor(initialValues?: Partial<ProducerReferenceTime>) {
-    super('ProducerReferenceTime');
-    this.formatParams(initialValues);
-    Object.assign(this, initialValues);
+    super({name: 'ProducerReferenceTime', ...initialValues});
   }
 
   override formatParams(initialValues?: Partial<ParsedObject>): void {
     // NOP
   }
 
-  override verifyAttributes(): void {
+  override verifyAttributes(ctx: ParsedObject): void {
     // NOP
   }
 
-  override verifyChildren(): void {
+  override verifyChildren(ctx: ParsedObject): void {
     // NOP
   }
 

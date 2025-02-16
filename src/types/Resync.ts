@@ -9,20 +9,18 @@ export class Resync extends Element {
   public marker?: boolean;
 
   constructor(initialValues?: Partial<Resync>) {
-    super('Resync');
-    this.formatParams(initialValues);
-    Object.assign(this, initialValues);
+    super({name: 'Resync', ...initialValues});
   }
 
   override formatParams(initialValues?: Partial<ParsedObject>): void {
     // NOP
   }
 
-  override verifyAttributes(): void {
+  override verifyAttributes(ctx: ParsedObject): void {
     // NOP
   }
 
-  override verifyChildren(): void {
+  override verifyChildren(ctx: ParsedObject): void {
     // NOP
   }
 

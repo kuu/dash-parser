@@ -1,23 +1,21 @@
 import type {ParsedObject} from './types';
-import {DescriptorType} from './DescriptorType';
+import {Descriptor} from './Descriptor';
 
-export class SupplementalProperty extends DescriptorType {
+export class SupplementalProperty extends Descriptor {
   constructor(initialValues?: Partial<SupplementalProperty>) {
-    super('SupplementalProperty');
-    this.formatParams(initialValues);
-    Object.assign(this, initialValues);
+    super({name: 'SupplementalProperty', ...initialValues});
   }
 
   override formatParams(initialValues?: Partial<ParsedObject>): void {
     super.formatParams(initialValues);
   }
 
-  override verifyAttributes(): void {
-    super.verifyAttributes();
+  override verifyAttributes(ctx: ParsedObject): void {
+    super.verifyAttributes(ctx);
   }
 
-  override verifyChildren(): void {
-    super.verifyChildren();
+  override verifyChildren(ctx: ParsedObject): void {
+    super.verifyChildren(ctx);
   }
 
   override get serializedProps(): ParsedObject {

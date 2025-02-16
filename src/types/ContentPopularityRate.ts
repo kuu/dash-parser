@@ -6,20 +6,18 @@ export class ContentPopularityRate extends Element {
   public sourceDescription?: string;
 
   constructor(initialValues?: Partial<ContentPopularityRate>) {
-    super('ContentPopularityRate');
-    this.formatParams(initialValues);
-    Object.assign(this, initialValues);
+    super({name: 'ContentPopularityRate', ...initialValues});
   }
 
   override formatParams(initialValues?: Partial<ParsedObject>): void {
     // NOP
   }
 
-  override verifyAttributes(): void {
+  override verifyAttributes(ctx: ParsedObject): void {
     // NOP
   }
 
-  override verifyChildren(): void {
+  override verifyChildren(ctx: ParsedObject): void {
     // NOP
   }
 

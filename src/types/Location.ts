@@ -5,20 +5,18 @@ export class Location extends Element {
   public url?: string;
 
   constructor(initialValues?: Partial<Location>) {
-    super('Location');
-    this.formatParams(initialValues);
-    Object.assign(this, initialValues);
+    super({name: 'Location', ...initialValues});
   }
 
   override formatParams(initialValues?: Partial<ParsedObject>): void {
     // NOP
   }
 
-  override verifyAttributes(): void {
+  override verifyAttributes(ctx: ParsedObject): void {
     // NOP
   }
 
-  override verifyChildren(): void {
+  override verifyChildren(ctx: ParsedObject): void {
     // NOP
   }
 

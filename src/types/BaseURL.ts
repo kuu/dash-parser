@@ -5,20 +5,18 @@ export class BaseURL extends Element {
   public url?: string;
 
   constructor(initialValues?: Partial<BaseURL>) {
-    super('BaseURL');
-    this.formatParams(initialValues);
-    Object.assign(this, initialValues);
+    super({name: 'BaseURL', ...initialValues});
   }
 
   override formatParams(initialValues?: Partial<ParsedObject>): void {
     // NOP
   }
 
-  override verifyAttributes(): void {
+  override verifyAttributes(ctx: ParsedObject): void {
     // NOP
   }
 
-  override verifyChildren(): void {
+  override verifyChildren(ctx: ParsedObject): void {
     // NOP
   }
 

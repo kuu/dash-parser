@@ -6,20 +6,18 @@ export class Preselection extends Element {
   public lang?: string;
 
   constructor(initialValues?: Partial<Preselection>) {
-    super('Preselection');
-    this.formatParams(initialValues);
-    Object.assign(this, initialValues);
+    super({name: 'Preselection', ...initialValues});
   }
 
   override formatParams(initialValues?: Partial<ParsedObject>): void {
     // NOP
   }
 
-  override verifyAttributes(): void {
+  override verifyAttributes(ctx: ParsedObject): void {
     // NOP
   }
 
-  override verifyChildren(): void {
+  override verifyChildren(ctx: ParsedObject): void {
     // NOP
   }
 

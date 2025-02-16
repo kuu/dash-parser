@@ -1,7 +1,7 @@
 import type {ParsedObject} from './types';
-import {CommonAttributesElements} from './CommonAttributesElements';
+import {RepresentationBase} from './RepresentationBase';
 
-export class AdaptationSet extends CommonAttributesElements {
+export class AdaptationSet extends RepresentationBase {
   static override readonly ALLOWED_CHILDREN = [
     ...(super.ALLOWED_CHILDREN ?? []),
     'Accessibility',
@@ -39,9 +39,7 @@ export class AdaptationSet extends CommonAttributesElements {
   public initializationPrincipal?: string;
 
   constructor(initialValues?: Partial<AdaptationSet>) {
-    super('AdaptationSet');
-    this.formatParams(initialValues);
-    Object.assign(this, initialValues);
+    super({name: 'AdaptationSet', ...initialValues});
   }
 
   override formatParams(initialValues?: Partial<ParsedObject>): void {
