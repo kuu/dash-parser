@@ -1,32 +1,24 @@
 import type {ParsedObject} from './types';
-import {Element} from './Element';
+import {URLType} from './URLType';
 
-export class Initialization extends Element {
-  public sourceURL?: string;
-
+export class Initialization extends URLType {
   constructor(initialValues?: Partial<Initialization>) {
-    super('Initialization');
-    this.formatParams(initialValues);
-    Object.assign(this, initialValues);
+    super({name: 'Initialization', ...initialValues});
   }
 
   override formatParams(initialValues?: Partial<ParsedObject>): void {
-    // NOP
+    super.formatParams(initialValues);
   }
 
-  override verifyAttributes(): void {
-    // NOP
+  override verifyAttributes(ctx: ParsedObject): void {
+    super.verifyAttributes(ctx);
   }
 
-  override verifyChildren(): void {
-    // NOP
+  override verifyChildren(ctx: ParsedObject): void {
+    super.verifyChildren(ctx);
   }
 
   override get serializedProps(): ParsedObject {
-    const obj: ParsedObject = {};
-    if (typeof this.sourceURL === 'string') {
-      obj.sourceURL = this.sourceURL;
-    }
-    return obj;
+    return super.serializedProps;
   }
 }

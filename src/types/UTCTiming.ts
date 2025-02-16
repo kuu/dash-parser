@@ -7,20 +7,18 @@ export class UTCTiming extends Element {
   public timing?: string;
 
   constructor(initialValues?: Partial<UTCTiming>) {
-    super('UTCTiming');
-    this.formatParams(initialValues);
-    Object.assign(this, initialValues);
+    super({name: 'UTCTiming', ...initialValues});
   }
 
   override formatParams(initialValues?: Partial<ParsedObject>): void {
     // NOP
   }
 
-  override verifyAttributes(): void {
+  override verifyAttributes(ctx: ParsedObject): void {
     // NOP
   }
 
-  override verifyChildren(): void {
+  override verifyChildren(ctx: ParsedObject): void {
     // NOP
   }
 

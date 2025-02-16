@@ -33,9 +33,7 @@ export class Period extends Element {
   public bitstreamSwitching?: boolean;
 
   constructor(initialValues?: Partial<Period>) {
-    super('Period');
-    this.formatParams(initialValues);
-    Object.assign(this, initialValues);
+    super({name: 'Period', ...initialValues});
   }
 
   override formatParams(initialValues?: Partial<ParsedObject>): void {
@@ -72,13 +70,13 @@ export class Period extends Element {
     }
   }
 
-  override verifyAttributes(): void {
+  override verifyAttributes(ctx: ParsedObject): void {
     if (this.xlinkActuate && !this.xlinkHref) {
       this.reject('@xlink:actuate shall not be present if @xlink:href is not present');
     }
   }
 
-  override verifyChildren(): void {
+  override verifyChildren(ctx: ParsedObject): void {
     this.verifyChidrenSpec(this.static.CHILDRREN_SPEC);
     if (!(typeof this.duration === 'number' && this.duration === 0) && this.getElements('AdaptationSet').length === 0) {
       this.reject('At least one AdaptationSet shall be present in each Period unless @duration is set to zero');

@@ -1,23 +1,21 @@
 import type {ParsedObject} from './types';
-import {LabelType} from './LabelType';
+import {Label} from './Label';
 
-export class GroupLabel extends LabelType {
+export class GroupLabel extends Label {
   constructor(initialValues?: Partial<GroupLabel>) {
-    super('GroupLabel');
-    this.formatParams(initialValues);
-    Object.assign(this, initialValues);
+    super({name: 'GroupLabel', ...initialValues});
   }
 
   override formatParams(initialValues?: Partial<ParsedObject>): void {
     super.formatParams(initialValues);
   }
 
-  override verifyAttributes(): void {
-    super.verifyAttributes();
+  override verifyAttributes(ctx: ParsedObject): void {
+    super.verifyAttributes(ctx);
   }
 
-  override verifyChildren(): void {
-    super.verifyChildren();
+  override verifyChildren(ctx: ParsedObject): void {
+    super.verifyChildren(ctx);
   }
 
   override get serializedProps(): ParsedObject {

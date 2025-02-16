@@ -42,9 +42,7 @@ export class MPD extends Element {
   public maxSubsegmentDuration?: number;
 
   constructor(initialValues?: Partial<MPD>) {
-    super('MPD');
-    this.formatParams(initialValues);
-    Object.assign(this, initialValues);
+    super({name: 'MPD', ...initialValues});
   }
 
   override formatParams(initialValues?: Partial<ParsedObject>): void {
@@ -105,7 +103,7 @@ export class MPD extends Element {
     }
   }
 
-  override verifyAttributes(): void {
+  override verifyAttributes(ctx: ParsedObject): void {
     if (!this.profiles || !this.minBufferTime) {
       this.reject('Required attributes are missing');
     }
@@ -126,7 +124,7 @@ export class MPD extends Element {
     }
   }
 
-  override verifyChildren(): void {
+  override verifyChildren(ctx: ParsedObject): void {
     this.verifyChidrenSpec(this.static.CHILDRREN_SPEC);
     if (!this.mediaPresentationDuration && !this.minimumUpdatePeriod) {
       const lastPeriod = this.getElements('Period').at(-1);

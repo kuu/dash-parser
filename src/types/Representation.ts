@@ -1,7 +1,7 @@
 import type {ParsedObject} from './types';
-import {CommonAttributesElements} from './CommonAttributesElements';
+import {RepresentationBase} from './RepresentationBase';
 
-export class Representation extends CommonAttributesElements {
+export class Representation extends RepresentationBase {
   static override readonly ALLOWED_CHILDREN = [
     ...(super.ALLOWED_CHILDREN ?? []),
     'BaseURL',
@@ -21,9 +21,7 @@ export class Representation extends CommonAttributesElements {
   public mediaStreamStructureIds?: string[];
 
   constructor(initialValues?: Partial<Representation>) {
-    super('Representation');
-    this.formatParams(initialValues);
-    Object.assign(this, initialValues);
+    super({name: 'Representation', ...initialValues});
   }
 
   override formatParams(initialValues?: Partial<ParsedObject>): void {

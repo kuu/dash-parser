@@ -3,20 +3,18 @@ import {Element} from './Element';
 
 export class EmptyAdaptationSet extends Element {
   constructor(initialValues?: Partial<EmptyAdaptationSet>) {
-    super('EmptyAdaptationSet');
-    this.formatParams(initialValues);
-    Object.assign(this, initialValues);
+    super({name: 'EmptyAdaptationSet', ...initialValues});
   }
 
   override formatParams(initialValues?: Partial<ParsedObject>): void {
     // NOP
   }
 
-  override verifyAttributes(): void {
+  override verifyAttributes(ctx: ParsedObject): void {
     // NOP
   }
 
-  override verifyChildren(): void {
+  override verifyChildren(ctx: ParsedObject): void {
     // NOP
   }
 

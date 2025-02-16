@@ -6,16 +6,14 @@ export class Switching extends Element {
   public type?: 'media' | 'bitstream';
 
   constructor(initialValues?: Partial<Switching>) {
-    super('Switching');
-    this.formatParams(initialValues);
-    Object.assign(this, initialValues);
+    super({name: 'Switching', ...initialValues});
   }
 
   override formatParams(initialValues?: Partial<ParsedObject>): void {
     // NOP
   }
 
-  override verifyAttributes(): void {
+  override verifyAttributes(ctx: ParsedObject): void {
     if (this.interval === undefined) {
       this.reject('@interval is a mandatory attribute');
     }
@@ -25,7 +23,7 @@ export class Switching extends Element {
     }
   }
 
-  override verifyChildren(): void {
+  override verifyChildren(ctx: ParsedObject): void {
     // NOP
   }
 

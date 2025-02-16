@@ -10,9 +10,7 @@ export class ExtendedBandwidth extends Element {
   public vbr?: boolean;
 
   constructor(initialValues?: Partial<ExtendedBandwidth>) {
-    super('ExtendedBandwidth');
-    this.formatParams(initialValues);
-    Object.assign(this, initialValues);
+    super({name: 'ExtendedBandwidth', ...initialValues});
   }
 
   override formatParams(initialValues?: Partial<ParsedObject>): void {
@@ -29,11 +27,11 @@ export class ExtendedBandwidth extends Element {
     }
   }
 
-  override verifyAttributes(): void {
+  override verifyAttributes(ctx: ParsedObject): void {
     // NOP
   }
 
-  override verifyChildren(): void {
+  override verifyChildren(ctx: ParsedObject): void {
     // NOP
   }
 
@@ -51,9 +49,7 @@ export class ModelPair extends Element {
   public bandwidth?: number;
 
   constructor(initialValues?: Partial<ModelPair>) {
-    super('ModelPair');
-    this.formatParams(initialValues);
-    Object.assign(this, initialValues);
+    super({name: 'ModelPair', ...initialValues});
   }
 
   override formatParams(initialValues?: Partial<ParsedObject>): void {
@@ -70,7 +66,7 @@ export class ModelPair extends Element {
     }
   }
 
-  override verifyAttributes(): void {
+  override verifyAttributes(ctx: ParsedObject): void {
     if (typeof this.bufferTime !== 'number') {
       this.reject('@bufferTime is a mandatory attribute');
     }
@@ -79,7 +75,7 @@ export class ModelPair extends Element {
     }
   }
 
-  override verifyChildren(): void {
+  override verifyChildren(ctx: ParsedObject): void {
     // NOP
   }
 

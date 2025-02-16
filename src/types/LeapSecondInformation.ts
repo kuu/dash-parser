@@ -6,20 +6,18 @@ export class LeapSecondInformation extends Element {
   public insertionTime?: string;
 
   constructor(initialValues?: Partial<LeapSecondInformation>) {
-    super('LeapSecondInformation');
-    this.formatParams(initialValues);
-    Object.assign(this, initialValues);
+    super({name: 'LeapSecondInformation', ...initialValues});
   }
 
   override formatParams(initialValues?: Partial<ParsedObject>): void {
     // NOP
   }
 
-  override verifyAttributes(): void {
+  override verifyAttributes(ctx: ParsedObject): void {
     // NOP
   }
 
-  override verifyChildren(): void {
+  override verifyChildren(ctx: ParsedObject): void {
     // NOP
   }
 

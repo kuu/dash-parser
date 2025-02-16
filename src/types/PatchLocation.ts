@@ -5,20 +5,18 @@ export class PatchLocation extends Element {
   public url?: string;
 
   constructor(initialValues?: Partial<PatchLocation>) {
-    super('PatchLocation');
-    this.formatParams(initialValues);
-    Object.assign(this, initialValues);
+    super({name: 'PatchLocation', ...initialValues});
   }
 
   override formatParams(initialValues?: Partial<ParsedObject>): void {
     // NOP
   }
 
-  override verifyAttributes(): void {
+  override verifyAttributes(ctx: ParsedObject): void {
     // NOP
   }
 
-  override verifyChildren(): void {
+  override verifyChildren(ctx: ParsedObject): void {
     // NOP
   }
 

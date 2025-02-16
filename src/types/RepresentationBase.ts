@@ -1,7 +1,7 @@
 import type {ParsedObject, Range} from './types';
 import {Element} from './Element';
 
-export class CommonAttributesElements extends Element {
+export abstract class RepresentationBase extends Element {
   static override readonly ALLOWED_CHILDREN = [
     ...(super.ALLOWED_CHILDREN ?? []),
     'FramePacking',

@@ -26,15 +26,13 @@ export class SegmentBase extends Element {
   public pdDelta?: number;
   public presentationDuration?: number;
   public timeShiftBufferDepth?: number;
-  public indexRange?: [firstBytePos: number, lastBytePos: number];
+  public indexRange?: Range;
   public indexRangeExact?: boolean;
   public availabilityTimeOffset?: number | 'INF';
   public availabilityTimeComplete?: boolean;
 
   constructor(initialValues?: Partial<SegmentBase>) {
-    super('SegmentBase');
-    this.formatParams(initialValues);
-    Object.assign(this, initialValues);
+    super({name: 'SegmentBase', ...initialValues});
   }
 
   override formatParams(initialValues?: Partial<ParsedObject>): void {
@@ -60,7 +58,7 @@ export class SegmentBase extends Element {
     }
   }
 
-  override verifyAttributes(): void {
+  override verifyAttributes(ctx: ParsedObject): void {
     this.verifyUnsignedInt('timescale');
     if (typeof this.presentationTimeOffset === 'number' && this.presentationTimeOffset < 0) {
       this.reject('@presentationTimeOffset cannot be a negative value');
@@ -73,7 +71,7 @@ export class SegmentBase extends Element {
     }
   }
 
-  override verifyChildren(): void {
+  override verifyChildren(ctx: ParsedObject): void {
     this.verifyChidrenSpec(this.static.CHILDRREN_SPEC);
   }
 

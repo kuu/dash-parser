@@ -6,9 +6,7 @@ export class Subset extends Element {
   public id?: string;
 
   constructor(initialValues?: Partial<Subset>) {
-    super('Subset');
-    this.formatParams(initialValues);
-    Object.assign(this, initialValues);
+    super({name: 'Subset', ...initialValues});
   }
 
   override formatParams(initialValues?: Partial<ParsedObject>): void {
@@ -31,13 +29,13 @@ export class Subset extends Element {
     }
   }
 
-  override verifyAttributes(): void {
+  override verifyAttributes(ctx: ParsedObject): void {
     if (!Array.isArray(this.contains) || this.contains.length === 0) {
       this.reject('@contains attribute must be present.');
     }
   }
 
-  override verifyChildren(): void {
+  override verifyChildren(ctx: ParsedObject): void {
     // NOP
   }
 

@@ -1,7 +1,7 @@
 import type {ParsedObject} from './types';
 import {Element} from './Element';
 
-export class DescriptorType extends Element {
+export abstract class Descriptor extends Element {
   public schemeIdUri?: string;
   public value?: string;
   public id?: string;
@@ -10,11 +10,11 @@ export class DescriptorType extends Element {
     // NOP
   }
 
-  override verifyAttributes(): void {
+  override verifyAttributes(ctx: ParsedObject): void {
     // NOP
   }
 
-  override verifyChildren(): void {
+  override verifyChildren(ctx: ParsedObject): void {
     // NOP
   }
 

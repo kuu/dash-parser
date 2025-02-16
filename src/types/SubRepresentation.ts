@@ -1,16 +1,14 @@
 import type {ParsedObject} from './types';
-import {CommonAttributesElements} from './CommonAttributesElements';
+import {RepresentationBase} from './RepresentationBase';
 
-export class SubRepresentation extends CommonAttributesElements {
+export class SubRepresentation extends RepresentationBase {
   public level?: number;
   public dependencyLevels?: number[];
   public bandwidth?: number;
   public contentComponents?: string[];
 
   constructor(initialValues?: Partial<SubRepresentation>) {
-    super('SubRepresentation');
-    this.formatParams(initialValues);
-    Object.assign(this, initialValues);
+    super({name: 'SubRepresentation', ...initialValues});
   }
 
   override formatParams(initialValues?: Partial<ParsedObject>): void {
