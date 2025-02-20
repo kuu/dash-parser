@@ -39,6 +39,7 @@ export * from './SegmentBase';
 export * from './SegmentList';
 export * from './SegmentTemplate';
 export * from './SegmentTimeline';
+export * from './SegmentURL';
 export * from './ServiceDescription';
 export * from './SubRepresentation';
 export * from './Subset';

@@ -1,7 +1,12 @@
 import type {ParsedObject} from './types';
-import {Element} from './Element';
+import {MultipleSegmentBase} from './MultipleSegmentBase';
 
-export class SegmentList extends Element {
+export class SegmentList extends MultipleSegmentBase {
+  static override readonly ALLOWED_CHILDREN = [
+    ...(super.ALLOWED_CHILDREN ?? []),
+    'SegmentURL',
+  ];
+
   public xlinkHref?: string;
   public xlinkActuate?: 'onLoad' | 'onRequest';
 
@@ -10,18 +15,41 @@ export class SegmentList extends Element {
   }
 
   override formatParams(initialValues?: Partial<ParsedObject>): void {
-    // NOP
+    super.formatParams(initialValues);
+
+    if (!initialValues) {
+      return;
+    }
+
+    if (typeof initialValues['xlink:href'] === 'string') {
+      initialValues.xlinkHref = initialValues['xlink:href'];
+      delete initialValues['xlink:href'];
+    }
+    if (typeof initialValues['xlink:actuate'] === 'string') {
+      initialValues.xlinkActuate = initialValues['xlink:actuate'];
+      delete initialValues['xlink:actuate'];
+    }
   }
 
   override verifyAttributes(ctx: ParsedObject): void {
-    // NOP
+    super.verifyAttributes(ctx);
+    if (this.xlinkActuate && !this.xlinkHref) {
+      this.reject('@xlink:actuate shall not be present if @xlink:href is not present');
+    }
   }
 
   override verifyChildren(ctx: ParsedObject): void {
-    // NOP
+    super.verifyChildren(ctx);
   }
 
   override get serializedProps(): ParsedObject {
-    return {};
+    const obj = super.serializedProps;
+    if (this.xlinkHref) {
+      obj['xlink:href'] = this.xlinkHref;
+    }
+    if (this.xlinkActuate) {
+      obj['xlink:actuate'] = this.xlinkActuate;
+    }
+    return obj;
   }
 }
