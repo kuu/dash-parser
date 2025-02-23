@@ -3,6 +3,9 @@ import {MultipleSegmentBase} from './MultipleSegmentBase';
 
 export class SegmentTemplate extends MultipleSegmentBase {
   public media?: string;
+  public index?: string;
+  public initialization?: string;
+  public bitstreamSwitching?: string;
 
   constructor(initialValues?: Partial<SegmentTemplate>) {
     super({name: 'SegmentTemplate', ...initialValues});
@@ -14,6 +17,16 @@ export class SegmentTemplate extends MultipleSegmentBase {
 
   override verifyAttributes(ctx: ParsedObject): void {
     super.verifyAttributes(ctx);
+    if (typeof this.initialization === 'string'
+      && (this.initialization.includes('$Number$') || this.initialization.includes('$Time$'))
+    ) {
+      this.reject('Neither $Number$ nor the $Time$ identifier shall be included.');
+    }
+    if (typeof this.bitstreamSwitching === 'string'
+      && (this.bitstreamSwitching.includes('$Number$') || this.bitstreamSwitching.includes('$Time$'))
+    ) {
+      this.reject('Neither $Number$ nor the $Time$ identifier shall be included.');
+    }
   }
 
   override verifyChildren(ctx: ParsedObject): void {
@@ -22,6 +35,18 @@ export class SegmentTemplate extends MultipleSegmentBase {
 
   override get serializedProps(): ParsedObject {
     const obj = super.serializedProps;
+    if (typeof this.media === 'string') {
+      obj.media = this.media;
+    }
+    if (typeof this.index === 'string') {
+      obj.index = this.index;
+    }
+    if (typeof this.initialization === 'string') {
+      obj.initialization = this.initialization;
+    }
+    if (typeof this.bitstreamSwitching === 'string') {
+      obj.bitstreamSwitching = this.bitstreamSwitching;
+    }
     return obj;
   }
 }
