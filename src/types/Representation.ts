@@ -74,16 +74,11 @@ export class Representation extends RepresentationBase {
 
   override verifyAttributes(ctx: ParsedObject): void {
     super.verifyAttributes(ctx);
-    if (typeof this.id !== 'string') {
-      this.reject('Representation@id is a mandatory attribute');
-    }
+    this.verifyMandatory('id');
     if (this.id?.includes(' ')) {
       this.reject('Representation@id shall not contain whitespace characters');
     }
-    if (this.bandwidth === undefined) {
-      this.reject('Representation@bandwidth is a mandatory attribute');
-    }
-    this.verifyUnsignedInt('bandwidth');
+    this.verifyUnsignedInt('bandwidth', true);
     if (Array.isArray(this.associationTypes)) {
       if (!this.associationTypes.every(t => t.length === 4)) {
         this.reject('Representation@associationType should be 4 character codes (4CCs)');

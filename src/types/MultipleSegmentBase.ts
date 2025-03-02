@@ -33,6 +33,28 @@ export abstract class MultipleSegmentBase extends SegmentBase {
   override verifyChildren(ctx: ParsedObject): void {
     super.verifyChildren(ctx);
     this.verifyChidrenSpec(this.static.CHILDRREN_SPEC);
+    this.verifySegmentNumber(ctx);
+  }
+
+  private verifySegmentNumber(ctx: ParsedObject): void {
+    const [timeline] = this.getElements('SegmentTimeline');
+    if (!timeline) {
+      return;
+    }
+    const segments = timeline.getElements('S');
+    let segmentNumber = this.startNumber ?? 1;
+    for (const segment of segments) {
+      const n = segment['n'] as number; // eslint-disable-line @typescript-eslint/dot-notation
+      const r = segment['r'] as number; // eslint-disable-line @typescript-eslint/dot-notation
+      if (n === undefined) {
+        segmentNumber += ((r ?? 0) + 1);
+        continue;
+      }
+      if (n < segmentNumber) {
+        this.reject('S@n shall be at least one greater than the number of previous S elements plus the @startNumber attribute value, if present.');
+      }
+      segmentNumber = n + ((r ?? 0) + 1);
+    }
   }
 
   override get serializedProps(): ParsedObject {

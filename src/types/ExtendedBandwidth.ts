@@ -70,9 +70,7 @@ export class ModelPair extends Element {
     if (typeof this.bufferTime !== 'number') {
       this.reject('@bufferTime is a mandatory attribute');
     }
-    if (typeof this.bandwidth !== 'number') {
-      this.reject('@bandwidth is a mandatory attribute');
-    }
+    this.verifyUnsignedInt('bandwidth', true);
   }
 
   override verifyChildren(ctx: ParsedObject): void {
