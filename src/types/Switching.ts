@@ -14,10 +14,7 @@ export class Switching extends Element {
   }
 
   override verifyAttributes(ctx: ParsedObject): void {
-    if (this.interval === undefined) {
-      this.reject('@interval is a mandatory attribute');
-    }
-    this.verifyUnsignedInt('interval');
+    this.verifyUnsignedInt('interval', true);
     if (typeof this.type === 'string' && this.type !== 'media' && this.type !== 'bitstream') {
       this.reject('@type should be either "media" or "bitstream"');
     }

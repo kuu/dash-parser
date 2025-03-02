@@ -50,10 +50,27 @@ export abstract class Element {
   abstract verifyChildren(ctx: ParsedObject): void;
   abstract get serializedProps(): ParsedObject;
 
-  protected verifyUnsignedInt(key: string) {
+  protected verifyInt(key: string, mandatory = false) {
+    if (mandatory) {
+      this.verifyMandatory(key);
+    }
     const value = this[key] as unknown;
-    if (typeof value === 'number' && (value < 0 || !Number.isInteger(value))) {
+    if (typeof value === 'number' && !Number.isInteger(value)) {
+      this.reject(`@${key} should be an integer`);
+    }
+  }
+
+  protected verifyUnsignedInt(key: string, mandatory = false) {
+    this.verifyInt(key, mandatory);
+    const value = this[key] as unknown;
+    if (typeof value === 'number' && value < 0) {
       this.reject(`@${key} should be an unsigned integer`);
+    }
+  }
+
+  protected verifyMandatory(key: string) {
+    if (this[key] === undefined) {
+      this.reject(`@${key} is mandatory`);
     }
   }
 
