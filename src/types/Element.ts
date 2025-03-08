@@ -9,6 +9,7 @@ export abstract class Element {
   }
 
   public name: string;
+  public textContent?: string;
 
   children: Element[] = [];
   constructor(initialValues?: Partial<Element>) {
@@ -80,6 +81,25 @@ export abstract class Element {
       const count = this.children.filter(el => el.name === key).length;
       if (count < min || count > max) {
         this.reject(`Number of ${key} is ${count}, but should be between ${min} and ${max}`);
+      }
+    }
+  }
+
+  protected verifyAvailabilityTimeComplete(ctx: ParsedObject): void {
+    const ancestors = ctx.baseUrls as Element[];
+    const siblings = this.getElements('BaseURL');
+    // eslint-disable-next-line @typescript-eslint/dot-notation
+    const isTimeOffsetPresentInAnyLevel = [...ancestors, ...siblings].some(baseUrl => baseUrl['availabilityTimeOffset'] !== undefined);
+    const segmentBaseList = this.getElements('SegmentBase');
+    for (const segmentBase of segmentBaseList) {
+      if (segmentBase['availabilityTimeComplete'] !== undefined) { // eslint-disable-line @typescript-eslint/dot-notation
+        if (segmentBase['availabilityTimeOffset'] === undefined && !isTimeOffsetPresentInAnyLevel) { // eslint-disable-line @typescript-eslint/dot-notation
+          delete segmentBase['availabilityTimeComplete']; // eslint-disable-line @typescript-eslint/dot-notation
+          continue;
+        }
+        for (const sibling of siblings) {
+          delete sibling['availabilityTimeComplete']; // eslint-disable-line @typescript-eslint/dot-notation
+        }
       }
     }
   }

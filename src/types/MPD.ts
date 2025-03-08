@@ -147,15 +147,6 @@ export class MPD extends Element {
         return true;
       });
     }
-    if (this.type !== 'dynamic') {
-      this.getAllElements(elem => {
-        // eslint-disable-next-line @typescript-eslint/dot-notation
-        if (typeof elem['timeShiftBufferDepth'] === 'number') {
-          this.reject('Representation-level @timeShiftBufferDepth shall not be defined if MPD@type is static');
-        }
-        return true;
-      });
-    }
   }
 
   override get serializedProps(): ParsedObject {
