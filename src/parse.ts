@@ -8,7 +8,7 @@ export function parse(text: string): types.MPD | undefined {
     return undefined;
   }
   const mpd = new types.MPD(xmlObject['@'] as types.ParsedObject);
-  parseElement(mpd, xmlObject, {});
+  parseElement(mpd, xmlObject, {baseUrls: [], mpdType: mpd.type});
   return mpd;
 }
 
@@ -19,12 +19,18 @@ function parseElement(element: types.Element, obj: types.ParsedObject | undefine
     // console.log('=== parseElement: Exit-1');
     return element.verifyChildren(ctx);
   }
+  const baseUrls = ctx.baseUrls as types.BaseURL[];
+  const baseUrlsNum = baseUrls.length;
   // console.log(JSON.stringify(obj, null, 2));
   for (const key of Object.keys(obj)) {
     // console.log(`--- parse key: '${key}'`);
     if (key === '@') {
       // console.log('--- parse key end-1');
       continue;
+    }
+
+    if (key === '#text') {
+      element.textContent = obj[key] as string;
     }
 
     const type = types[key] as {new (obj: types.ParsedObject): types.Element};
@@ -39,9 +45,13 @@ function parseElement(element: types.Element, obj: types.ParsedObject | undefine
       // console.log(`--- addElement: '${key}'`);
       const elem = new type(child['@'] as types.ParsedObject);
       element.addElement(elem);
+      if (elem instanceof types.BaseURL) {
+        baseUrls.push(elem);
+      }
       parseElement(elem, child as types.ParsedObject, ctx);
     }
   }
   element.verifyChildren(ctx);
+  ctx.baseUrls.length = baseUrlsNum;
   // console.log('=== parseElement: Exit-2');
 }

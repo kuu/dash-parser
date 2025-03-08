@@ -560,9 +560,11 @@ describe('ISO_IEC-23009-1_2022/5.3.9.2_Table-16', () => {
   });
 
   test('SegmentBase@timeShiftBufferDepth', () => {
-    // @timeShiftBufferDepth specifies the duration of the time shifting buffer for this Representation that is guaranteed to be available for a Media Presentation with type 'dynamic'.
+    // @timeShiftBufferDepth specifies the duration of the time shifting buffer
+    // for this Representation that is guaranteed to be available for a Media Presentation with type 'dynamic'.
     // When not present, the value is of the @timeShiftBufferDepth on MPD level applies.
-    // If present, this value shall be not smaller than the value on MPD level. This value of the attribute is undefined if the @type attribute is equal to 'static'.
+    // If present, this value shall be not smaller than the value on MPD level.
+    // This value of the attribute is undefined if the @type attribute is equal to 'static'.
     // NOTE When operating in a time-shift buffer on a Representation with value larger than the time-shift buffer signalled on MPD level,
     // not all Representations are necessarily available for switching.
     bothPass(`
@@ -1165,6 +1167,539 @@ describe('ISO_IEC-23009-1_2022/5.3.9.2_Table-16', () => {
                   children: [
                     new DASH.SegmentBase(),
                   ],
+                }),
+              ],
+            }),
+          ],
+        }),
+      ],
+    }));
+
+    bothPass(`
+      <?xml version="1.0" encoding="UTF-8"?>
+      <MPD
+        profiles="urn:mpeg:dash:profile:isoff-live:2011"
+        minBufferTime="PT2S"
+        type="dynamic"
+        availabilityStartTime="2022-01-01T00:00:00.000Z">
+        <Period duration="PT12S">
+          <AdaptationSet mimeType="video/mp4">
+            <Representation id="1" bandwidth="1250000">
+              <BaseURL availabilityTimeOffset="5.23">
+                http://example.com/video.mp4
+              </BaseURL>
+              <SegmentBase
+                availabilityTimeComplete="false"
+              />
+            </Representation>
+          </AdaptationSet>
+        </Period>
+      </MPD>
+    `, new DASH.MPD({
+      profiles: 'urn:mpeg:dash:profile:isoff-live:2011',
+      minBufferTime: 2,
+      type: 'dynamic',
+      availabilityStartTime: new Date('2022-01-01T00:00:00.000Z'),
+      children: [
+        new DASH.Period({
+          duration: 12,
+          children: [
+            new DASH.AdaptationSet({
+              mimeType: 'video/mp4',
+              children: [
+                new DASH.Representation({
+                  id: '1',
+                  bandwidth: 1_250_000,
+                  children: [
+                    new DASH.BaseURL({
+                      availabilityTimeOffset: 5.23,
+                      textContent: 'http://example.com/video.mp4',
+                    }),
+                    new DASH.SegmentBase({
+                      availabilityTimeComplete: false,
+                    }),
+                  ],
+                }),
+              ],
+            }),
+          ],
+        }),
+      ],
+    }));
+
+    bothPass(`
+      <?xml version="1.0" encoding="UTF-8"?>
+      <MPD
+        profiles="urn:mpeg:dash:profile:isoff-live:2011"
+        minBufferTime="PT2S"
+        type="dynamic"
+        availabilityStartTime="2022-01-01T00:00:00.000Z">
+        <Period duration="PT12S">
+          <AdaptationSet mimeType="video/mp4">
+            <BaseURL availabilityTimeOffset="5.23">
+              http://example.com/video.mp4
+            </BaseURL>
+            <Representation id="1" bandwidth="1250000">
+              <SegmentBase
+                availabilityTimeComplete="false"
+              />
+            </Representation>
+          </AdaptationSet>
+        </Period>
+      </MPD>
+    `, new DASH.MPD({
+      profiles: 'urn:mpeg:dash:profile:isoff-live:2011',
+      minBufferTime: 2,
+      type: 'dynamic',
+      availabilityStartTime: new Date('2022-01-01T00:00:00.000Z'),
+      children: [
+        new DASH.Period({
+          duration: 12,
+          children: [
+            new DASH.AdaptationSet({
+              mimeType: 'video/mp4',
+              children: [
+                new DASH.BaseURL({
+                  availabilityTimeOffset: 5.23,
+                  textContent: 'http://example.com/video.mp4',
+                }),
+                new DASH.Representation({
+                  id: '1',
+                  bandwidth: 1_250_000,
+                  children: [
+                    new DASH.SegmentBase({
+                      availabilityTimeComplete: false,
+                    }),
+                  ],
+                }),
+              ],
+            }),
+          ],
+        }),
+      ],
+    }));
+
+    bothPass(`
+      <?xml version="1.0" encoding="UTF-8"?>
+      <MPD
+        profiles="urn:mpeg:dash:profile:isoff-live:2011"
+        minBufferTime="PT2S"
+        type="dynamic"
+        availabilityStartTime="2022-01-01T00:00:00.000Z">
+        <Period duration="PT12S">
+          <BaseURL availabilityTimeOffset="5.23">
+            http://example.com/video.mp4
+          </BaseURL>
+          <AdaptationSet mimeType="video/mp4">
+            <Representation id="1" bandwidth="1250000">
+              <SegmentBase
+                availabilityTimeComplete="false"
+              />
+            </Representation>
+          </AdaptationSet>
+        </Period>
+      </MPD>
+    `, new DASH.MPD({
+      profiles: 'urn:mpeg:dash:profile:isoff-live:2011',
+      minBufferTime: 2,
+      type: 'dynamic',
+      availabilityStartTime: new Date('2022-01-01T00:00:00.000Z'),
+      children: [
+        new DASH.Period({
+          duration: 12,
+          children: [
+            new DASH.BaseURL({
+              availabilityTimeOffset: 5.23,
+              textContent: 'http://example.com/video.mp4',
+            }),
+            new DASH.AdaptationSet({
+              mimeType: 'video/mp4',
+              children: [
+                new DASH.Representation({
+                  id: '1',
+                  bandwidth: 1_250_000,
+                  children: [
+                    new DASH.SegmentBase({
+                      availabilityTimeComplete: false,
+                    }),
+                  ],
+                }),
+              ],
+            }),
+          ],
+        }),
+      ],
+    }));
+
+    bothPass(`
+      <?xml version="1.0" encoding="UTF-8"?>
+      <MPD
+        profiles="urn:mpeg:dash:profile:isoff-live:2011"
+        minBufferTime="PT2S"
+        type="dynamic"
+        availabilityStartTime="2022-01-01T00:00:00.000Z">
+        <BaseURL availabilityTimeOffset="5.23">
+          http://example.com/video.mp4
+        </BaseURL>
+        <Period duration="PT12S">
+          <AdaptationSet mimeType="video/mp4">
+            <Representation id="1" bandwidth="1250000">
+              <SegmentBase
+                availabilityTimeComplete="false"
+              />
+            </Representation>
+          </AdaptationSet>
+        </Period>
+      </MPD>
+    `, new DASH.MPD({
+      profiles: 'urn:mpeg:dash:profile:isoff-live:2011',
+      minBufferTime: 2,
+      type: 'dynamic',
+      availabilityStartTime: new Date('2022-01-01T00:00:00.000Z'),
+      children: [
+        new DASH.BaseURL({
+          availabilityTimeOffset: 5.23,
+          textContent: 'http://example.com/video.mp4',
+        }),
+        new DASH.Period({
+          duration: 12,
+          children: [
+            new DASH.AdaptationSet({
+              mimeType: 'video/mp4',
+              children: [
+                new DASH.Representation({
+                  id: '1',
+                  bandwidth: 1_250_000,
+                  children: [
+                    new DASH.SegmentBase({
+                      availabilityTimeComplete: false,
+                    }),
+                  ],
+                }),
+              ],
+            }),
+          ],
+        }),
+      ],
+    }));
+
+    expect(DASH.parse(`
+      <?xml version="1.0" encoding="UTF-8"?>
+      <MPD
+        profiles="urn:mpeg:dash:profile:isoff-live:2011"
+        minBufferTime="PT2S"
+        type="dynamic"
+        availabilityStartTime="2022-01-01T00:00:00.000Z">
+        <Period duration="PT12S">
+          <AdaptationSet mimeType="video/mp4">
+            <SegmentBase
+              availabilityTimeComplete="false"
+            />
+            <Representation id="1" bandwidth="1250000"/>
+          </AdaptationSet>
+        </Period>
+      </MPD>
+    `)).toEqual(new DASH.MPD({
+      profiles: 'urn:mpeg:dash:profile:isoff-live:2011',
+      minBufferTime: 2,
+      type: 'dynamic',
+      availabilityStartTime: new Date('2022-01-01T00:00:00.000Z'),
+      children: [
+        new DASH.Period({
+          duration: 12,
+          children: [
+            new DASH.AdaptationSet({
+              mimeType: 'video/mp4',
+              children: [
+                new DASH.SegmentBase(),
+                new DASH.Representation({
+                  id: '1',
+                  bandwidth: 1_250_000,
+                }),
+              ],
+            }),
+          ],
+        }),
+      ],
+    }));
+
+    bothPass(`
+      <?xml version="1.0" encoding="UTF-8"?>
+      <MPD
+        profiles="urn:mpeg:dash:profile:isoff-live:2011"
+        minBufferTime="PT2S"
+        type="dynamic"
+        availabilityStartTime="2022-01-01T00:00:00.000Z">
+        <Period duration="PT12S">
+          <AdaptationSet mimeType="video/mp4">
+            <BaseURL availabilityTimeOffset="5.23">
+              http://example.com/video.mp4
+            </BaseURL>
+            <SegmentBase
+              availabilityTimeComplete="false"
+            />
+            <Representation id="1" bandwidth="1250000"/>
+          </AdaptationSet>
+        </Period>
+      </MPD>
+    `, new DASH.MPD({
+      profiles: 'urn:mpeg:dash:profile:isoff-live:2011',
+      minBufferTime: 2,
+      type: 'dynamic',
+      availabilityStartTime: new Date('2022-01-01T00:00:00.000Z'),
+      children: [
+        new DASH.Period({
+          duration: 12,
+          children: [
+            new DASH.AdaptationSet({
+              mimeType: 'video/mp4',
+              children: [
+                new DASH.BaseURL({
+                  availabilityTimeOffset: 5.23,
+                  textContent: 'http://example.com/video.mp4',
+                }),
+                new DASH.SegmentBase({
+                  availabilityTimeComplete: false,
+                }),
+                new DASH.Representation({
+                  id: '1',
+                  bandwidth: 1_250_000,
+                }),
+              ],
+            }),
+          ],
+        }),
+      ],
+    }));
+
+    bothPass(`
+      <?xml version="1.0" encoding="UTF-8"?>
+      <MPD
+        profiles="urn:mpeg:dash:profile:isoff-live:2011"
+        minBufferTime="PT2S"
+        type="dynamic"
+        availabilityStartTime="2022-01-01T00:00:00.000Z">
+        <Period duration="PT12S">
+          <BaseURL availabilityTimeOffset="5.23">
+            http://example.com/video.mp4
+          </BaseURL>
+          <AdaptationSet mimeType="video/mp4">
+            <SegmentBase
+              availabilityTimeComplete="false"
+            />
+            <Representation id="1" bandwidth="1250000"/>
+          </AdaptationSet>
+        </Period>
+      </MPD>
+    `, new DASH.MPD({
+      profiles: 'urn:mpeg:dash:profile:isoff-live:2011',
+      minBufferTime: 2,
+      type: 'dynamic',
+      availabilityStartTime: new Date('2022-01-01T00:00:00.000Z'),
+      children: [
+        new DASH.Period({
+          duration: 12,
+          children: [
+            new DASH.BaseURL({
+              availabilityTimeOffset: 5.23,
+              textContent: 'http://example.com/video.mp4',
+            }),
+            new DASH.AdaptationSet({
+              mimeType: 'video/mp4',
+              children: [
+                new DASH.SegmentBase({
+                  availabilityTimeComplete: false,
+                }),
+                new DASH.Representation({
+                  id: '1',
+                  bandwidth: 1_250_000,
+                }),
+              ],
+            }),
+          ],
+        }),
+      ],
+    }));
+
+    bothPass(`
+      <?xml version="1.0" encoding="UTF-8"?>
+      <MPD
+        profiles="urn:mpeg:dash:profile:isoff-live:2011"
+        minBufferTime="PT2S"
+        type="dynamic"
+        availabilityStartTime="2022-01-01T00:00:00.000Z">
+        <BaseURL availabilityTimeOffset="5.23">
+          http://example.com/video.mp4
+        </BaseURL>
+        <Period duration="PT12S">
+          <AdaptationSet mimeType="video/mp4">
+            <SegmentBase
+              availabilityTimeComplete="false"
+            />
+            <Representation id="1" bandwidth="1250000"/>
+          </AdaptationSet>
+        </Period>
+      </MPD>
+    `, new DASH.MPD({
+      profiles: 'urn:mpeg:dash:profile:isoff-live:2011',
+      minBufferTime: 2,
+      type: 'dynamic',
+      availabilityStartTime: new Date('2022-01-01T00:00:00.000Z'),
+      children: [
+        new DASH.BaseURL({
+          availabilityTimeOffset: 5.23,
+          textContent: 'http://example.com/video.mp4',
+        }),
+        new DASH.Period({
+          duration: 12,
+          children: [
+            new DASH.AdaptationSet({
+              mimeType: 'video/mp4',
+              children: [
+                new DASH.SegmentBase({
+                  availabilityTimeComplete: false,
+                }),
+                new DASH.Representation({
+                  id: '1',
+                  bandwidth: 1_250_000,
+                }),
+              ],
+            }),
+          ],
+        }),
+      ],
+    }));
+
+    expect(DASH.parse(`
+      <?xml version="1.0" encoding="UTF-8"?>
+      <MPD
+        profiles="urn:mpeg:dash:profile:isoff-live:2011"
+        minBufferTime="PT2S"
+        type="dynamic"
+        availabilityStartTime="2022-01-01T00:00:00.000Z">
+        <Period duration="PT12S">
+          <SegmentBase
+            availabilityTimeComplete="false"
+          />
+          <AdaptationSet mimeType="video/mp4">
+            <Representation id="1" bandwidth="1250000"/>
+          </AdaptationSet>
+        </Period>
+      </MPD>
+    `)).toEqual(new DASH.MPD({
+      profiles: 'urn:mpeg:dash:profile:isoff-live:2011',
+      minBufferTime: 2,
+      type: 'dynamic',
+      availabilityStartTime: new Date('2022-01-01T00:00:00.000Z'),
+      children: [
+        new DASH.Period({
+          duration: 12,
+          children: [
+            new DASH.SegmentBase(),
+            new DASH.AdaptationSet({
+              mimeType: 'video/mp4',
+              children: [
+                new DASH.Representation({
+                  id: '1',
+                  bandwidth: 1_250_000,
+                }),
+              ],
+            }),
+          ],
+        }),
+      ],
+    }));
+
+    bothPass(`
+      <?xml version="1.0" encoding="UTF-8"?>
+      <MPD
+        profiles="urn:mpeg:dash:profile:isoff-live:2011"
+        minBufferTime="PT2S"
+        type="dynamic"
+        availabilityStartTime="2022-01-01T00:00:00.000Z">
+        <Period duration="PT12S">
+          <BaseURL availabilityTimeOffset="5.23">
+            http://example.com/video.mp4
+          </BaseURL>
+          <SegmentBase
+            availabilityTimeComplete="false"
+          />
+          <AdaptationSet mimeType="video/mp4">
+            <Representation id="1" bandwidth="1250000"/>
+          </AdaptationSet>
+        </Period>
+      </MPD>
+    `, new DASH.MPD({
+      profiles: 'urn:mpeg:dash:profile:isoff-live:2011',
+      minBufferTime: 2,
+      type: 'dynamic',
+      availabilityStartTime: new Date('2022-01-01T00:00:00.000Z'),
+      children: [
+        new DASH.Period({
+          duration: 12,
+          children: [
+            new DASH.BaseURL({
+              availabilityTimeOffset: 5.23,
+              textContent: 'http://example.com/video.mp4',
+            }),
+            new DASH.SegmentBase({
+              availabilityTimeComplete: false,
+            }),
+            new DASH.AdaptationSet({
+              mimeType: 'video/mp4',
+              children: [
+                new DASH.Representation({
+                  id: '1',
+                  bandwidth: 1_250_000,
+                }),
+              ],
+            }),
+          ],
+        }),
+      ],
+    }));
+
+    bothPass(`
+      <?xml version="1.0" encoding="UTF-8"?>
+      <MPD
+        profiles="urn:mpeg:dash:profile:isoff-live:2011"
+        minBufferTime="PT2S"
+        type="dynamic"
+        availabilityStartTime="2022-01-01T00:00:00.000Z">
+        <BaseURL availabilityTimeOffset="5.23">
+          http://example.com/video.mp4
+        </BaseURL>
+        <Period duration="PT12S">
+          <SegmentBase
+            availabilityTimeComplete="false"
+          />
+          <AdaptationSet mimeType="video/mp4">
+            <Representation id="1" bandwidth="1250000"/>
+          </AdaptationSet>
+        </Period>
+      </MPD>
+    `, new DASH.MPD({
+      profiles: 'urn:mpeg:dash:profile:isoff-live:2011',
+      minBufferTime: 2,
+      type: 'dynamic',
+      availabilityStartTime: new Date('2022-01-01T00:00:00.000Z'),
+      children: [
+        new DASH.BaseURL({
+          availabilityTimeOffset: 5.23,
+          textContent: 'http://example.com/video.mp4',
+        }),
+        new DASH.Period({
+          duration: 12,
+          children: [
+            new DASH.SegmentBase({
+              availabilityTimeComplete: false,
+            }),
+            new DASH.AdaptationSet({
+              mimeType: 'video/mp4',
+              children: [
+                new DASH.Representation({
+                  id: '1',
+                  bandwidth: 1_250_000,
                 }),
               ],
             }),

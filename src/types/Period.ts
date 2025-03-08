@@ -120,6 +120,7 @@ export class Period extends Element {
         }
       }
     }
+    this.verifyAvailabilityTimeComplete(ctx);
   }
 
   override get serializedProps(): ParsedObject {

@@ -148,6 +148,7 @@ export abstract class RepresentationBase extends Element {
 
   override verifyChildren(ctx: ParsedObject): void {
     this.verifyChidrenSpec(this.static.CHILDRREN_SPEC);
+    this.verifyAvailabilityTimeComplete(ctx);
   }
 
   override get serializedProps(): ParsedObject {

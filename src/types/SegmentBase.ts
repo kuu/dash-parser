@@ -43,8 +43,6 @@ export class SegmentBase extends Element {
     const {
       timeShiftBufferDepth,
       indexRange,
-      availabilityTimeComplete,
-      availabilityTimeOffset,
     } = initialValues;
 
     if (typeof timeShiftBufferDepth === 'string') {
@@ -53,15 +51,15 @@ export class SegmentBase extends Element {
     if (typeof indexRange === 'string') {
       initialValues.indexRange = fromByteRangeString(indexRange.includes(',') ? indexRange.slice(0, indexRange.indexOf(',')) : indexRange);
     }
-    if (typeof availabilityTimeComplete === 'boolean' && availabilityTimeOffset === undefined) {
-      delete initialValues.availabilityTimeComplete;
-    }
   }
 
   override verifyAttributes(ctx: ParsedObject): void {
     this.verifyUnsignedInt('timescale');
     if (typeof this.presentationTimeOffset === 'number' && this.presentationTimeOffset < 0) {
       this.reject('@presentationTimeOffset cannot be a negative value');
+    }
+    if (typeof this.timeShiftBufferDepth === 'number' && ctx.mpdType !== 'dynamic') {
+      this.reject('@timeShiftBufferDepth shall not be defined if MPD@type is static');
     }
     if (typeof this.presentationDuration === 'number' && this.presentationDuration < 0) {
       this.reject('@presentationDuration cannot be a negative value');

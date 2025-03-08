@@ -11,6 +11,7 @@
     "unicorn/no-array-reduce": 0,
     "unicorn/prevent-abbreviations": 0,
     "@typescript-eslint/naming-convention": 0,
+    "@typescript-eslint/no-array-delete": 0,
     "@typescript-eslint/no-confusing-void-expression": 0,
     "@typescript-eslint/padding-line-between-statements": 0,
     "@typescript-eslint/prefer-function-type": 0
