@@ -6,6 +6,7 @@ import {
   toTemporalDurationString,
   fromByteRangeString,
   toByteRangeString,
+  joinBaseURLs,
 } from '../../src/utils';
 
 describe('Logging', () => {
@@ -74,6 +75,16 @@ describe('Logging', () => {
   test('toByteRangeString', () => {
     expect(toByteRangeString([0, 99])).toBe('0-99');
     expect(toByteRangeString([100, 200])).toBe('100-200');
+  });
+
+  test('joinBaseURLs', () => {
+    expect(joinBaseURLs()).toBe('');
+    expect(joinBaseURLs('http://example.com')).toBe('http://example.com');
+    expect(joinBaseURLs('http://example.com', 'path/', 'to/', 'file?abc=123%def=456')).toBe('http://example.com/path/to/file?abc=123%def=456');
+    expect(joinBaseURLs('http://example.com', 'path/', 'to/', '/file?abc=123%def=456')).toBe('http://example.com/file?abc=123%def=456');
+    expect(joinBaseURLs('http://example.com', '../path2/', 'to/', 'file')).toBe('http://example.com/path2/to/file');
+    expect(joinBaseURLs('http://example.com', 'path/', 'to/', 'https://example2.com/path/to/', 'file')).toBe('https://example2.com/path/to/file');
+    expect(joinBaseURLs('path/', 'to/', 'file')).toBe('path/to/file');
   });
 
   afterAll(() => {
