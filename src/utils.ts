@@ -92,3 +92,38 @@ export function fromByteRangeString(byteRangeStr: string, byteLength = 0): [firs
 export function toByteRangeString(range: [firstBytePos: number, lastBytePos: number]): string {
   return `${range[0]}-${range[1]}`;
 }
+
+export function joinBaseURLs(...args: string[]): string {
+  const DUMMY = 'https://example.com/';
+  let url = joinURLs(...args);
+  if (url) {
+    return url;
+  }
+  url = joinURLs(DUMMY, ...args);
+  if (url) {
+    return url.slice(DUMMY.length);
+  }
+  return '';
+}
+
+function joinURLs(...args: string[]): string | undefined {
+  if (args.length === 0) {
+    return undefined;
+  }
+  let u: URL;
+  try {
+    u = new URL(args[0]);
+    // args[0] is an absolute URL
+  } catch {
+    return undefined;
+  }
+  if (args.length === 1) {
+    return args[0];
+  }
+  try {
+    u = new URL(args[1], args[0]);
+  } catch {
+    return args[0];
+  }
+  return joinURLs(u.href, ...args.slice(2));
+}
