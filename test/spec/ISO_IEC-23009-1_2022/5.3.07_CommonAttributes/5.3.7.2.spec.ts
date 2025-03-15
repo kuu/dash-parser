@@ -1153,7 +1153,7 @@ describe('ISO_IEC-23009-1_2022/5.3.7.2', () => {
       <MPD profiles="urn:mpeg:dash:profile:isoff-on-demand:2011" minBufferTime="PT2S">
         <Period duration="PT30S">
           <AdaptationSet mimeType="video/mp4">
-            <OutputProtection/>
+            <OutputProtection schemeIdUri="xxx"/>
           </AdaptationSet>
         </Period>
       </MPD>
@@ -1166,7 +1166,7 @@ describe('ISO_IEC-23009-1_2022/5.3.7.2', () => {
           children: [new DASH.AdaptationSet({
             mimeType: 'video/mp4',
             children: [
-              new DASH.OutputProtection(),
+              new DASH.OutputProtection({schemeIdUri: 'xxx'}),
             ],
           })],
         }),
@@ -1178,8 +1178,8 @@ describe('ISO_IEC-23009-1_2022/5.3.7.2', () => {
       <MPD profiles="urn:mpeg:dash:profile:isoff-on-demand:2011" minBufferTime="PT2S">
         <Period duration="PT30S">
           <AdaptationSet mimeType="video/mp4">
-            <OutputProtection/>
-            <OutputProtection/>
+            <OutputProtection schemeIdUri="xxx"/>
+            <OutputProtection schemeIdUri="yyy"/>
           </AdaptationSet>
         </Period>
       </MPD>
@@ -1192,8 +1192,8 @@ describe('ISO_IEC-23009-1_2022/5.3.7.2', () => {
           children: [new DASH.AdaptationSet({
             mimeType: 'video/mp4',
             children: [
-              new DASH.OutputProtection(),
-              new DASH.OutputProtection(),
+              new DASH.OutputProtection({schemeIdUri: 'xxx'}),
+              new DASH.OutputProtection({schemeIdUri: 'yyy'}),
             ],
           })],
         }),
