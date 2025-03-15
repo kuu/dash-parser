@@ -204,7 +204,9 @@ describe('ISO_IEC-23009-1_2022/5.3.2.2', () => {
       <?xml version="1.0" encoding="UTF-8"?>
       <MPD profiles="urn:mpeg:dash:profile:isoff-on-demand:2011" minBufferTime="PT2S">
         <Period duration="PT0S">
-          <ContentProtection refId="1234567890"/>
+          <ContentProtection
+            schemeIdUri="urn:mpeg:dash:mp4protection:2011"
+            refId="1234567890"/>
         </Period>
       </MPD>
     `, new DASH.MPD({
@@ -213,7 +215,10 @@ describe('ISO_IEC-23009-1_2022/5.3.2.2', () => {
       children: [
         new DASH.Period({
           duration: 0,
-          children: [new DASH.ContentProtection({refId: '1234567890'})],
+          children: [new DASH.ContentProtection({
+            schemeIdUri: 'urn:mpeg:dash:mp4protection:2011',
+            refId: '1234567890',
+          })],
         }),
       ],
     }));
@@ -222,7 +227,7 @@ describe('ISO_IEC-23009-1_2022/5.3.2.2', () => {
       <?xml version="1.0" encoding="UTF-8"?>
       <MPD profiles="urn:mpeg:dash:profile:isoff-on-demand:2011" minBufferTime="PT2S">
         <Period duration="PT0S">
-          <ContentProtection/>
+          <ContentProtection schemeIdUri="urn:mpeg:dash:mp4protection:2011"/>
         </Period>
       </MPD>
     `, new DASH.MPD({
@@ -231,7 +236,9 @@ describe('ISO_IEC-23009-1_2022/5.3.2.2', () => {
       children: [
         new DASH.Period({
           duration: 0,
-          children: [new DASH.ContentProtection()],
+          children: [new DASH.ContentProtection({
+            schemeIdUri: 'urn:mpeg:dash:mp4protection:2011',
+          })],
         }),
       ],
     }));

@@ -11,7 +11,9 @@ export abstract class Descriptor extends Element {
   }
 
   override verifyAttributes(ctx: ParsedObject): void {
-    // NOP
+    if (typeof this.schemeIdUri !== 'string') {
+      this.reject('schemeIdUri is missing');
+    }
   }
 
   override verifyChildren(ctx: ParsedObject): void {
