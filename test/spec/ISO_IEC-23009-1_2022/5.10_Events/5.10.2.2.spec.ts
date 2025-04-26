@@ -330,9 +330,52 @@ describe('ISO_IEC-23009-1_2022/5.10.2.2', () => {
     }));
   });
 
+  test('EventStream@presentationTimeOffset', () => {
+    // @presentationTimeOffset specifies the presentation time offset of this Event Stream that aligns with the start of the Period.
+    // Any Event contained in this Event Stream is mapped to the Period timeline by using the Event presentation time subtracted by the value of the presentation time offset.
+    // This adjustment shall not be applied to Inband event message streams.
+    // The value of the presentation time offset in seconds is the division of the value of this attribute and the value of the @timescale attribute.
+    bothPass(`
+      <?xml version="1.0" encoding="UTF-8"?>
+      <MPD profiles="urn:mpeg:dash:profile:isoff-on-demand:2011" minBufferTime="PT2S">
+        <Period duration="PT30S">
+          <EventStream
+            schemeIdUri="urn:scte:scte35:2013:xml"
+            timescale="90000"
+            presentationTimeOffset="45000"
+          />
+          <AdaptationSet mimeType="video/mp4"/>
+        </Period>
+      </MPD>
+    `, new DASH.MPD({
+      profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
+      minBufferTime: 2,
+      children: [
+        new DASH.Period({
+          duration: 30,
+          children: [
+            new DASH.EventStream({
+              schemeIdUri: 'urn:scte:scte35:2013:xml',
+              timescale: 90_000,
+              presentationTimeOffset: 45_000,
+            }),
+            new DASH.AdaptationSet({
+              mimeType: 'video/mp4',
+            }),
+          ],
+        }),
+      ],
+    }));
+  });
+
   test('EventStream.Event', () => {
     // Event specifies an event and contains the message of the event, formatted as a string.
     // The content of this element depends on the event scheme.
+    // The contents shall be either:
+    // • A string, optionally encoded as specified by @contentEncoding
+    // • XML content using elements external to the MPD namespace
+    // For new event schemes string content should be used, making use of Base 64 encoding if needed.
+    // NOTE The schema allows “mixed” content within this element however only string data or XML elements are permitted by the above options, not a combination.
     bothPass(`
       <?xml version="1.0" encoding="UTF-8"?>
       <MPD profiles="urn:mpeg:dash:profile:isoff-on-demand:2011" minBufferTime="PT2S">
@@ -582,6 +625,89 @@ describe('ISO_IEC-23009-1_2022/5.10.2.2', () => {
               children: [
                 new DASH.Event({
                   id: -1,
+                }),
+              ],
+            }),
+            new DASH.AdaptationSet({
+              mimeType: 'video/mp4',
+            }),
+          ],
+        }),
+      ],
+    }));
+  });
+
+  test('EventStream.Event@contentEncoding', () => {
+    // @contentEncoding specifies whether the information in the body and the information in the @messageData is encoded.
+    // If present, the following value is possible:
+    // • base64 the content is encoded as described in IETF RFC 4648 prior to adding it to the field.
+    // If this attribute is present, the DASH Client is expected to decode the message data and only provide the decoded message to the application.
+    bothPass(`
+      <?xml version="1.0" encoding="UTF-8"?>
+      <MPD profiles="urn:mpeg:dash:profile:isoff-on-demand:2011" minBufferTime="PT2S">
+        <Period duration="PT30S">
+          <EventStream schemeIdUri="urn:scte:scte35:2013:xml">
+            <Event
+              contentEncoding="base64"
+            />
+          </EventStream>
+          <AdaptationSet mimeType="video/mp4"/>
+        </Period>
+      </MPD>
+    `, new DASH.MPD({
+      profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
+      minBufferTime: 2,
+      children: [
+        new DASH.Period({
+          duration: 30,
+          children: [
+            new DASH.EventStream({
+              schemeIdUri: 'urn:scte:scte35:2013:xml',
+              children: [
+                new DASH.Event({
+                  contentEncoding: 'base64',
+                }),
+              ],
+            }),
+            new DASH.AdaptationSet({
+              mimeType: 'video/mp4',
+            }),
+          ],
+        }),
+      ],
+    }));
+  });
+
+  test('EventStream.Event@messageData', () => {
+    // @messageData specifies the value for the event stream element.
+    // The value space and semantics must be defined by the owners of the scheme identified in the @schemeIdUri attribute.
+    // NOTE the use of the message data is discouraged by content authors, it is only maintained for the purpose of backward-compatibility.
+    // Including the message in the Event element is recommended in preference to using this attribute.
+    // This attribute is expected to be deprecated in the future editions of this document.
+    bothPass(`
+      <?xml version="1.0" encoding="UTF-8"?>
+      <MPD profiles="urn:mpeg:dash:profile:isoff-on-demand:2011" minBufferTime="PT2S">
+        <Period duration="PT30S">
+          <EventStream schemeIdUri="urn:scte:scte35:2013:xml">
+            <Event
+              messageData="xxx"
+            />
+          </EventStream>
+          <AdaptationSet mimeType="video/mp4"/>
+        </Period>
+      </MPD>
+    `, new DASH.MPD({
+      profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
+      minBufferTime: 2,
+      children: [
+        new DASH.Period({
+          duration: 30,
+          children: [
+            new DASH.EventStream({
+              schemeIdUri: 'urn:scte:scte35:2013:xml',
+              children: [
+                new DASH.Event({
+                  messageData: 'xxx',
                 }),
               ],
             }),
