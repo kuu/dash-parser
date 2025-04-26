@@ -12,6 +12,7 @@ export class EventStream extends Element {
   public schemeIdUri?: string;
   public value?: string;
   public timescale?: number;
+  public presentationTimeOffset?: number;
 
   constructor(initialValues?: Partial<EventStream>) {
     super({name: 'EventStream', ...initialValues});
@@ -79,6 +80,9 @@ export class EventStream extends Element {
     if (typeof this.timescale === 'number') {
       obj.timescale = this.timescale;
     }
+    if (typeof this.presentationTimeOffset === 'number') {
+      obj.presentationTimeOffset = this.presentationTimeOffset;
+    }
     return obj;
   }
 }
@@ -87,6 +91,8 @@ export class Event extends Element {
   public presentationTime?: number;
   public duration?: number;
   public id?: number;
+  public contentEncoding?: string;
+  public messageData?: string;
 
   constructor(initialValues?: Partial<Event>) {
     super({name: 'Event'});
@@ -116,6 +122,12 @@ export class Event extends Element {
     }
     if (typeof this.id === 'number') {
       obj.id = this.id;
+    }
+    if (typeof this.contentEncoding === 'string') {
+      obj.contentEncoding = this.contentEncoding;
+    }
+    if (typeof this.messageData === 'string') {
+      obj.messageData = this.messageData;
     }
     return obj;
   }
