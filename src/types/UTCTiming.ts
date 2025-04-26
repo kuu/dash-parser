@@ -1,28 +1,24 @@
 import type {ParsedObject} from './types';
-import {Element} from './Element';
+import {Descriptor} from './Descriptor';
 
-export class UTCTiming extends Element {
-  public schemeIdUri?: string;
-  public value?: string;
-  public timing?: string;
-
+export class UTCTiming extends Descriptor {
   constructor(initialValues?: Partial<UTCTiming>) {
     super({name: 'UTCTiming', ...initialValues});
   }
 
   override formatParams(initialValues?: Partial<ParsedObject>): void {
-    // NOP
+    super.formatParams(initialValues);
   }
 
   override verifyAttributes(ctx: ParsedObject): void {
-    // NOP
+    super.verifyAttributes(ctx);
   }
 
   override verifyChildren(ctx: ParsedObject): void {
-    // NOP
+    super.verifyChildren(ctx);
   }
 
   override get serializedProps(): ParsedObject {
-    return {};
+    return super.serializedProps;
   }
 }

@@ -1,9 +1,9 @@
 import type {ParsedObject} from './types';
 import {Descriptor} from './Descriptor';
 
-export class AssetIdentifier extends Descriptor {
-  constructor(initialValues?: Partial<AssetIdentifier>) {
-    super({name: 'AssetIdentifier', ...initialValues});
+export class Rating extends Descriptor {
+  constructor(initialValues?: Partial<Rating>) {
+    super({name: 'Rating', ...initialValues});
   }
 
   override formatParams(initialValues?: Partial<ParsedObject>): void {
