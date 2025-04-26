@@ -1,5 +1,5 @@
-import * as DASH from '../../../../src/index';
-import {bothPass, bothFail} from '../../../helpers/utils';
+import * as DASH from '../../../../../src/index';
+import {bothPass, bothFail} from '../../../../helpers/utils';
 
 describe('ISO_IEC-23009-1_2022/5.8.4.1.4', () => {
   beforeAll(() => {
