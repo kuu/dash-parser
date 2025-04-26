@@ -7,7 +7,22 @@ export abstract class Descriptor extends Element {
   public id?: string;
 
   override formatParams(initialValues?: Partial<ParsedObject>): void {
-    // NOP
+    if (!initialValues) {
+      return;
+    }
+
+    const {
+      value,
+      id,
+    } = initialValues;
+
+    if (typeof value === 'number') {
+      initialValues.value = value.toString(10);
+    }
+
+    if (typeof id === 'number') {
+      initialValues.value = id.toString(10);
+    }
   }
 
   override verifyAttributes(ctx: ParsedObject): void {
