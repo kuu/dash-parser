@@ -5,12 +5,12 @@ export class Switching extends Element {
   public interval?: number;
   public type?: 'media' | 'bitstream';
 
-  constructor(initialValues?: Partial<Switching>) {
-    super({name: 'Switching', ...initialValues});
+  constructor(initialValues?: Partial<Switching>, ctx?: ParsedObject) {
+    super({name: 'Switching', ...initialValues}, ctx);
   }
 
-  override formatParams(initialValues?: Partial<ParsedObject>): void {
-    // NOP
+  override formatParams(initialValues?: Partial<ParsedObject>, ctx?: ParsedObject): void {
+    super.formatParams(initialValues, ctx);
   }
 
   override verifyAttributes(ctx: ParsedObject): void {
@@ -25,7 +25,7 @@ export class Switching extends Element {
   }
 
   override get serializedProps(): ParsedObject {
-    const obj: ParsedObject = {};
+    const obj = super.serializedProps;
     if (typeof this.interval === 'number') {
       obj.interval = this.interval;
     }

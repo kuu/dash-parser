@@ -2,12 +2,12 @@ import type {ParsedObject} from './types';
 import {Descriptor} from './Descriptor';
 
 export class OutputProtection extends Descriptor {
-  constructor(initialValues?: Partial<OutputProtection>) {
-    super({name: 'OutputProtection', ...initialValues});
+  constructor(initialValues?: Partial<OutputProtection>, ctx?: ParsedObject) {
+    super({name: 'OutputProtection', ...initialValues}, ctx);
   }
 
-  override formatParams(initialValues?: Partial<ParsedObject>): void {
-    super.formatParams(initialValues);
+  override formatParams(initialValues?: Partial<ParsedObject>, ctx?: ParsedObject): void {
+    super.formatParams(initialValues, ctx);
   }
 
   override verifyAttributes(ctx: ParsedObject): void {

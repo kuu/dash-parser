@@ -6,7 +6,7 @@ export abstract class Descriptor extends Element {
   public value?: string;
   public id?: string;
 
-  override formatParams(initialValues?: Partial<ParsedObject>): void {
+  override formatParams(initialValues?: Partial<ParsedObject>, ctx?: ParsedObject): void {
     if (!initialValues) {
       return;
     }
@@ -23,6 +23,7 @@ export abstract class Descriptor extends Element {
     if (typeof id === 'number') {
       initialValues.value = id.toString(10);
     }
+    super.formatParams(initialValues, ctx);
   }
 
   override verifyAttributes(ctx: ParsedObject): void {
@@ -36,7 +37,7 @@ export abstract class Descriptor extends Element {
   }
 
   override get serializedProps(): ParsedObject {
-    const obj: ParsedObject = {};
+    const obj = super.serializedProps;
     if (typeof this.schemeIdUri === 'string') {
       obj.schemeIdUri = this.schemeIdUri;
     }

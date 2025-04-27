@@ -5,12 +5,12 @@ export class LeapSecondInformation extends Element {
   public nextLeapChangeTime?: string;
   public insertionTime?: string;
 
-  constructor(initialValues?: Partial<LeapSecondInformation>) {
-    super({name: 'LeapSecondInformation', ...initialValues});
+  constructor(initialValues?: Partial<LeapSecondInformation>, ctx?: ParsedObject) {
+    super({name: 'LeapSecondInformation', ...initialValues}, ctx);
   }
 
-  override formatParams(initialValues?: Partial<ParsedObject>): void {
-    // NOP
+  override formatParams(initialValues?: Partial<ParsedObject>, ctx?: ParsedObject): void {
+    super.formatParams(initialValues, ctx);
   }
 
   override verifyAttributes(ctx: ParsedObject): void {
@@ -22,6 +22,6 @@ export class LeapSecondInformation extends Element {
   }
 
   override get serializedProps(): ParsedObject {
-    return {};
+    return super.serializedProps;
   }
 }

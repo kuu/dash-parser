@@ -1,5 +1,7 @@
 import * as DASH from '../../src/index';
 
+const {MPD, Period} = DASH;
+
 describe('API check', () => {
   beforeAll(() => {
     DASH.setOptions({
@@ -30,10 +32,10 @@ describe('API check', () => {
 
   test('Convert object to string', () => {
     expect(typeof DASH.stringify(
-      new DASH.MPD({
+      new MPD({
         minBufferTime: 2,
         profiles: ['urn:mpeg:dash:profile:isoff-on-demand:2011'],
-        children: [new DASH.Period({duration: 0})],
+        children: [new Period({duration: 0})],
       }),
     )).toBe('string');
   });

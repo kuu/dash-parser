@@ -9,6 +9,8 @@ export class ContentProtection extends Descriptor {
   static override readonly ALLOWED_CHILDREN = [
     ...(super.ALLOWED_CHILDREN ?? []),
     'cenc:pssh',
+    'drm:License',
+    'drm:Content',
   ];
 
   public ref?: string;
@@ -16,13 +18,11 @@ export class ContentProtection extends Descriptor {
   public robustness?: string;
   public cenc?: CencAttributes;
 
-  constructor(initialValues?: Partial<ContentProtection>) {
-    super({name: 'ContentProtection', ...initialValues});
+  constructor(initialValues?: Partial<ContentProtection>, ctx?: ParsedObject) {
+    super({name: 'ContentProtection', ...initialValues}, ctx);
   }
 
-  override formatParams(initialValues?: Partial<ParsedObject>): void {
-    super.formatParams(initialValues);
-
+  override formatParams(initialValues?: Partial<ParsedObject>, ctx?: ParsedObject): void {
     if (!initialValues) {
       return;
     }
@@ -49,6 +49,7 @@ export class ContentProtection extends Descriptor {
       delete initialValues['cenc:default_KID'];
       delete initialValues['xmlns:cenc'];
     }
+    super.formatParams(initialValues, ctx);
   }
 
   override verifyAttributes(ctx: ParsedObject): void {

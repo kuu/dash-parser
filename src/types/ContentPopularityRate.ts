@@ -5,12 +5,12 @@ export class ContentPopularityRate extends Element {
   public source?: string;
   public sourceDescription?: string;
 
-  constructor(initialValues?: Partial<ContentPopularityRate>) {
-    super({name: 'ContentPopularityRate', ...initialValues});
+  constructor(initialValues?: Partial<ContentPopularityRate>, ctx?: ParsedObject) {
+    super({name: 'ContentPopularityRate', ...initialValues}, ctx);
   }
 
-  override formatParams(initialValues?: Partial<ParsedObject>): void {
-    // NOP
+  override formatParams(initialValues?: Partial<ParsedObject>, ctx?: ParsedObject): void {
+    super.formatParams(initialValues, ctx);
   }
 
   override verifyAttributes(ctx: ParsedObject): void {
@@ -22,6 +22,6 @@ export class ContentPopularityRate extends Element {
   }
 
   override get serializedProps(): ParsedObject {
-    return {};
+    return super.serializedProps;
   }
 }

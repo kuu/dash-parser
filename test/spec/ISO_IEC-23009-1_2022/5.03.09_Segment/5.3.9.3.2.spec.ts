@@ -1,6 +1,8 @@
 import * as DASH from '../../../../src/index';
 import {bothPass, bothFail} from '../../../helpers/utils';
 
+const {MPD, Period, AdaptationSet, Representation, SegmentList, SegmentURL} = DASH;
+
 describe('ISO_IEC-23009-1_2022/5.3.9.3.2', () => {
   beforeAll(() => {
     DASH.setOptions({
@@ -24,21 +26,21 @@ describe('ISO_IEC-23009-1_2022/5.3.9.3.2', () => {
           </AdaptationSet>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 30,
           children: [
-            new DASH.AdaptationSet({
+            new AdaptationSet({
               mimeType: 'video/mp4',
               children: [
-                new DASH.Representation({
+                new Representation({
                   id: '1',
                   bandwidth: 1_250_000,
                   children: [
-                    new DASH.SegmentList({
+                    new SegmentList({
                       xlinkHref: 'http://www.example.com/dash/remote-period.mpd',
                     }),
                   ],
@@ -67,21 +69,21 @@ describe('ISO_IEC-23009-1_2022/5.3.9.3.2', () => {
           </AdaptationSet>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 30,
           children: [
-            new DASH.AdaptationSet({
+            new AdaptationSet({
               mimeType: 'video/mp4',
               children: [
-                new DASH.Representation({
+                new Representation({
                   id: '1',
                   bandwidth: 1_250_000,
                   children: [
-                    new DASH.SegmentList({
+                    new SegmentList({
                       xlinkHref: 'http://www.example.com/dash/remote-period.mpd',
                       xlinkActuate: 'onLoad',
                     }),
@@ -108,21 +110,21 @@ describe('ISO_IEC-23009-1_2022/5.3.9.3.2', () => {
           </AdaptationSet>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 30,
           children: [
-            new DASH.AdaptationSet({
+            new AdaptationSet({
               mimeType: 'video/mp4',
               children: [
-                new DASH.Representation({
+                new Representation({
                   id: '1',
                   bandwidth: 1_250_000,
                   children: [
-                    new DASH.SegmentList({
+                    new SegmentList({
                       xlinkHref: 'http://www.example.com/dash/remote-period.mpd',
                       xlinkActuate: 'onRequest',
                     }),
@@ -148,21 +150,21 @@ describe('ISO_IEC-23009-1_2022/5.3.9.3.2', () => {
           </AdaptationSet>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 30,
           children: [
-            new DASH.AdaptationSet({
+            new AdaptationSet({
               mimeType: 'video/mp4',
               children: [
-                new DASH.Representation({
+                new Representation({
                   id: '1',
                   bandwidth: 1_250_000,
                   children: [
-                    new DASH.SegmentList({
+                    new SegmentList({
                       xlinkActuate: 'onLoad',
                     }),
                   ],
@@ -195,26 +197,26 @@ describe('ISO_IEC-23009-1_2022/5.3.9.3.2', () => {
           </AdaptationSet>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 30,
           children: [
-            new DASH.AdaptationSet({
+            new AdaptationSet({
               mimeType: 'video/mp4',
               children: [
-                new DASH.Representation({
+                new Representation({
                   id: '1',
                   bandwidth: 1_250_000,
                   children: [
-                    new DASH.SegmentList({
+                    new SegmentList({
                       duration: 10,
                       children: [
-                        new DASH.SegmentURL({media: 'view-1.mp4'}),
-                        new DASH.SegmentURL({media: 'view-2.mp4'}),
-                        new DASH.SegmentURL({media: 'view-3.mp4'}),
+                        new SegmentURL({media: 'view-1.mp4'}),
+                        new SegmentURL({media: 'view-2.mp4'}),
+                        new SegmentURL({media: 'view-3.mp4'}),
                       ],
                     }),
                   ],
@@ -247,26 +249,26 @@ describe('ISO_IEC-23009-1_2022/5.3.9.3.2', () => {
           </AdaptationSet>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 30,
           children: [
-            new DASH.AdaptationSet({
+            new AdaptationSet({
               mimeType: 'video/mp4',
               children: [
-                new DASH.Representation({
+                new Representation({
                   id: '1',
                   bandwidth: 1_250_000,
                   children: [
-                    new DASH.SegmentList({
+                    new SegmentList({
                       duration: 10,
                       children: [
-                        new DASH.SegmentURL({media: 'view.mp4', mediaRange: [0, 511]}),
-                        new DASH.SegmentURL({media: 'view.mp4', mediaRange: [512, 1023]}),
-                        new DASH.SegmentURL({media: 'view.mp4', mediaRange: [1024, 1535]}),
+                        new SegmentURL({media: 'view.mp4', mediaRange: [0, 511]}),
+                        new SegmentURL({media: 'view.mp4', mediaRange: [512, 1023]}),
+                        new SegmentURL({media: 'view.mp4', mediaRange: [1024, 1535]}),
                       ],
                     }),
                   ],
@@ -291,24 +293,24 @@ describe('ISO_IEC-23009-1_2022/5.3.9.3.2', () => {
           </AdaptationSet>
         </Period>
       </MPD>
-    `)).toEqual(new DASH.MPD({
+    `)).toEqual(new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 30,
           children: [
-            new DASH.AdaptationSet({
+            new AdaptationSet({
               mimeType: 'video/mp4',
               children: [
-                new DASH.Representation({
+                new Representation({
                   id: '1',
                   bandwidth: 1_250_000,
                   children: [
-                    new DASH.SegmentList({
+                    new SegmentList({
                       duration: 10,
                       children: [
-                        new DASH.SegmentURL({media: 'view.mp4', mediaRange: [512, 1023]}),
+                        new SegmentURL({media: 'view.mp4', mediaRange: [512, 1023]}),
                       ],
                     }),
                   ],
@@ -343,26 +345,26 @@ describe('ISO_IEC-23009-1_2022/5.3.9.3.2', () => {
           </AdaptationSet>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 30,
           children: [
-            new DASH.AdaptationSet({
+            new AdaptationSet({
               mimeType: 'video/mp4',
               children: [
-                new DASH.Representation({
+                new Representation({
                   id: '1',
                   bandwidth: 1_250_000,
                   children: [
-                    new DASH.SegmentList({
+                    new SegmentList({
                       duration: 10,
                       children: [
-                        new DASH.SegmentURL({index: 'index-1.mp4'}),
-                        new DASH.SegmentURL({index: 'index-2.mp4'}),
-                        new DASH.SegmentURL({index: 'index-3.mp4'}),
+                        new SegmentURL({index: 'index-1.mp4'}),
+                        new SegmentURL({index: 'index-2.mp4'}),
+                        new SegmentURL({index: 'index-3.mp4'}),
                       ],
                     }),
                   ],
@@ -396,26 +398,26 @@ describe('ISO_IEC-23009-1_2022/5.3.9.3.2', () => {
           </AdaptationSet>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 30,
           children: [
-            new DASH.AdaptationSet({
+            new AdaptationSet({
               mimeType: 'video/mp4',
               children: [
-                new DASH.Representation({
+                new Representation({
                   id: '1',
                   bandwidth: 1_250_000,
                   children: [
-                    new DASH.SegmentList({
+                    new SegmentList({
                       duration: 10,
                       children: [
-                        new DASH.SegmentURL({index: 'index.mp4', indexRange: [0, 511]}),
-                        new DASH.SegmentURL({index: 'index.mp4', indexRange: [512, 1023]}),
-                        new DASH.SegmentURL({index: 'index.mp4', indexRange: [1024, 1535]}),
+                        new SegmentURL({index: 'index.mp4', indexRange: [0, 511]}),
+                        new SegmentURL({index: 'index.mp4', indexRange: [512, 1023]}),
+                        new SegmentURL({index: 'index.mp4', indexRange: [1024, 1535]}),
                       ],
                     }),
                   ],
@@ -440,24 +442,24 @@ describe('ISO_IEC-23009-1_2022/5.3.9.3.2', () => {
           </AdaptationSet>
         </Period>
       </MPD>
-    `)).toEqual(new DASH.MPD({
+    `)).toEqual(new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 30,
           children: [
-            new DASH.AdaptationSet({
+            new AdaptationSet({
               mimeType: 'video/mp4',
               children: [
-                new DASH.Representation({
+                new Representation({
                   id: '1',
                   bandwidth: 1_250_000,
                   children: [
-                    new DASH.SegmentList({
+                    new SegmentList({
                       duration: 10,
                       children: [
-                        new DASH.SegmentURL({indexRange: [512, 1023]}),
+                        new SegmentURL({indexRange: [512, 1023]}),
                       ],
                     }),
                   ],

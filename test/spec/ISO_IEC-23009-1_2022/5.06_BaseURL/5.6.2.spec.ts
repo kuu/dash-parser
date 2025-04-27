@@ -1,6 +1,8 @@
 import * as DASH from '../../../../src/index';
 import {bothPass, bothFail} from '../../../helpers/utils';
 
+const {MPD, Period, AdaptationSet, Representation, BaseURL, SegmentBase, SegmentTemplate, SegmentTimeline, S} = DASH;
+
 describe('ISO_IEC-23009-1_2022/5.6.2', () => {
   beforeAll(() => {
     DASH.setOptions({
@@ -28,31 +30,31 @@ describe('ISO_IEC-23009-1_2022/5.6.2', () => {
           </AdaptationSet>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.BaseURL({
+        new BaseURL({
           serviceLocation: 'cdn-1',
           textContent: 'https://example.com/',
         }),
-        new DASH.Period({
+        new Period({
           duration: 30,
           children: [
-            new DASH.AdaptationSet({
+            new AdaptationSet({
               mimeType: 'video/mp4',
               children: [
-                new DASH.SegmentTemplate({
+                new SegmentTemplate({
                   media: 'video_$Number$.mp4',
                   children: [
-                    new DASH.SegmentTimeline({
+                    new SegmentTimeline({
                       children: [
-                        new DASH.S({d: 10, r: 2}),
+                        new S({d: 10, r: 2}),
                       ],
                     }),
                   ],
                 }),
-                new DASH.Representation({
+                new Representation({
                   id: '1',
                   bandwidth: 1_250_000,
                 }),
@@ -87,31 +89,31 @@ describe('ISO_IEC-23009-1_2022/5.6.2', () => {
           </AdaptationSet>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 30,
           children: [
-            new DASH.AdaptationSet({
+            new AdaptationSet({
               mimeType: 'video/mp4',
               children: [
-                new DASH.SegmentTemplate({
+                new SegmentTemplate({
                   media: 'video_$Number$.mp4',
                   children: [
-                    new DASH.SegmentTimeline({
+                    new SegmentTimeline({
                       children: [
-                        new DASH.S({d: 10, r: 2}),
+                        new S({d: 10, r: 2}),
                       ],
                     }),
                   ],
                 }),
-                new DASH.Representation({
+                new Representation({
                   id: '1',
                   bandwidth: 1_250_000,
                   children: [
-                    new DASH.BaseURL({
+                    new BaseURL({
                       byteRange: '$base$?$query$&range=$first$-$last$',
                       textContent: 'https://example.com/path/to/',
                     }),
@@ -149,26 +151,26 @@ describe('ISO_IEC-23009-1_2022/5.6.2', () => {
           </AdaptationSet>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-live:2011',
       minBufferTime: 2,
       type: 'dynamic',
       availabilityStartTime: new Date('2022-01-01T00:00:00.000Z'),
       children: [
-        new DASH.Period({
+        new Period({
           duration: 12,
           children: [
-            new DASH.AdaptationSet({
+            new AdaptationSet({
               mimeType: 'video/mp4',
               children: [
-                new DASH.Representation({
+                new Representation({
                   id: '1',
                   bandwidth: 1_250_000,
                   children: [
-                    new DASH.SegmentBase({
+                    new SegmentBase({
                       availabilityTimeOffset: 5.23,
                     }),
-                    new DASH.BaseURL({
+                    new BaseURL({
                       availabilityTimeOffset: 0.1,
                       textContent: 'https://example.com/path/to/video.mp4',
                     }),
@@ -201,26 +203,26 @@ describe('ISO_IEC-23009-1_2022/5.6.2', () => {
           </AdaptationSet>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-live:2011',
       minBufferTime: 2,
       type: 'dynamic',
       availabilityStartTime: new Date('2022-01-01T00:00:00.000Z'),
       children: [
-        new DASH.Period({
+        new Period({
           duration: 12,
           children: [
-            new DASH.AdaptationSet({
+            new AdaptationSet({
               mimeType: 'video/mp4',
               children: [
-                new DASH.Representation({
+                new Representation({
                   id: '1',
                   bandwidth: 1_250_000,
                   children: [
-                    new DASH.SegmentBase({
+                    new SegmentBase({
                       availabilityTimeOffset: 5.23,
                     }),
-                    new DASH.BaseURL({
+                    new BaseURL({
                       availabilityTimeOffset: 'INF',
                       textContent: 'https://example.com/path/to/video.mp4',
                     }),
@@ -261,26 +263,26 @@ describe('ISO_IEC-23009-1_2022/5.6.2', () => {
           </AdaptationSet>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-live:2011',
       minBufferTime: 2,
       type: 'dynamic',
       availabilityStartTime: new Date('2022-01-01T00:00:00.000Z'),
       children: [
-        new DASH.Period({
+        new Period({
           duration: 12,
           children: [
-            new DASH.AdaptationSet({
+            new AdaptationSet({
               mimeType: 'video/mp4',
               children: [
-                new DASH.Representation({
+                new Representation({
                   id: '1',
                   bandwidth: 1_250_000,
                   children: [
-                    new DASH.SegmentBase({
+                    new SegmentBase({
                       availabilityTimeOffset: 5.23,
                     }),
-                    new DASH.BaseURL({
+                    new BaseURL({
                       availabilityTimeOffset: 0.1,
                       availabilityTimeComplete: false,
                       textContent: 'https://example.com/path/to/video.mp4',
@@ -317,27 +319,27 @@ describe('ISO_IEC-23009-1_2022/5.6.2', () => {
           </AdaptationSet>
         </Period>
       </MPD>
-    `)).toEqual(new DASH.MPD({
+    `)).toEqual(new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-live:2011',
       minBufferTime: 2,
       type: 'dynamic',
       availabilityStartTime: new Date('2022-01-01T00:00:00.000Z'),
       children: [
-        new DASH.Period({
+        new Period({
           duration: 12,
           children: [
-            new DASH.AdaptationSet({
+            new AdaptationSet({
               mimeType: 'video/mp4',
               children: [
-                new DASH.Representation({
+                new Representation({
                   id: '1',
                   bandwidth: 1_250_000,
                   children: [
-                    new DASH.SegmentBase({
+                    new SegmentBase({
                       availabilityTimeOffset: 5.23,
                       availabilityTimeComplete: false,
                     }),
-                    new DASH.BaseURL({
+                    new BaseURL({
                       availabilityTimeOffset: 0.1,
                       textContent: 'https://example.com/path/to/video.mp4',
                     }),
@@ -378,38 +380,38 @@ describe('ISO_IEC-23009-1_2022/5.6.2', () => {
           </AdaptationSet>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-live:2011',
       minBufferTime: 2,
       type: 'dynamic',
       availabilityStartTime: new Date('2022-01-01T00:00:00.000Z'),
       children: [
-        new DASH.Period({
+        new Period({
           duration: 12,
           children: [
-            new DASH.AdaptationSet({
+            new AdaptationSet({
               mimeType: 'video/mp4',
               children: [
-                new DASH.BaseURL({
+                new BaseURL({
                   availabilityTimeOffset: 0.1,
                   availabilityTimeComplete: false,
                   textContent: 'https://example.com/path/to/video.mp4',
                 }),
-                new DASH.Representation({
+                new Representation({
                   id: '1',
                   bandwidth: 1_250_000,
                   children: [
-                    new DASH.SegmentBase({
+                    new SegmentBase({
                       availabilityTimeOffset: 5.23,
                       availabilityTimeComplete: true,
                     }),
                   ],
                 }),
-                new DASH.Representation({
+                new Representation({
                   id: '2',
                   bandwidth: 2_500_000,
                   children: [
-                    new DASH.SegmentBase({
+                    new SegmentBase({
                       availabilityTimeOffset: 5.23,
                     }),
                   ],
@@ -443,27 +445,27 @@ describe('ISO_IEC-23009-1_2022/5.6.2', () => {
           </AdaptationSet>
         </Period>
       </MPD>
-    `)).toEqual(new DASH.MPD({
+    `)).toEqual(new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-live:2011',
       minBufferTime: 2,
       type: 'dynamic',
       availabilityStartTime: new Date('2022-01-01T00:00:00.000Z'),
       children: [
-        new DASH.Period({
+        new Period({
           duration: 12,
           children: [
-            new DASH.AdaptationSet({
+            new AdaptationSet({
               mimeType: 'video/mp4',
               children: [
-                new DASH.SegmentBase({
+                new SegmentBase({
                   availabilityTimeOffset: 5.23,
                   availabilityTimeComplete: false,
                 }),
-                new DASH.BaseURL({
+                new BaseURL({
                   availabilityTimeOffset: 0.1,
                   textContent: 'https://example.com/path/to/video.mp4',
                 }),
-                new DASH.Representation({
+                new Representation({
                   id: '1',
                   bandwidth: 1_250_000,
                 }),
@@ -502,40 +504,40 @@ describe('ISO_IEC-23009-1_2022/5.6.2', () => {
           </AdaptationSet>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-live:2011',
       minBufferTime: 2,
       type: 'dynamic',
       availabilityStartTime: new Date('2022-01-01T00:00:00.000Z'),
       children: [
-        new DASH.Period({
+        new Period({
           duration: 12,
           children: [
-            new DASH.BaseURL({
+            new BaseURL({
               availabilityTimeOffset: 0.1,
               availabilityTimeComplete: false,
               textContent: 'https://example.com/path/to/video.mp4',
             }),
-            new DASH.AdaptationSet({
+            new AdaptationSet({
               mimeType: 'video/mp4',
               children: [
-                new DASH.SegmentBase({
+                new SegmentBase({
                   availabilityTimeOffset: 5.23,
                   availabilityTimeComplete: true,
                 }),
-                new DASH.Representation({
+                new Representation({
                   id: '1',
                   bandwidth: 1_250_000,
                 }),
               ],
             }),
-            new DASH.AdaptationSet({
+            new AdaptationSet({
               mimeType: 'audio/mp4',
               children: [
-                new DASH.SegmentBase({
+                new SegmentBase({
                   availabilityTimeOffset: 5.23,
                 }),
-                new DASH.Representation({
+                new Representation({
                   id: '2',
                   bandwidth: 2_500_000,
                 }),
@@ -568,27 +570,27 @@ describe('ISO_IEC-23009-1_2022/5.6.2', () => {
           </AdaptationSet>
         </Period>
       </MPD>
-    `)).toEqual(new DASH.MPD({
+    `)).toEqual(new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-live:2011',
       minBufferTime: 2,
       type: 'dynamic',
       availabilityStartTime: new Date('2022-01-01T00:00:00.000Z'),
       children: [
-        new DASH.Period({
+        new Period({
           duration: 12,
           children: [
-            new DASH.BaseURL({
+            new BaseURL({
               availabilityTimeOffset: 0.1,
               textContent: 'https://example.com/path/to/video.mp4',
             }),
-            new DASH.SegmentBase({
+            new SegmentBase({
               availabilityTimeOffset: 5.23,
               availabilityTimeComplete: false,
             }),
-            new DASH.AdaptationSet({
+            new AdaptationSet({
               mimeType: 'video/mp4',
               children: [
-                new DASH.Representation({
+                new Representation({
                   id: '1',
                   bandwidth: 1_250_000,
                 }),
@@ -627,40 +629,40 @@ describe('ISO_IEC-23009-1_2022/5.6.2', () => {
           </AdaptationSet>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-live:2011',
       minBufferTime: 2,
       type: 'dynamic',
       availabilityStartTime: new Date('2022-01-01T00:00:00.000Z'),
       children: [
-        new DASH.BaseURL({
+        new BaseURL({
           availabilityTimeOffset: 0.1,
           availabilityTimeComplete: false,
           textContent: 'https://example.com/path/to/video.mp4',
         }),
-        new DASH.Period({
+        new Period({
           duration: 12,
           children: [
-            new DASH.AdaptationSet({
+            new AdaptationSet({
               mimeType: 'video/mp4',
               children: [
-                new DASH.SegmentBase({
+                new SegmentBase({
                   availabilityTimeOffset: 5.23,
                   availabilityTimeComplete: true,
                 }),
-                new DASH.Representation({
+                new Representation({
                   id: '1',
                   bandwidth: 1_250_000,
                 }),
               ],
             }),
-            new DASH.AdaptationSet({
+            new AdaptationSet({
               mimeType: 'audio/mp4',
               children: [
-                new DASH.SegmentBase({
+                new SegmentBase({
                   availabilityTimeOffset: 5.23,
                 }),
-                new DASH.Representation({
+                new Representation({
                   id: '2',
                   bandwidth: 2_500_000,
                 }),
@@ -696,33 +698,33 @@ describe('ISO_IEC-23009-1_2022/5.6.2', () => {
           </AdaptationSet>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-live:2011',
       minBufferTime: 2,
       type: 'dynamic',
       availabilityStartTime: new Date('2022-01-01T00:00:00.000Z'),
       children: [
-        new DASH.Period({
+        new Period({
           duration: 30,
           children: [
-            new DASH.BaseURL({
+            new BaseURL({
               timeShiftBufferDepth: 30,
               textContent: 'https://example.com/',
             }),
-            new DASH.AdaptationSet({
+            new AdaptationSet({
               mimeType: 'video/mp4',
               children: [
-                new DASH.SegmentTemplate({
+                new SegmentTemplate({
                   media: 'video_$Number$.mp4',
                   children: [
-                    new DASH.SegmentTimeline({
+                    new SegmentTimeline({
                       children: [
-                        new DASH.S({d: 10, r: 2}),
+                        new S({d: 10, r: 2}),
                       ],
                     }),
                   ],
                 }),
-                new DASH.Representation({
+                new Representation({
                   id: '1',
                   bandwidth: 1_250_000,
                 }),
@@ -748,31 +750,31 @@ describe('ISO_IEC-23009-1_2022/5.6.2', () => {
           </AdaptationSet>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 30,
           children: [
-            new DASH.BaseURL({
+            new BaseURL({
               timeShiftBufferDepth: 30,
               textContent: 'https://example.com/',
             }),
-            new DASH.AdaptationSet({
+            new AdaptationSet({
               mimeType: 'video/mp4',
               children: [
-                new DASH.SegmentTemplate({
+                new SegmentTemplate({
                   media: 'video_$Number$.mp4',
                   children: [
-                    new DASH.SegmentTimeline({
+                    new SegmentTimeline({
                       children: [
-                        new DASH.S({d: 10, r: 2}),
+                        new S({d: 10, r: 2}),
                       ],
                     }),
                   ],
                 }),
-                new DASH.Representation({
+                new Representation({
                   id: '1',
                   bandwidth: 1_250_000,
                 }),
@@ -808,31 +810,82 @@ describe('ISO_IEC-23009-1_2022/5.6.2', () => {
           </AdaptationSet>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.BaseURL({
+        new BaseURL({
           rangeAccess: true,
           textContent: 'https://example.com/',
         }),
-        new DASH.Period({
+        new Period({
           duration: 30,
           children: [
-            new DASH.AdaptationSet({
+            new AdaptationSet({
               mimeType: 'video/mp4',
               children: [
-                new DASH.SegmentTemplate({
+                new SegmentTemplate({
                   media: 'video_$Number$.mp4',
                   children: [
-                    new DASH.SegmentTimeline({
+                    new SegmentTimeline({
                       children: [
-                        new DASH.S({d: 10, r: 2}),
+                        new S({d: 10, r: 2}),
                       ],
                     }),
                   ],
                 }),
-                new DASH.Representation({
+                new Representation({
+                  id: '1',
+                  bandwidth: 1_250_000,
+                }),
+              ],
+            }),
+          ],
+        }),
+      ],
+    }));
+  });
+
+  test('BaseURL with no attributes', () => {
+    bothPass(`
+      <?xml version="1.0" encoding="UTF-8"?>
+      <MPD profiles="urn:mpeg:dash:profile:isoff-on-demand:2011" minBufferTime="PT2S">
+        <BaseURL>https://example.com/</BaseURL>
+        <Period duration="PT30S">
+          <AdaptationSet mimeType="video/mp4">
+            <SegmentTemplate media="video_$Number$.mp4">
+              <SegmentTimeline>
+                <S d="10" r="2"/>
+              </SegmentTimeline>
+            </SegmentTemplate>
+            <Representation id="1" bandwidth="1250000"/>
+          </AdaptationSet>
+        </Period>
+      </MPD>
+    `, new MPD({
+      profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
+      minBufferTime: 2,
+      children: [
+        new BaseURL({
+          textContent: 'https://example.com/',
+        }),
+        new Period({
+          duration: 30,
+          children: [
+            new AdaptationSet({
+              mimeType: 'video/mp4',
+              children: [
+                new SegmentTemplate({
+                  media: 'video_$Number$.mp4',
+                  children: [
+                    new SegmentTimeline({
+                      children: [
+                        new S({d: 10, r: 2}),
+                      ],
+                    }),
+                  ],
+                }),
+                new Representation({
                   id: '1',
                   bandwidth: 1_250_000,
                 }),

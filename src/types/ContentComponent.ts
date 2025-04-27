@@ -14,11 +14,11 @@ export class ContentComponent extends Element {
   public contentType?: string;
   public par?: [w: number, h: number];
 
-  constructor(initialValues?: Partial<ContentComponent>) {
-    super({name: 'ContentComponent', ...initialValues});
+  constructor(initialValues?: Partial<ContentComponent>, ctx?: ParsedObject) {
+    super({name: 'ContentComponent', ...initialValues}, ctx);
   }
 
-  override formatParams(initialValues?: Partial<ParsedObject>): void {
+  override formatParams(initialValues?: Partial<ParsedObject>, ctx?: ParsedObject): void {
     if (!initialValues) {
       return;
     }
@@ -34,6 +34,7 @@ export class ContentComponent extends Element {
     if (typeof par === 'string') {
       initialValues.par = par.split(':').map(value => Number.parseInt(value, 10)) as [number, number];
     }
+    super.formatParams(initialValues, ctx);
   }
 
   override verifyAttributes(ctx: ParsedObject): void {
@@ -45,7 +46,7 @@ export class ContentComponent extends Element {
   }
 
   override get serializedProps(): ParsedObject {
-    const obj: ParsedObject = {};
+    const obj = super.serializedProps;
     if (typeof this.id === 'string') {
       obj.id = this.id;
     }
