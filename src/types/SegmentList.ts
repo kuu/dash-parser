@@ -10,13 +10,11 @@ export class SegmentList extends MultipleSegmentBase {
   public xlinkHref?: string;
   public xlinkActuate?: 'onLoad' | 'onRequest';
 
-  constructor(initialValues?: Partial<SegmentList>) {
-    super({name: 'SegmentList', ...initialValues});
+  constructor(initialValues?: Partial<SegmentList>, ctx?: ParsedObject) {
+    super({name: 'SegmentList', ...initialValues}, ctx);
   }
 
-  override formatParams(initialValues?: Partial<ParsedObject>): void {
-    super.formatParams(initialValues);
-
+  override formatParams(initialValues?: Partial<ParsedObject>, ctx?: ParsedObject): void {
     if (!initialValues) {
       return;
     }
@@ -29,6 +27,7 @@ export class SegmentList extends MultipleSegmentBase {
       initialValues.xlinkActuate = initialValues['xlink:actuate'];
       delete initialValues['xlink:actuate'];
     }
+    super.formatParams(initialValues, ctx);
   }
 
   override verifyAttributes(ctx: ParsedObject): void {

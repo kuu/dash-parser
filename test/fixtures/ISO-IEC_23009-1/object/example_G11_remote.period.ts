@@ -1,0 +1,148 @@
+/*
+<?xml version="1.0" encoding="UTF-8"?>
+<Period xmlns="urn:mpeg:dash:schema:mpd:2011" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:mpeg:dash:schema:mpd:2011 DASH-MPD.xsd"
+	id="1" duration="PT110S" start="PT250S">
+  <AdaptationSet segmentAlignment="true" maxWidth="1280" maxHeight="720" maxFrameRate="24" par="16:9">
+    <Representation id="1" mimeType="video/mp4" codecs="avc1.4d401f" width="1280" height="720" frameRate="24" sar="1:1" startWithSAP="1" bandwidth="927434">
+      <SegmentTemplate timescale="12288" presentationTimeOffset="1024" duration="61440" media="ED_720_1M_MPEG2_video_$Number$.mp4" startNumber="1" initialization="ED_720_1M_MPEG2_video_init.mp4" />
+    </Representation>
+    <Representation id="2" mimeType="video/mp4" codecs="avc1.4d401f" width="1280" height="720" frameRate="24" sar="1:1" startWithSAP="1" bandwidth="1865663">
+      <SegmentTemplate timescale="12288" presentationTimeOffset="1024" duration="61440" media="ED_720_2M_MPEG2_video_$Number$.mp4" startNumber="1" initialization="ED_720_2M_MPEG2_video_init.mp4" />
+    </Representation>
+    <Representation id="3" mimeType="video/mp4" codecs="avc1.4d401f" width="1280" height="720" frameRate="24" sar="1:1" startWithSAP="1" bandwidth="3750115">
+      <SegmentTemplate timescale="12288" presentationTimeOffset="1024" duration="61440" media="ED_720_4M_MPEG2_video_$Number$.mp4" startNumber="1" initialization="ED_720_4M_MPEG2_video_init.mp4" />
+    </Representation>
+  </AdaptationSet>
+  <AdaptationSet segmentAlignment="true">
+    <Representation id="4" mimeType="audio/mp4" codecs="mp4a.40.29" audioSamplingRate="48000" startWithSAP="1" bandwidth="33026">
+      <AudioChannelConfiguration schemeIdUri="urn:mpeg:dash:23003:3:audio_channel_configuration:2011" value="2" />
+      <SegmentTemplate timescale="48000" duration="239615" media="ED_MPEG2_32k_$Number$.mp4" startNumber="1" initialization="ED_MPEG2_32k_init.mp4" />
+    </Representation>
+  </AdaptationSet>
+</Period>
+*/
+
+import * as DASH from '../../../../src/index';
+
+const {
+  Period,
+  AdaptationSet,
+  Representation,
+  SegmentTemplate,
+  AudioChannelConfiguration,
+} = DASH;
+
+export const obj = new Period({
+  xmlns: {
+    '': 'urn:mpeg:dash:schema:mpd:2011',
+    xsi: 'http://www.w3.org/2001/XMLSchema-instance',
+  },
+  prefixedAttributes: {
+    xsi: {
+      schemaLocation: 'urn:mpeg:dash:schema:mpd:2011 DASH-MPD.xsd',
+    },
+  },
+  id: '1',
+  duration: 110,
+  start: 250,
+  children: [
+    new AdaptationSet({
+      segmentAlignment: true,
+      maxWidth: 1280,
+      maxHeight: 720,
+      maxFrameRate: 24,
+      par: [16, 9],
+      children: [
+        new Representation({
+          id: '1',
+          mimeType: 'video/mp4',
+          codecs: 'avc1.4d401f',
+          width: 1280,
+          height: 720,
+          frameRate: [24, 1],
+          sar: [1, 1],
+          startWithSAP: 1,
+          bandwidth: 927_434,
+          children: [
+            new SegmentTemplate({
+              timescale: 12_288,
+              presentationTimeOffset: 1024,
+              duration: 61_440,
+              media: 'ED_720_1M_MPEG2_video_$Number$.mp4',
+              startNumber: 1,
+              initialization: 'ED_720_1M_MPEG2_video_init.mp4',
+            }),
+          ],
+        }),
+        new Representation({
+          id: '2',
+          mimeType: 'video/mp4',
+          codecs: 'avc1.4d401f',
+          width: 1280,
+          height: 720,
+          frameRate: [24, 1],
+          sar: [1, 1],
+          startWithSAP: 1,
+          bandwidth: 1_865_663,
+          children: [
+            new SegmentTemplate({
+              timescale: 12_288,
+              presentationTimeOffset: 1024,
+              duration: 61_440,
+              media: 'ED_720_2M_MPEG2_video_$Number$.mp4',
+              startNumber: 1,
+              initialization: 'ED_720_2M_MPEG2_video_init.mp4',
+            }),
+          ],
+        }),
+        new Representation({
+          id: '3',
+          mimeType: 'video/mp4',
+          codecs: 'avc1.4d401f',
+          width: 1280,
+          height: 720,
+          frameRate: [24, 1],
+          sar: [1, 1],
+          startWithSAP: 1,
+          bandwidth: 3_750_115,
+          children: [
+            new SegmentTemplate({
+              timescale: 12_288,
+              presentationTimeOffset: 1024,
+              duration: 61_440,
+              media: 'ED_720_4M_MPEG2_video_$Number$.mp4',
+              startNumber: 1,
+              initialization: 'ED_720_4M_MPEG2_video_init.mp4',
+            }),
+          ],
+        }),
+      ],
+    }),
+    new AdaptationSet({
+      segmentAlignment: true,
+      children: [
+        new Representation({
+          id: '4',
+          mimeType: 'audio/mp4',
+          codecs: 'mp4a.40.29',
+          audioSamplingRate: 48_000,
+          startWithSAP: 1,
+          bandwidth: 33_026,
+          children: [
+            new AudioChannelConfiguration({
+              schemeIdUri: 'urn:mpeg:dash:23003:3:audio_channel_configuration:2011',
+              value: '2',
+            }),
+            new SegmentTemplate({
+              timescale: 48_000,
+              duration: 239_615,
+              media: 'ED_MPEG2_32k_$Number$.mp4',
+              startNumber: 1,
+              initialization: 'ED_MPEG2_32k_init.mp4',
+            }),
+          ],
+        }),
+      ],
+    }),
+  ],
+});

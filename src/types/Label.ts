@@ -5,12 +5,12 @@ export class Label extends Element {
   public id?: string;
   public lang?: string;
 
-  constructor(initialValues?: Partial<Label>) {
-    super({name: 'Label', ...initialValues});
+  constructor(initialValues?: Partial<Label>, ctx?: ParsedObject) {
+    super({name: 'Label', ...initialValues}, ctx);
   }
 
-  override formatParams(initialValues?: Partial<Label>): void {
-    // NOP
+  override formatParams(initialValues?: Partial<Label>, ctx?: ParsedObject): void {
+    super.formatParams(initialValues, ctx);
   }
 
   override verifyAttributes(ctx: ParsedObject): void {
@@ -22,6 +22,6 @@ export class Label extends Element {
   }
 
   override get serializedProps(): ParsedObject {
-    return {};
+    return super.serializedProps;
   }
 }

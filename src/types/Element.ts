@@ -1,5 +1,5 @@
 import {throwError} from '../utils';
-import type {ParsedObject, Range} from './types';
+import {type ParsedObject, type Range, getImportPath} from './types';
 
 export abstract class Element {
   static readonly ALLOWED_CHILDREN: string[];
@@ -8,12 +8,18 @@ export abstract class Element {
     return this.constructor as typeof Element;
   }
 
+  public get NAMESPACE(): string {
+    return 'urn:mpeg:dash:schema:mpd:2011';
+  }
+
   public name: string;
   public textContent?: string;
+  public xmlns?: ParsedObject;
+  public prefixedAttributes?: Record<string, any>;
 
   children: Element[] = [];
-  constructor(initialValues?: Partial<Element>) {
-    this.formatParams(initialValues);
+  constructor(initialValues?: Partial<Element>, ctx?: ParsedObject) {
+    this.formatParams(initialValues, ctx);
     Object.assign(this, initialValues);
     this.name ??= 'Element';
   }
@@ -46,10 +52,60 @@ export abstract class Element {
     this.verifyChildren(ctx);
   }
 
-  abstract formatParams(initialValues?: Partial<ParsedObject>): void;
+  formatParams(initialValues?: Partial<ParsedObject>, ctx?: ParsedObject): void {
+    if (!initialValues || !ctx) {
+      return;
+    }
+    const xmlns: ParsedObject = {};
+    for (const key of Object.keys(initialValues)) {
+      if (key === 'xmlns' || key.startsWith('xmlns:')) {
+        const importPath = getImportPath(initialValues[key] as string);
+        const prefix = key === 'xmlns' ? '' : key.replace('xmlns:', '');
+        if (prefix) {
+          ctx.prefixes[prefix] = {importPath, uri: initialValues[key] as string};
+        }
+        xmlns[prefix] = initialValues[key] as string;
+        delete initialValues[key];
+      }
+    }
+    if (Object.keys(xmlns).length > 0) {
+      initialValues.xmlns = xmlns;
+    }
+    const prefixedAttributes: ParsedObject = {};
+    for (const key of Object.keys(initialValues)) {
+      for (const prefix of Object.keys(ctx.prefixes as ParsedObject)) {
+        if (key.startsWith(`${prefix}:`)) {
+          const newKey = key.replace(`${prefix}:`, '');
+          const obj = prefixedAttributes[prefix] as ParsedObject || {};
+          obj[newKey] = initialValues[key] as string;
+          prefixedAttributes[prefix] = obj;
+          delete initialValues[key];
+        }
+      }
+    }
+    if (Object.keys(prefixedAttributes).length > 0) {
+      initialValues.prefixedAttributes = prefixedAttributes;
+    }
+  }
   abstract verifyAttributes(ctx: ParsedObject): void;
   abstract verifyChildren(ctx: ParsedObject): void;
-  abstract get serializedProps(): ParsedObject;
+
+  get serializedProps(): ParsedObject {
+    const obj: ParsedObject = {};
+    if (this.xmlns) {
+      for (const [key, value] of Object.entries(this.xmlns)) {
+        obj[key ? `xmlns:${key}` : 'xmlns'] = value as string;
+      }
+    }
+    if (this.prefixedAttributes) {
+      for (const [prefix, o] of Object.entries(this.prefixedAttributes)) {
+        for (const [key, value] of Object.entries(o as ParsedObject)) {
+          obj[`${prefix}:${key}`] = value as string;
+        }
+      }
+    }
+    return obj;
+  }
 
   protected verifyInt(key: string, mandatory = false) {
     if (mandatory) {

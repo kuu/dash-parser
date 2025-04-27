@@ -41,11 +41,11 @@ export class MPD extends Element {
   public maxSegmentDuration?: number;
   public maxSubsegmentDuration?: number;
 
-  constructor(initialValues?: Partial<MPD>) {
-    super({name: 'MPD', ...initialValues});
+  constructor(initialValues?: Partial<MPD>, ctx?: ParsedObject) {
+    super({name: 'MPD', ...initialValues}, ctx);
   }
 
-  override formatParams(initialValues?: Partial<ParsedObject>): void {
+  override formatParams(initialValues?: Partial<ParsedObject>, ctx?: ParsedObject): void {
     if (!initialValues) {
       return;
     }
@@ -101,6 +101,10 @@ export class MPD extends Element {
     if (typeof maxSubsegmentDuration === 'string') {
       initialValues.maxSubsegmentDuration = fromTemporalDurationString(maxSubsegmentDuration);
     }
+    if (ctx) {
+      ctx.mpdType = initialValues.type as 'static' | 'dynamic' | undefined;
+    }
+    super.formatParams(initialValues, ctx);
   }
 
   override verifyAttributes(ctx: ParsedObject): void {
@@ -150,15 +154,16 @@ export class MPD extends Element {
   }
 
   override get serializedProps(): ParsedObject {
-    const obj: ParsedObject = {
-      profiles: this.profiles,
-      minBufferTime: toTemporalDurationString(this.minBufferTime!),
-    };
-    if (this.id !== undefined) {
-      obj.id = this.id;
-    }
+    const obj = super.serializedProps;
+
     if (this.profiles) {
       obj.profiles = Array.isArray(this.profiles) ? this.profiles.join(',') : this.profiles;
+    }
+    if (this.minBufferTime) {
+      obj.minBufferTime = toTemporalDurationString(this.minBufferTime);
+    }
+    if (this.id !== undefined) {
+      obj.id = this.id;
     }
     if (this.type) {
       obj.type = this.type;

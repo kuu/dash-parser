@@ -42,7 +42,7 @@ export abstract class RepresentationBase extends Element {
   public selectionPriority?: number;
   public tag?: string;
 
-  override formatParams(initialValues?: Partial<ParsedObject>): void {
+  override formatParams(initialValues?: Partial<ParsedObject>, ctx?: ParsedObject): void {
     if (!initialValues) {
       return;
     }
@@ -86,6 +86,7 @@ export abstract class RepresentationBase extends Element {
     if (typeof codingDependency === 'string') {
       initialValues.codingDependency = codingDependency === 'true';
     }
+    super.formatParams(initialValues, ctx);
   }
 
   override verifyAttributes(ctx: ParsedObject): void {
@@ -152,7 +153,7 @@ export abstract class RepresentationBase extends Element {
   }
 
   override get serializedProps(): ParsedObject {
-    const obj: ParsedObject = {};
+    const obj = super.serializedProps;
 
     if (this.profiles) {
       obj.profiles = Array.isArray(this.profiles) ? this.profiles.join(',') : this.profiles;

@@ -1,6 +1,8 @@
 import * as DASH from '../../../../src/index';
 import {bothPass, bothFail} from '../../../helpers/utils';
 
+const {MPD, Period, AdaptationSet, ContentProtection, AssetIdentifier, EmptyAdaptationSet, EssentialProperty, SupplementalProperty, Representation} = DASH;
+
 describe('ISO_IEC-23009-1_2022/5.3.2.2', () => {
   beforeAll(() => {
     DASH.setOptions({
@@ -20,11 +22,11 @@ describe('ISO_IEC-23009-1_2022/5.3.2.2', () => {
           duration="PT0S"
         />
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           xlinkHref: 'http://www.example.com/dash/remote-period.mpd',
           duration: 0,
         }),
@@ -44,11 +46,11 @@ describe('ISO_IEC-23009-1_2022/5.3.2.2', () => {
           duration="PT0S"
         />
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           xlinkHref: 'http://www.example.com/dash/remote-period.mpd',
           xlinkActuate: 'onLoad',
           duration: 0,
@@ -65,11 +67,11 @@ describe('ISO_IEC-23009-1_2022/5.3.2.2', () => {
           duration="PT0S"
         />
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           xlinkHref: 'http://www.example.com/dash/remote-period.mpd',
           xlinkActuate: 'onRequest',
           duration: 0,
@@ -85,11 +87,11 @@ describe('ISO_IEC-23009-1_2022/5.3.2.2', () => {
           duration="PT0S"
         />
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           xlinkActuate: 'onLoad',
           duration: 0,
         }),
@@ -113,11 +115,11 @@ describe('ISO_IEC-23009-1_2022/5.3.2.2', () => {
           duration="PT0S"
         />
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           id: '1234567890',
           duration: 0,
         }),
@@ -136,16 +138,16 @@ describe('ISO_IEC-23009-1_2022/5.3.2.2', () => {
       <?xml version="1.0" encoding="UTF-8"?>
       <MPD profiles="urn:mpeg:dash:profile:isoff-on-demand:2011" minBufferTime="PT2S">
         <Period
-          start="2022-01-01T00:00:00.000Z"
+          start="PT2M"
           duration="PT0S"
         />
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
-          start: new Date('2022-01-01T00:00:00.000Z'),
+        new Period({
+          start: 120,
           duration: 0,
         }),
       ],
@@ -162,11 +164,11 @@ describe('ISO_IEC-23009-1_2022/5.3.2.2', () => {
           duration="PT0S"
         />
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 0,
         }),
       ],
@@ -185,11 +187,11 @@ describe('ISO_IEC-23009-1_2022/5.3.2.2', () => {
           bitstreamSwitching="true"
         />
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 0,
           bitstreamSwitching: true,
         }),
@@ -209,13 +211,13 @@ describe('ISO_IEC-23009-1_2022/5.3.2.2', () => {
             refId="1234567890"/>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 0,
-          children: [new DASH.ContentProtection({
+          children: [new ContentProtection({
             schemeIdUri: 'urn:mpeg:dash:mp4protection:2011',
             refId: '1234567890',
           })],
@@ -230,13 +232,13 @@ describe('ISO_IEC-23009-1_2022/5.3.2.2', () => {
           <ContentProtection schemeIdUri="urn:mpeg:dash:mp4protection:2011"/>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 0,
-          children: [new DASH.ContentProtection({
+          children: [new ContentProtection({
             schemeIdUri: 'urn:mpeg:dash:mp4protection:2011',
           })],
         }),
@@ -254,13 +256,13 @@ describe('ISO_IEC-23009-1_2022/5.3.2.2', () => {
           <AdaptationSet mimeType="video/mp4"/>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 30,
-          children: [new DASH.AdaptationSet({mimeType: 'video/mp4'})],
+          children: [new AdaptationSet({mimeType: 'video/mp4'})],
         }),
       ],
     }));
@@ -270,11 +272,11 @@ describe('ISO_IEC-23009-1_2022/5.3.2.2', () => {
       <MPD profiles="urn:mpeg:dash:profile:isoff-on-demand:2011" minBufferTime="PT2S">
         <Period duration="PT0S"/>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 0,
         }),
       ],
@@ -285,11 +287,11 @@ describe('ISO_IEC-23009-1_2022/5.3.2.2', () => {
       <MPD profiles="urn:mpeg:dash:profile:isoff-on-demand:2011" minBufferTime="PT2S">
         <Period duration="PT30S"/>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 30,
         }),
       ],
@@ -306,15 +308,15 @@ describe('ISO_IEC-23009-1_2022/5.3.2.2', () => {
           <AssetIdentifier schemeIdUri="urn:org:dashif:asset-id:2013" value="xxx"/>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-live:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 30,
           children: [
-            new DASH.AdaptationSet({mimeType: 'video/mp4'}),
-            new DASH.AssetIdentifier({schemeIdUri: 'urn:org:dashif:asset-id:2013', value: 'xxx'}),
+            new AdaptationSet({mimeType: 'video/mp4'}),
+            new AssetIdentifier({schemeIdUri: 'urn:org:dashif:asset-id:2013', value: 'xxx'}),
           ],
         }),
       ],
@@ -329,31 +331,112 @@ describe('ISO_IEC-23009-1_2022/5.3.2.2', () => {
           <AssetIdentifier schemeIdUri="urn:org:dashif:asset-id:2013" value="yyy"/>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-live:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 30,
           children: [
-            new DASH.AdaptationSet({mimeType: 'video/mp4'}),
-            new DASH.AssetIdentifier({schemeIdUri: 'urn:org:dashif:asset-id:2013', value: 'xxx'}),
-            new DASH.AssetIdentifier({schemeIdUri: 'urn:org:dashif:asset-id:2013', value: 'yyy'}),
+            new AdaptationSet({mimeType: 'video/mp4'}),
+            new AssetIdentifier({schemeIdUri: 'urn:org:dashif:asset-id:2013', value: 'xxx'}),
+            new AssetIdentifier({schemeIdUri: 'urn:org:dashif:asset-id:2013', value: 'yyy'}),
           ],
         }),
       ],
     }));
   });
 
-  /* WIP
   test('Period.EmptyAdaptationSet', () => {
     // EmptyAdaptationSet specifies an Adaptation Set that does not contain any Representation element.
     // The empty Adaptation Set is of the same type as a regular Adaptation Set but shall neither contain
     // an xlink nor contain any Representation element.
     // This element shall only be present, if an Essential Descriptor is present with @schemeIDURI set to
     // "urn:mpeg:dash:mpd-as-linking:2015".
+    bothPass(`
+      <?xml version="1.0" encoding="UTF-8"?>
+      <MPD profiles="urn:mpeg:dash:profile:isoff-on-demand:2011" minBufferTime="PT2S">
+        <Period duration="PT30S">
+          <EmptyAdaptationSet>
+            <EssentialProperty schemeIdUri="urn:mpeg:dash:mpd-as-linking:2015" value="http://example.com/service1/my.mpd#period=1&amp;as=video"/>
+            <SupplementalProperty schemeIdUri="urn:mpeg:dash:srd:2014" value="0,0,0,1,1,2,2"/>
+          </EmptyAdaptationSet>
+        </Period>
+      </MPD>
+    `, new MPD({
+      profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
+      minBufferTime: 2,
+      children: [
+        new Period({
+          duration: 30,
+          children: [
+            new EmptyAdaptationSet({
+              children: [
+                new EssentialProperty({
+                  schemeIdUri: 'urn:mpeg:dash:mpd-as-linking:2015',
+                  value: 'http://example.com/service1/my.mpd#period=1&as=video',
+                }),
+                new SupplementalProperty({
+                  schemeIdUri: 'urn:mpeg:dash:srd:2014',
+                  value: '0,0,0,1,1,2,2',
+                }),
+              ],
+            }),
+          ],
+        }),
+      ],
+    }));
+    bothFail(`
+      <?xml version="1.0" encoding="UTF-8"?>
+      <MPD profiles="urn:mpeg:dash:profile:isoff-on-demand:2011" minBufferTime="PT2S">
+        <Period duration="PT30S">
+          <EmptyAdaptationSet>
+            <Representation id="1" mimeType="video/mp4"/>
+          </EmptyAdaptationSet>
+        </Period>
+      </MPD>
+    `, new MPD({
+      profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
+      minBufferTime: 2,
+      children: [
+        new Period({
+          duration: 30,
+          children: [
+            new EmptyAdaptationSet({
+              children: [
+                new Representation({
+                  id: '1',
+                  mimeType: 'video/mp4',
+                }),
+              ],
+            }),
+          ],
+        }),
+      ],
+    }));
+
+    bothFail(`
+      <?xml version="1.0" encoding="UTF-8"?>
+      <MPD profiles="urn:mpeg:dash:profile:isoff-on-demand:2011" minBufferTime="PT2S">
+        <Period duration="PT30S">
+          <EmptyAdaptationSet xlink:href="http://www.example.com/dash/remote-period.mpd"/>
+        </Period>
+      </MPD>
+    `, new MPD({
+      profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
+      minBufferTime: 2,
+      children: [
+        new Period({
+          duration: 30,
+          children: [
+            new EmptyAdaptationSet({
+              xlinkHref: 'http://www.example.com/dash/remote-period.mpd',
+            }),
+          ],
+        }),
+      ],
+    }));
   });
-  */
 
   afterAll(() => {
     DASH.setOptions({

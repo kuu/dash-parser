@@ -17,8 +17,8 @@ export abstract class MultipleSegmentBase extends SegmentBase {
   public startNumber?: number;
   public endNumber?: number;
 
-  override formatParams(initialValues?: Partial<ParsedObject>): void {
-    super.formatParams(initialValues);
+  override formatParams(initialValues?: Partial<ParsedObject>, ctx?: ParsedObject): void {
+    super.formatParams(initialValues, ctx);
   }
 
   override verifyAttributes(ctx: ParsedObject): void {

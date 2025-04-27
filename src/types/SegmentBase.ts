@@ -31,11 +31,11 @@ export class SegmentBase extends Element {
   public availabilityTimeOffset?: number | 'INF';
   public availabilityTimeComplete?: boolean;
 
-  constructor(initialValues?: Partial<SegmentBase>) {
-    super({name: 'SegmentBase', ...initialValues});
+  constructor(initialValues?: Partial<SegmentBase>, ctx?: ParsedObject) {
+    super({name: 'SegmentBase', ...initialValues}, ctx);
   }
 
-  override formatParams(initialValues?: Partial<ParsedObject>): void {
+  override formatParams(initialValues?: Partial<ParsedObject>, ctx?: ParsedObject): void {
     if (!initialValues) {
       return;
     }
@@ -51,6 +51,7 @@ export class SegmentBase extends Element {
     if (typeof indexRange === 'string') {
       initialValues.indexRange = fromByteRangeString(indexRange.includes(',') ? indexRange.slice(0, indexRange.indexOf(',')) : indexRange);
     }
+    super.formatParams(initialValues, ctx);
   }
 
   override verifyAttributes(ctx: ParsedObject): void {
@@ -74,7 +75,8 @@ export class SegmentBase extends Element {
   }
 
   override get serializedProps(): ParsedObject {
-    const obj: ParsedObject = {};
+    const obj = super.serializedProps;
+
     if (typeof this.timescale === 'number') {
       obj.timescale = this.timescale;
     }

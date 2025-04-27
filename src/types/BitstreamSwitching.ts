@@ -2,12 +2,12 @@ import type {ParsedObject} from './types';
 import {URLType} from './URLType';
 
 export class BitstreamSwitching extends URLType {
-  constructor(initialValues?: Partial<BitstreamSwitching>) {
-    super({name: 'BitstreamSwitching', ...initialValues});
+  constructor(initialValues?: Partial<BitstreamSwitching>, ctx?: ParsedObject) {
+    super({name: 'BitstreamSwitching', ...initialValues}, ctx);
   }
 
-  override formatParams(initialValues?: Partial<ParsedObject>): void {
-    super.formatParams(initialValues);
+  override formatParams(initialValues?: Partial<ParsedObject>, ctx?: ParsedObject): void {
+    super.formatParams(initialValues, ctx);
   }
 
   override verifyAttributes(ctx: ParsedObject): void {

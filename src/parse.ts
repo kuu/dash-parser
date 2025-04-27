@@ -1,26 +1,47 @@
 import * as types from './types';
+import type {
+  ParsedObject,
+  Context,
+  Element,
+  BaseURL,
+} from './types';
 import {print} from './utils';
 import {fromXML} from './xml';
 
-export function parse(text: string): types.MPD | undefined {
-  const xmlObject = fromXML(text)?.MPD as types.ParsedObject;
-  if (!xmlObject) {
+type Factory = {new (obj: ParsedObject, ctx: ParsedObject): Element};
+
+export function parse(text: string): Element | undefined {
+  const obj = fromXML(text);
+  if (!obj) {
     return undefined;
   }
-  const mpd = new types.MPD(xmlObject['@'] as types.ParsedObject);
-  parseElement(mpd, xmlObject, {baseUrls: [], mpdType: mpd.type});
-  return mpd;
+  return parseElement(undefined, obj, {mpdType: undefined, baseUrls: [], prefixes: {}});
 }
 
-function parseElement(element: types.Element, obj: types.ParsedObject | undefined, ctx: types.ParsedObject): void {
+function parseElement(element: Element | undefined, obj: ParsedObject | undefined, ctx: Context): Element | undefined {
   // console.log(`=== parseElement: Enter: element.name=${element.name}, ctx=${JSON.stringify(ctx, null, 2)}`);
-  element.verifyAttributes(ctx);
+  if (element) {
+    element.verifyAttributes(ctx);
+  }
+
   if (!obj) {
     // console.log('=== parseElement: Exit-1');
-    return element.verifyChildren(ctx);
+    if (element) {
+      element.verifyChildren(ctx);
+    }
+    return element;
   }
-  const baseUrls = ctx.baseUrls as types.BaseURL[];
-  const baseUrlsNum = baseUrls.length;
+
+  if (typeof obj === 'string') {
+    // console.log('=== parseElement: Exit-2');
+    if (element) {
+      element.textContent = obj;
+      element.verifyChildren(ctx);
+    }
+    return element;
+  }
+
+  const originalContext = cloneContext(ctx);
   // console.log(JSON.stringify(obj, null, 2));
   for (const key of Object.keys(obj)) {
     // console.log(`--- parse key: '${key}'`);
@@ -29,29 +50,53 @@ function parseElement(element: types.Element, obj: types.ParsedObject | undefine
       continue;
     }
 
-    if (key === '#text') {
+    if (key === '#text' && element) {
       element.textContent = obj[key] as string;
     }
 
-    const type = types[key] as {new (obj: types.ParsedObject): types.Element};
+    const type = getType(key, ctx);
     if (!type) {
       print(`Unknown element: ${key}`);
       // console.log('--- parse key end-2');
       continue;
     }
-    const o = obj[key] as types.ParsedObject | types.ParsedObject[];
+    const o = obj[key] as ParsedObject | ParsedObject[];
     const children = Array.isArray(o) ? o : [o];
     for (const child of children) {
       // console.log(`--- addElement: '${key}'`);
-      const elem = new type(child['@'] as types.ParsedObject);
-      element.addElement(elem);
-      if (elem instanceof types.BaseURL) {
-        baseUrls.push(elem);
+      const elem = new type(child['@'] as ParsedObject, ctx);
+      if (element) {
+        element.addElement(elem);
+      } else {
+        element = elem;
       }
-      parseElement(elem, child as types.ParsedObject, ctx);
+      if (elem.name === 'BaseURL') {
+        ctx.baseUrls.push(elem as BaseURL);
+      }
+      parseElement(elem, child as ParsedObject, ctx);
     }
   }
-  element.verifyChildren(ctx);
-  ctx.baseUrls.length = baseUrlsNum;
-  // console.log('=== parseElement: Exit-2');
+  if (element) {
+    element.verifyChildren(ctx);
+  }
+  Object.assign(ctx, originalContext); // Restore the context
+  // console.log('=== parseElement: Exit-3');
+  return element;
+}
+
+function cloneContext(ctx: Context): Context {
+  return {
+    mpdType: ctx.mpdType,
+    baseUrls: [...ctx.baseUrls],
+    prefixes: {...ctx.prefixes},
+  };
+}
+
+function getType(key: string, ctx: Context): Factory | undefined {
+  if (key.includes(':')) {
+    const [prefix, name] = key.split(':');
+    const ns = ctx.prefixes[prefix];
+    return ns ? types[ns.importPath][name] as Factory : undefined;
+  }
+  return types[key] as Factory;
 }

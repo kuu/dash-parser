@@ -2,12 +2,12 @@ import type {ParsedObject} from './types';
 import {URLType} from './URLType';
 
 export class RepresentationIndex extends URLType {
-  constructor(initialValues?: Partial<RepresentationIndex>) {
-    super({name: 'RepresentationIndex', ...initialValues});
+  constructor(initialValues?: Partial<RepresentationIndex>, ctx?: ParsedObject) {
+    super({name: 'RepresentationIndex', ...initialValues}, ctx);
   }
 
-  override formatParams(initialValues?: Partial<ParsedObject>): void {
-    super.formatParams(initialValues);
+  override formatParams(initialValues?: Partial<ParsedObject>, ctx?: ParsedObject): void {
+    super.formatParams(initialValues, ctx);
   }
 
   override verifyAttributes(ctx: ParsedObject): void {

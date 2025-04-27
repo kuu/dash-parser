@@ -14,11 +14,11 @@ export class EventStream extends Element {
   public timescale?: number;
   public presentationTimeOffset?: number;
 
-  constructor(initialValues?: Partial<EventStream>) {
-    super({name: 'EventStream', ...initialValues});
+  constructor(initialValues?: Partial<EventStream>, ctx?: ParsedObject) {
+    super({name: 'EventStream', ...initialValues}, ctx);
   }
 
-  override formatParams(initialValues?: Partial<ParsedObject>): void {
+  override formatParams(initialValues?: Partial<ParsedObject>, ctx?: ParsedObject): void {
     if (!initialValues) {
       return;
     }
@@ -42,6 +42,7 @@ export class EventStream extends Element {
     if (typeof value === 'number') {
       initialValues.value = Number(value).toString(10);
     }
+    super.formatParams(initialValues, ctx);
   }
 
   override verifyAttributes(ctx: ParsedObject): void {
@@ -64,7 +65,7 @@ export class EventStream extends Element {
   }
 
   override get serializedProps(): ParsedObject {
-    const obj: ParsedObject = {};
+    const obj = super.serializedProps;
     if (typeof this.xlinkHref === 'string') {
       obj['xlink:href'] = this.xlinkHref;
     }
@@ -94,14 +95,14 @@ export class Event extends Element {
   public contentEncoding?: string;
   public messageData?: string;
 
-  constructor(initialValues?: Partial<Event>) {
-    super({name: 'Event'});
+  constructor(initialValues?: Partial<Event>, ctx?: ParsedObject) {
+    super({name: 'Event', ...initialValues}, ctx);
     this.formatParams(initialValues);
     Object.assign(this, initialValues);
   }
 
-  override formatParams(initialValues?: Partial<ParsedObject>): void {
-    // NOP
+  override formatParams(initialValues?: Partial<ParsedObject>, ctx?: ParsedObject): void {
+    super.formatParams(initialValues, ctx);
   }
 
   override verifyAttributes(ctx: ParsedObject): void {
@@ -113,7 +114,7 @@ export class Event extends Element {
   }
 
   override get serializedProps(): ParsedObject {
-    const obj: ParsedObject = {};
+    const obj = super.serializedProps;
     if (typeof this.presentationTime === 'number') {
       obj.presentationTime = this.presentationTime;
     }

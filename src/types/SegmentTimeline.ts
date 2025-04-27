@@ -7,12 +7,12 @@ export class SegmentTimeline extends Element {
     'S',
   ];
 
-  constructor(initialValues?: Partial<SegmentTimeline>) {
-    super({name: 'SegmentTimeline', ...initialValues});
+  constructor(initialValues?: Partial<SegmentTimeline>, ctx?: ParsedObject) {
+    super({name: 'SegmentTimeline', ...initialValues}, ctx);
   }
 
-  override formatParams(initialValues?: Partial<ParsedObject>): void {
-    // NOP
+  override formatParams(initialValues?: Partial<ParsedObject>, ctx?: ParsedObject): void {
+    super.formatParams(initialValues, ctx);
   }
 
   override verifyAttributes(ctx: ParsedObject): void {
@@ -42,7 +42,7 @@ export class SegmentTimeline extends Element {
   }
 
   override get serializedProps(): ParsedObject {
-    return {};
+    return super.serializedProps;
   }
 }
 
@@ -53,12 +53,12 @@ export class S extends Element {
   public n?: number;
   public k?: number;
 
-  constructor(initialValues?: Partial<S>) {
-    super({name: 'S', ...initialValues});
+  constructor(initialValues?: Partial<S>, ctx?: ParsedObject) {
+    super({name: 'S', ...initialValues}, ctx);
   }
 
-  override formatParams(initialValues?: Partial<ParsedObject>): void {
-    // NOP
+  override formatParams(initialValues?: Partial<ParsedObject>, ctx?: ParsedObject): void {
+    super.formatParams(initialValues, ctx);
   }
 
   override verifyAttributes(ctx: ParsedObject): void {
@@ -71,7 +71,8 @@ export class S extends Element {
   }
 
   override get serializedProps(): ParsedObject {
-    const obj: ParsedObject = {};
+    const obj = super.serializedProps;
+
     if (typeof this.d === 'number') {
       obj.d = this.d;
     }

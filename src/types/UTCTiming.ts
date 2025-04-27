@@ -2,12 +2,12 @@ import type {ParsedObject} from './types';
 import {Descriptor} from './Descriptor';
 
 export class UTCTiming extends Descriptor {
-  constructor(initialValues?: Partial<UTCTiming>) {
-    super({name: 'UTCTiming', ...initialValues});
+  constructor(initialValues?: Partial<UTCTiming>, ctx?: ParsedObject) {
+    super({name: 'UTCTiming', ...initialValues}, ctx);
   }
 
-  override formatParams(initialValues?: Partial<ParsedObject>): void {
-    super.formatParams(initialValues);
+  override formatParams(initialValues?: Partial<ParsedObject>, ctx?: ParsedObject): void {
+    super.formatParams(initialValues, ctx);
   }
 
   override verifyAttributes(ctx: ParsedObject): void {

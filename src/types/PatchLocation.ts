@@ -4,12 +4,12 @@ import {Element} from './Element';
 export class PatchLocation extends Element {
   public url?: string;
 
-  constructor(initialValues?: Partial<PatchLocation>) {
-    super({name: 'PatchLocation', ...initialValues});
+  constructor(initialValues?: Partial<PatchLocation>, ctx?: ParsedObject) {
+    super({name: 'PatchLocation', ...initialValues}, ctx);
   }
 
-  override formatParams(initialValues?: Partial<ParsedObject>): void {
-    // NOP
+  override formatParams(initialValues?: Partial<ParsedObject>, ctx?: ParsedObject): void {
+    super.formatParams(initialValues, ctx);
   }
 
   override verifyAttributes(ctx: ParsedObject): void {
@@ -21,6 +21,6 @@ export class PatchLocation extends Element {
   }
 
   override get serializedProps(): ParsedObject {
-    return {};
+    return super.serializedProps;
   }
 }

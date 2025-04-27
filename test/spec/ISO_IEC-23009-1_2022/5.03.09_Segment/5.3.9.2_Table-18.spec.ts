@@ -1,5 +1,7 @@
 import * as DASH from '../../../../src/index';
-import {bothPass, bothFail} from '../../../helpers/utils';
+import {bothPass} from '../../../helpers/utils';
+
+const {MPD, Period, AdaptationSet, Representation, SegmentTemplate, BitstreamSwitching} = DASH;
 
 describe('ISO_IEC-23009-1_2022/5.3.9.2_Table-18', () => {
   beforeAll(() => {
@@ -25,22 +27,22 @@ describe('ISO_IEC-23009-1_2022/5.3.9.2_Table-18', () => {
           </AdaptationSet>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 30,
           children: [
-            new DASH.AdaptationSet({
+            new AdaptationSet({
               mimeType: 'video/mp4',
               children: [
-                new DASH.SegmentTemplate({
+                new SegmentTemplate({
                   children: [
-                    new DASH.BitstreamSwitching({sourceURL: 'http://example.com/switching.mp4'}),
+                    new BitstreamSwitching({sourceURL: 'http://example.com/switching.mp4'}),
                   ],
                 }),
-                new DASH.Representation({
+                new Representation({
                   id: '1',
                   bandwidth: 1_250_000,
                 }),
@@ -69,22 +71,22 @@ describe('ISO_IEC-23009-1_2022/5.3.9.2_Table-18', () => {
           </AdaptationSet>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 30,
           children: [
-            new DASH.AdaptationSet({
+            new AdaptationSet({
               mimeType: 'video/mp4',
               children: [
-                new DASH.SegmentTemplate({
+                new SegmentTemplate({
                   children: [
-                    new DASH.BitstreamSwitching({range: [512, 1023]}),
+                    new BitstreamSwitching({range: [512, 1023]}),
                   ],
                 }),
-                new DASH.Representation({
+                new Representation({
                   id: '1',
                   bandwidth: 1_250_000,
                 }),
@@ -107,22 +109,22 @@ describe('ISO_IEC-23009-1_2022/5.3.9.2_Table-18', () => {
           </AdaptationSet>
         </Period>
       </MPD>
-    `)).toEqual(new DASH.MPD({
+    `)).toEqual(new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 30,
           children: [
-            new DASH.AdaptationSet({
+            new AdaptationSet({
               mimeType: 'video/mp4',
               children: [
-                new DASH.SegmentTemplate({
+                new SegmentTemplate({
                   children: [
-                    new DASH.BitstreamSwitching({range: [512, 1023]}),
+                    new BitstreamSwitching({range: [512, 1023]}),
                   ],
                 }),
-                new DASH.Representation({
+                new Representation({
                   id: '1',
                   bandwidth: 1_250_000,
                 }),

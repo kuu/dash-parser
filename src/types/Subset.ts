@@ -5,11 +5,11 @@ export class Subset extends Element {
   public contains?: number[];
   public id?: string;
 
-  constructor(initialValues?: Partial<Subset>) {
-    super({name: 'Subset', ...initialValues});
+  constructor(initialValues?: Partial<Subset>, ctx?: ParsedObject) {
+    super({name: 'Subset', ...initialValues}, ctx);
   }
 
-  override formatParams(initialValues?: Partial<ParsedObject>): void {
+  override formatParams(initialValues?: Partial<ParsedObject>, ctx?: ParsedObject): void {
     if (!initialValues) {
       return;
     }
@@ -27,6 +27,7 @@ export class Subset extends Element {
     if (typeof id === 'number') {
       initialValues.id = `${id}`;
     }
+    super.formatParams(initialValues, ctx);
   }
 
   override verifyAttributes(ctx: ParsedObject): void {
@@ -40,7 +41,7 @@ export class Subset extends Element {
   }
 
   override get serializedProps(): ParsedObject {
-    const obj: ParsedObject = {};
+    const obj = super.serializedProps;
     if (Array.isArray(this.contains)) {
       obj.contains = this.contains.join(' ');
     }

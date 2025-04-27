@@ -20,13 +20,11 @@ export class Representation extends RepresentationBase {
   public associationTypes?: string[];
   public mediaStreamStructureIds?: string[];
 
-  constructor(initialValues?: Partial<Representation>) {
-    super({name: 'Representation', ...initialValues});
+  constructor(initialValues?: Partial<Representation>, ctx?: ParsedObject) {
+    super({name: 'Representation', ...initialValues}, ctx);
   }
 
-  override formatParams(initialValues?: Partial<ParsedObject>): void {
-    super.formatParams(initialValues);
-
+  override formatParams(initialValues?: Partial<ParsedObject>, ctx?: ParsedObject): void {
     if (!initialValues) {
       return;
     }
@@ -70,6 +68,7 @@ export class Representation extends RepresentationBase {
       initialValues.mediaStreamStructureIds = mediaStreamStructureId.split(' ');
       delete initialValues.mediaStreamStructureId;
     }
+    super.formatParams(initialValues, ctx);
   }
 
   override verifyAttributes(ctx: ParsedObject): void {

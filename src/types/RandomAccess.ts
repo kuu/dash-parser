@@ -8,11 +8,11 @@ export class RandomAccess extends Element {
   public minBufferTime?: number;
   public bandwidth?: number;
 
-  constructor(initialValues?: Partial<RandomAccess>) {
-    super({name: 'RandomAccess', ...initialValues});
+  constructor(initialValues?: Partial<RandomAccess>, ctx?: ParsedObject) {
+    super({name: 'RandomAccess', ...initialValues}, ctx);
   }
 
-  override formatParams(initialValues?: Partial<ParsedObject>): void {
+  override formatParams(initialValues?: Partial<ParsedObject>, ctx?: ParsedObject): void {
     if (!initialValues) {
       return;
     }
@@ -24,6 +24,7 @@ export class RandomAccess extends Element {
     if (typeof minBufferTime === 'string') {
       initialValues.minBufferTime = fromTemporalDurationString(minBufferTime);
     }
+    super.formatParams(initialValues, ctx);
   }
 
   override verifyAttributes(ctx: ParsedObject): void {
@@ -38,6 +39,7 @@ export class RandomAccess extends Element {
 
   override get serializedProps(): ParsedObject {
     const obj: ParsedObject = {
+      ...super.serializedProps,
       interval: this.interval,
     };
     if (typeof this.type === 'string') {
