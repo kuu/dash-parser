@@ -7,13 +7,11 @@ export class SubRepresentation extends RepresentationBase {
   public bandwidth?: number;
   public contentComponents?: string[];
 
-  constructor(initialValues?: Partial<SubRepresentation>) {
-    super({name: 'SubRepresentation', ...initialValues});
+  constructor(initialValues?: Partial<SubRepresentation>, ctx?: ParsedObject) {
+    super({name: 'SubRepresentation', ...initialValues}, ctx);
   }
 
-  override formatParams(initialValues?: Partial<ParsedObject>): void {
-    super.formatParams(initialValues);
-
+  override formatParams(initialValues?: Partial<ParsedObject>, ctx?: ParsedObject): void {
     if (!initialValues) {
       return;
     }
@@ -39,6 +37,7 @@ export class SubRepresentation extends RepresentationBase {
       initialValues.contentComponents = contentComponent.split(' ');
       delete initialValues.contentComponent;
     }
+    super.formatParams(initialValues, ctx);
   }
 
   override verifyAttributes(ctx: ParsedObject): void {
@@ -54,7 +53,7 @@ export class SubRepresentation extends RepresentationBase {
   }
 
   override get serializedProps(): ParsedObject {
-    const obj: ParsedObject = super.serializedProps;
+    const obj = super.serializedProps;
     if (typeof this.level === 'number') {
       obj.level = this.level;
     }

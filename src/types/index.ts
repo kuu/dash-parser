@@ -1,3 +1,11 @@
+import type {NameSpacePrefix} from './types';
+import type {BaseURL} from './BaseURL';
+
+export type Context = {
+  mpdType: 'static' | 'dynamic' | undefined;
+  baseUrls: BaseURL[];
+  prefixes: NameSpacePrefix;
+};
 export * from './types';
 export * from './Accessibility';
 export * from './AdaptationSet';
@@ -9,7 +17,6 @@ export * from './ContentComponent';
 export * from './ContentPopularityRate';
 export * from './ContentProtection';
 export * from './Element';
-export * from './EmptyAdaptationSet';
 export * from './EssentialProperty';
 export * from './EventStream';
 export * from './ExtendedBandwidth';
@@ -50,3 +57,4 @@ export * from './SupplementalProperty';
 export * from './Switching';
 export * from './UTCTiming';
 export * from './Viewpoint';
+export * as drm from './drm';

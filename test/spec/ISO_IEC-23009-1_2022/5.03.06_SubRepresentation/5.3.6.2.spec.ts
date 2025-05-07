@@ -1,6 +1,8 @@
 import * as DASH from '../../../../src/index';
 import {bothPass, bothFail} from '../../../helpers/utils';
 
+const {MPD, Period, AdaptationSet, Representation, SubRepresentation} = DASH;
+
 describe('ISO_IEC-23009-1_2022/5.3.6.2', () => {
   beforeAll(() => {
     DASH.setOptions({
@@ -26,23 +28,23 @@ describe('ISO_IEC-23009-1_2022/5.3.6.2', () => {
           </AdaptationSet>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 30,
           children: [
-            new DASH.AdaptationSet({
+            new AdaptationSet({
               mimeType: 'video/mp4',
               children: [
-                new DASH.Representation({
+                new Representation({
                   id: '1',
                   bandwidth: 1_250_000,
                   children: [
-                    new DASH.SubRepresentation({level: 0, bandwidth: 520_000}),
-                    new DASH.SubRepresentation({level: 1, bandwidth: 520_000}),
-                    new DASH.SubRepresentation({level: 2, bandwidth: 520_000}),
+                    new SubRepresentation({level: 0, bandwidth: 520_000}),
+                    new SubRepresentation({level: 1, bandwidth: 520_000}),
+                    new SubRepresentation({level: 2, bandwidth: 520_000}),
                   ],
                 }),
               ],
@@ -69,22 +71,22 @@ describe('ISO_IEC-23009-1_2022/5.3.6.2', () => {
           </AdaptationSet>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 30,
           children: [
-            new DASH.AdaptationSet({
+            new AdaptationSet({
               mimeType: 'video/mp4',
               children: [
-                new DASH.Representation({
+                new Representation({
                   id: '1',
                   bandwidth: 1_250_000,
                   children: [
-                    new DASH.SubRepresentation({level: 0, dependencyLevels: [1], bandwidth: 520_000}),
-                    new DASH.SubRepresentation({level: 1, bandwidth: 520_000}),
+                    new SubRepresentation({level: 0, dependencyLevels: [1], bandwidth: 520_000}),
+                    new SubRepresentation({level: 1, bandwidth: 520_000}),
                   ],
                 }),
               ],
@@ -107,23 +109,23 @@ describe('ISO_IEC-23009-1_2022/5.3.6.2', () => {
           </AdaptationSet>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 30,
           children: [
-            new DASH.AdaptationSet({
+            new AdaptationSet({
               mimeType: 'video/mp4',
               children: [
-                new DASH.Representation({
+                new Representation({
                   id: '1',
                   bandwidth: 1_250_000,
                   children: [
-                    new DASH.SubRepresentation({level: 0, dependencyLevels: [1, 2], bandwidth: 520_000}),
-                    new DASH.SubRepresentation({level: 1, bandwidth: 520_000}),
-                    new DASH.SubRepresentation({level: 2, bandwidth: 520_000}),
+                    new SubRepresentation({level: 0, dependencyLevels: [1, 2], bandwidth: 520_000}),
+                    new SubRepresentation({level: 1, bandwidth: 520_000}),
+                    new SubRepresentation({level: 2, bandwidth: 520_000}),
                   ],
                 }),
               ],
@@ -150,21 +152,21 @@ describe('ISO_IEC-23009-1_2022/5.3.6.2', () => {
           </AdaptationSet>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 30,
           children: [
-            new DASH.AdaptationSet({
+            new AdaptationSet({
               mimeType: 'video/mp4',
               children: [
-                new DASH.Representation({
+                new Representation({
                   id: '1',
                   bandwidth: 1_250_000,
                   children: [
-                    new DASH.SubRepresentation({level: 0, bandwidth: 520_000}),
+                    new SubRepresentation({level: 0, bandwidth: 520_000}),
                   ],
                 }),
               ],
@@ -187,21 +189,21 @@ describe('ISO_IEC-23009-1_2022/5.3.6.2', () => {
           </AdaptationSet>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 30,
           children: [
-            new DASH.AdaptationSet({
+            new AdaptationSet({
               mimeType: 'video/mp4',
               children: [
-                new DASH.Representation({
+                new Representation({
                   id: '1',
                   bandwidth: 1_250_000,
                   children: [
-                    new DASH.SubRepresentation({level: 0, bandwidth: -1}),
+                    new SubRepresentation({level: 0, bandwidth: -1}),
                   ],
                 }),
               ],
@@ -222,21 +224,21 @@ describe('ISO_IEC-23009-1_2022/5.3.6.2', () => {
           </AdaptationSet>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 30,
           children: [
-            new DASH.AdaptationSet({
+            new AdaptationSet({
               mimeType: 'video/mp4',
               children: [
-                new DASH.Representation({
+                new Representation({
                   id: '1',
                   bandwidth: 1_250_000,
                   children: [
-                    new DASH.SubRepresentation({level: 0}),
+                    new SubRepresentation({level: 0}),
                   ],
                 }),
               ],
@@ -257,21 +259,21 @@ describe('ISO_IEC-23009-1_2022/5.3.6.2', () => {
           </AdaptationSet>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 30,
           children: [
-            new DASH.AdaptationSet({
+            new AdaptationSet({
               mimeType: 'video/mp4',
               children: [
-                new DASH.Representation({
+                new Representation({
                   id: '1',
                   bandwidth: 1_250_000,
                   children: [
-                    new DASH.SubRepresentation(),
+                    new SubRepresentation(),
                   ],
                 }),
               ],
@@ -301,21 +303,21 @@ describe('ISO_IEC-23009-1_2022/5.3.6.2', () => {
           </AdaptationSet>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 30,
           children: [
-            new DASH.AdaptationSet({
+            new AdaptationSet({
               mimeType: 'video/mp4',
               children: [
-                new DASH.Representation({
+                new Representation({
                   id: '1',
                   bandwidth: 1_250_000,
                   children: [
-                    new DASH.SubRepresentation({
+                    new SubRepresentation({
                       level: 0,
                       bandwidth: 520_000,
                       contentComponents: ['0'],
@@ -345,21 +347,21 @@ describe('ISO_IEC-23009-1_2022/5.3.6.2', () => {
         </AdaptationSet>
       </Period>
     </MPD>
-  `, new DASH.MPD({
+  `, new MPD({
     profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
     minBufferTime: 2,
     children: [
-      new DASH.Period({
+      new Period({
         duration: 30,
         children: [
-          new DASH.AdaptationSet({
+          new AdaptationSet({
             mimeType: 'video/mp4',
             children: [
-              new DASH.Representation({
+              new Representation({
                 id: '1',
                 bandwidth: 1_250_000,
                 children: [
-                  new DASH.SubRepresentation({
+                  new SubRepresentation({
                     level: 0,
                     bandwidth: 520_000,
                     contentComponents: ['0', '1'],

@@ -2,12 +2,12 @@ import type {ParsedObject} from './types';
 import {Descriptor} from './Descriptor';
 
 export class Viewpoint extends Descriptor {
-  constructor(initialValues?: Partial<Viewpoint>) {
-    super({name: 'Viewpoint', ...initialValues});
+  constructor(initialValues?: Partial<Viewpoint>, ctx?: ParsedObject) {
+    super({name: 'Viewpoint', ...initialValues}, ctx);
   }
 
-  override formatParams(initialValues?: Partial<ParsedObject>): void {
-    super.formatParams(initialValues);
+  override formatParams(initialValues?: Partial<ParsedObject>, ctx?: ParsedObject): void {
+    super.formatParams(initialValues, ctx);
   }
 
   override verifyAttributes(ctx: ParsedObject): void {

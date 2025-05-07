@@ -5,12 +5,12 @@ export class InitializationSet extends Element {
   public id?: number;
   public sourceURL?: string;
 
-  constructor(initialValues?: Partial<InitializationSet>) {
-    super({name: 'InitializationSet', ...initialValues});
+  constructor(initialValues?: Partial<InitializationSet>, ctx?: ParsedObject) {
+    super({name: 'InitializationSet', ...initialValues}, ctx);
   }
 
-  override formatParams(initialValues?: Partial<ParsedObject>): void {
-    // NOP
+  override formatParams(initialValues?: Partial<ParsedObject>, ctx?: ParsedObject): void {
+    super.formatParams(initialValues, ctx);
   }
 
   override verifyAttributes(ctx: ParsedObject): void {
@@ -22,6 +22,6 @@ export class InitializationSet extends Element {
   }
 
   override get serializedProps(): ParsedObject {
-    return {};
+    return super.serializedProps;
   }
 }

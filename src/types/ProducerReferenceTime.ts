@@ -9,12 +9,12 @@ export class ProducerReferenceTime extends Element {
   public wallClockTime?: string;
   public presentationTime?: string;
 
-  constructor(initialValues?: Partial<ProducerReferenceTime>) {
-    super({name: 'ProducerReferenceTime', ...initialValues});
+  constructor(initialValues?: Partial<ProducerReferenceTime>, ctx?: ParsedObject) {
+    super({name: 'ProducerReferenceTime', ...initialValues}, ctx);
   }
 
-  override formatParams(initialValues?: Partial<ParsedObject>): void {
-    // NOP
+  override formatParams(initialValues?: Partial<ParsedObject>, ctx?: ParsedObject): void {
+    super.formatParams(initialValues, ctx);
   }
 
   override verifyAttributes(ctx: ParsedObject): void {
@@ -26,6 +26,6 @@ export class ProducerReferenceTime extends Element {
   }
 
   override get serializedProps(): ParsedObject {
-    return {};
+    return super.serializedProps;
   }
 }

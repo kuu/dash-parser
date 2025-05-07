@@ -13,11 +13,11 @@ export class BaseURL extends Element {
   public timeShiftBufferDepth?: number;
   public rangeAccess?: boolean;
 
-  constructor(initialValues?: Partial<BaseURL>) {
-    super({name: 'BaseURL', ...initialValues});
+  constructor(initialValues?: Partial<BaseURL>, ctx?: ParsedObject) {
+    super({name: 'BaseURL', ...initialValues}, ctx);
   }
 
-  override formatParams(initialValues?: Partial<ParsedObject>): void {
+  override formatParams(initialValues?: Partial<ParsedObject>, ctx?: ParsedObject): void {
     if (!initialValues) {
       return;
     }
@@ -29,6 +29,7 @@ export class BaseURL extends Element {
     if (typeof timeShiftBufferDepth === 'string') {
       initialValues.timeShiftBufferDepth = fromTemporalDurationString(timeShiftBufferDepth);
     }
+    super.formatParams(initialValues, ctx);
   }
 
   override verifyAttributes(ctx: ParsedObject): void {
@@ -42,7 +43,7 @@ export class BaseURL extends Element {
   }
 
   override get serializedProps(): ParsedObject {
-    const obj: ParsedObject = {};
+    const obj = super.serializedProps;
     if (typeof this.serviceLocation === 'string') {
       obj.serviceLocation = this.serviceLocation;
     }

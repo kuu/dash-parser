@@ -28,15 +28,15 @@ export class Period extends Element {
   public xlinkHref?: string;
   public xlinkActuate?: 'onLoad' | 'onRequest';
   public id?: string;
-  public start?: Date;
+  public start?: number;
   public duration?: number;
   public bitstreamSwitching?: boolean;
 
-  constructor(initialValues?: Partial<Period>) {
-    super({name: 'Period', ...initialValues});
+  constructor(initialValues?: Partial<Period>, ctx?: ParsedObject) {
+    super({name: 'Period', ...initialValues}, ctx);
   }
 
-  override formatParams(initialValues?: Partial<ParsedObject>): void {
+  override formatParams(initialValues?: Partial<ParsedObject>, ctx?: ParsedObject): void {
     if (!initialValues) {
       return;
     }
@@ -60,7 +60,7 @@ export class Period extends Element {
       initialValues.id = `${id}`;
     }
     if (typeof start === 'string') {
-      initialValues.start = new Date(start);
+      initialValues.start = fromTemporalDurationString(start);
     }
     if (typeof duration === 'string') {
       initialValues.duration = fromTemporalDurationString(duration);
@@ -68,6 +68,7 @@ export class Period extends Element {
     if (typeof bitstreamSwitching === 'string') {
       initialValues.bitstreamSwitching = bitstreamSwitching === 'true';
     }
+    super.formatParams(initialValues, ctx);
   }
 
   override verifyAttributes(ctx: ParsedObject): void {
@@ -78,7 +79,7 @@ export class Period extends Element {
 
   override verifyChildren(ctx: ParsedObject): void {
     this.verifyChidrenSpec(this.static.CHILDRREN_SPEC);
-    if (!(typeof this.duration === 'number' && this.duration === 0) && this.getElements('AdaptationSet').length === 0) {
+    if (!(typeof this.duration === 'number' && this.duration === 0) && this.getElements('AdaptationSet').length === 0 && this.getElements('EmptyAdaptationSet').length === 0) {
       this.reject('At least one AdaptationSet shall be present in each Period unless @duration is set to zero');
     }
     // eslint-disable-next-line @typescript-eslint/dot-notation
@@ -124,7 +125,7 @@ export class Period extends Element {
   }
 
   override get serializedProps(): ParsedObject {
-    const obj: ParsedObject = {};
+    const obj = super.serializedProps;
 
     if (typeof this.xlinkHref === 'string') {
       obj['xlink:href'] = this.xlinkHref;
@@ -135,8 +136,8 @@ export class Period extends Element {
     if (typeof this.id === 'string') {
       obj.id = this.id;
     }
-    if (this.start instanceof Date) {
-      obj.start = this.start.toISOString();
+    if (typeof this.start === 'number') {
+      obj.start = toTemporalDurationString(this.start);
     }
     if (typeof this.duration === 'number') {
       obj.duration = toTemporalDurationString(this.duration);

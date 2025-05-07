@@ -11,11 +11,11 @@ export class SegmentURL extends Element {
   public index?: string;
   public indexRange?: Range;
 
-  constructor(initialValues?: Partial<SegmentURL>) {
-    super({name: 'SegmentURL', ...initialValues});
+  constructor(initialValues?: Partial<SegmentURL>, ctx?: ParsedObject) {
+    super({name: 'SegmentURL', ...initialValues}, ctx);
   }
 
-  override formatParams(initialValues?: Partial<ParsedObject>): void {
+  override formatParams(initialValues?: Partial<ParsedObject>, ctx?: ParsedObject): void {
     if (!initialValues) {
       return;
     }
@@ -31,6 +31,7 @@ export class SegmentURL extends Element {
     if (typeof indexRange === 'string') {
       initialValues.indexRange = fromByteRangeString(indexRange.includes(',') ? indexRange.slice(0, indexRange.indexOf(',')) : indexRange);
     }
+    super.formatParams(initialValues, ctx);
   }
 
   override verifyAttributes(ctx: ParsedObject): void {
@@ -42,7 +43,7 @@ export class SegmentURL extends Element {
   }
 
   override get serializedProps(): ParsedObject {
-    const obj: ParsedObject = {};
+    const obj = super.serializedProps;
     if (typeof this.media === 'string') {
       obj.media = this.media;
     }

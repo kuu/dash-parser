@@ -1,6 +1,8 @@
 import * as DASH from '../../../../src/index';
 import {bothPass, bothFail} from '../../../helpers/utils';
 
+const {MPD, Period, AdaptationSet, Subset} = DASH;
+
 describe('ISO_IEC-23009-1_2022/5.3.8.2', () => {
   beforeAll(() => {
     DASH.setOptions({
@@ -20,16 +22,16 @@ describe('ISO_IEC-23009-1_2022/5.3.8.2', () => {
           <AdaptationSet mimeType="video/mp4" id="2"/>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 30,
           children: [
-            new DASH.Subset({contains: [1]}),
-            new DASH.AdaptationSet({mimeType: 'video/mp4', id: 1}),
-            new DASH.AdaptationSet({mimeType: 'video/mp4', id: 2}),
+            new Subset({contains: [1]}),
+            new AdaptationSet({mimeType: 'video/mp4', id: 1}),
+            new AdaptationSet({mimeType: 'video/mp4', id: 2}),
           ],
         }),
       ],
@@ -45,17 +47,17 @@ describe('ISO_IEC-23009-1_2022/5.3.8.2', () => {
           <AdaptationSet mimeType="audio/mp4" id="3"/>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 30,
           children: [
-            new DASH.Subset({contains: [1, 2]}),
-            new DASH.AdaptationSet({mimeType: 'video/mp4', id: 1}),
-            new DASH.AdaptationSet({mimeType: 'audio/mp4', id: 2}),
-            new DASH.AdaptationSet({mimeType: 'audio/mp4', id: 3}),
+            new Subset({contains: [1, 2]}),
+            new AdaptationSet({mimeType: 'video/mp4', id: 1}),
+            new AdaptationSet({mimeType: 'audio/mp4', id: 2}),
+            new AdaptationSet({mimeType: 'audio/mp4', id: 3}),
           ],
         }),
       ],
@@ -73,19 +75,19 @@ describe('ISO_IEC-23009-1_2022/5.3.8.2', () => {
           <AdaptationSet mimeType="audio/mp4" id="4"/>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 30,
           children: [
-            new DASH.Subset({contains: [1, 2]}),
-            new DASH.Subset({contains: [3, 4]}),
-            new DASH.AdaptationSet({mimeType: 'video/mp4', id: 1}),
-            new DASH.AdaptationSet({mimeType: 'audio/mp4', id: 2}),
-            new DASH.AdaptationSet({mimeType: 'video/mp4', id: 3}),
-            new DASH.AdaptationSet({mimeType: 'audio/mp4', id: 4}),
+            new Subset({contains: [1, 2]}),
+            new Subset({contains: [3, 4]}),
+            new AdaptationSet({mimeType: 'video/mp4', id: 1}),
+            new AdaptationSet({mimeType: 'audio/mp4', id: 2}),
+            new AdaptationSet({mimeType: 'video/mp4', id: 3}),
+            new AdaptationSet({mimeType: 'audio/mp4', id: 4}),
           ],
         }),
       ],
@@ -102,17 +104,17 @@ describe('ISO_IEC-23009-1_2022/5.3.8.2', () => {
           <AdaptationSet mimeType="audio/mp4" id="3"/>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 30,
           children: [
-            new DASH.Subset({contains: []}),
-            new DASH.AdaptationSet({mimeType: 'video/mp4', id: 1}),
-            new DASH.AdaptationSet({mimeType: 'audio/mp4', id: 2}),
-            new DASH.AdaptationSet({mimeType: 'audio/mp4', id: 3}),
+            new Subset({contains: []}),
+            new AdaptationSet({mimeType: 'video/mp4', id: 1}),
+            new AdaptationSet({mimeType: 'audio/mp4', id: 2}),
+            new AdaptationSet({mimeType: 'audio/mp4', id: 3}),
           ],
         }),
       ],
@@ -128,17 +130,17 @@ describe('ISO_IEC-23009-1_2022/5.3.8.2', () => {
           <AdaptationSet mimeType="audio/mp4" id="3"/>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 30,
           children: [
-            new DASH.Subset({contains: [1, 2, 3]}),
-            new DASH.AdaptationSet({mimeType: 'video/mp4', id: 1}),
-            new DASH.AdaptationSet({mimeType: 'audio/mp4', id: 2}),
-            new DASH.AdaptationSet({mimeType: 'audio/mp4', id: 3}),
+            new Subset({contains: [1, 2, 3]}),
+            new AdaptationSet({mimeType: 'video/mp4', id: 1}),
+            new AdaptationSet({mimeType: 'audio/mp4', id: 2}),
+            new AdaptationSet({mimeType: 'audio/mp4', id: 3}),
           ],
         }),
       ],
@@ -154,17 +156,17 @@ describe('ISO_IEC-23009-1_2022/5.3.8.2', () => {
           <AdaptationSet mimeType="audio/mp4" id="3"/>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 30,
           children: [
-            new DASH.Subset({contains: [4]}),
-            new DASH.AdaptationSet({mimeType: 'video/mp4', id: 1}),
-            new DASH.AdaptationSet({mimeType: 'audio/mp4', id: 2}),
-            new DASH.AdaptationSet({mimeType: 'audio/mp4', id: 3}),
+            new Subset({contains: [4]}),
+            new AdaptationSet({mimeType: 'video/mp4', id: 1}),
+            new AdaptationSet({mimeType: 'audio/mp4', id: 2}),
+            new AdaptationSet({mimeType: 'audio/mp4', id: 3}),
           ],
         }),
       ],
@@ -185,19 +187,19 @@ describe('ISO_IEC-23009-1_2022/5.3.8.2', () => {
           <AdaptationSet mimeType="audio/mp4" id="4"/>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 30,
           children: [
-            new DASH.Subset({contains: [1, 2], id: '1'}),
-            new DASH.Subset({contains: [3, 4], id: '2'}),
-            new DASH.AdaptationSet({mimeType: 'video/mp4', id: 1}),
-            new DASH.AdaptationSet({mimeType: 'audio/mp4', id: 2}),
-            new DASH.AdaptationSet({mimeType: 'video/mp4', id: 3}),
-            new DASH.AdaptationSet({mimeType: 'audio/mp4', id: 4}),
+            new Subset({contains: [1, 2], id: '1'}),
+            new Subset({contains: [3, 4], id: '2'}),
+            new AdaptationSet({mimeType: 'video/mp4', id: 1}),
+            new AdaptationSet({mimeType: 'audio/mp4', id: 2}),
+            new AdaptationSet({mimeType: 'video/mp4', id: 3}),
+            new AdaptationSet({mimeType: 'audio/mp4', id: 4}),
           ],
         }),
       ],
@@ -215,19 +217,19 @@ describe('ISO_IEC-23009-1_2022/5.3.8.2', () => {
           <AdaptationSet mimeType="audio/mp4" id="4"/>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 30,
           children: [
-            new DASH.Subset({contains: [1, 2], id: 'subset-1'}),
-            new DASH.Subset({contains: [3, 4], id: 'subset-2'}),
-            new DASH.AdaptationSet({mimeType: 'video/mp4', id: 1}),
-            new DASH.AdaptationSet({mimeType: 'audio/mp4', id: 2}),
-            new DASH.AdaptationSet({mimeType: 'video/mp4', id: 3}),
-            new DASH.AdaptationSet({mimeType: 'audio/mp4', id: 4}),
+            new Subset({contains: [1, 2], id: 'subset-1'}),
+            new Subset({contains: [3, 4], id: 'subset-2'}),
+            new AdaptationSet({mimeType: 'video/mp4', id: 1}),
+            new AdaptationSet({mimeType: 'audio/mp4', id: 2}),
+            new AdaptationSet({mimeType: 'video/mp4', id: 3}),
+            new AdaptationSet({mimeType: 'audio/mp4', id: 4}),
           ],
         }),
       ],
@@ -245,19 +247,19 @@ describe('ISO_IEC-23009-1_2022/5.3.8.2', () => {
           <AdaptationSet mimeType="audio/mp4" id="4"/>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 30,
           children: [
-            new DASH.Subset({contains: [1, 2], id: 'subset-1'}),
-            new DASH.Subset({contains: [3, 4], id: 'subset-1'}),
-            new DASH.AdaptationSet({mimeType: 'video/mp4', id: 1}),
-            new DASH.AdaptationSet({mimeType: 'audio/mp4', id: 2}),
-            new DASH.AdaptationSet({mimeType: 'video/mp4', id: 3}),
-            new DASH.AdaptationSet({mimeType: 'audio/mp4', id: 4}),
+            new Subset({contains: [1, 2], id: 'subset-1'}),
+            new Subset({contains: [3, 4], id: 'subset-1'}),
+            new AdaptationSet({mimeType: 'video/mp4', id: 1}),
+            new AdaptationSet({mimeType: 'audio/mp4', id: 2}),
+            new AdaptationSet({mimeType: 'video/mp4', id: 3}),
+            new AdaptationSet({mimeType: 'audio/mp4', id: 4}),
           ],
         }),
       ],

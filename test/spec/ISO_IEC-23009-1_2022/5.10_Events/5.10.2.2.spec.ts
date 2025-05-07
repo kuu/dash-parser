@@ -1,6 +1,8 @@
 import * as DASH from '../../../../src/index';
 import {bothPass, bothFail} from '../../../helpers/utils';
 
+const {MPD, Period, AdaptationSet, EventStream, Event} = DASH;
+
 describe('ISO_IEC-23009-1_2022/5.10.2.2', () => {
   beforeAll(() => {
     DASH.setOptions({
@@ -22,18 +24,18 @@ describe('ISO_IEC-23009-1_2022/5.10.2.2', () => {
           <AdaptationSet mimeType="video/mp4"/>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 30,
           children: [
-            new DASH.EventStream({
+            new EventStream({
               xlinkHref: 'http://www.example.com/dash/remote-event-stream.mpd',
               schemeIdUri: 'urn:scte:scte35:2013:xml',
             }),
-            new DASH.AdaptationSet({
+            new AdaptationSet({
               mimeType: 'video/mp4',
             }),
           ],
@@ -57,19 +59,19 @@ describe('ISO_IEC-23009-1_2022/5.10.2.2', () => {
           <AdaptationSet mimeType="video/mp4"/>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 30,
           children: [
-            new DASH.EventStream({
+            new EventStream({
               xlinkHref: 'http://www.example.com/dash/remote-event-stream.mpd',
               xlinkActuate: 'onLoad',
               schemeIdUri: 'urn:scte:scte35:2013:xml',
             }),
-            new DASH.AdaptationSet({
+            new AdaptationSet({
               mimeType: 'video/mp4',
             }),
           ],
@@ -89,19 +91,19 @@ describe('ISO_IEC-23009-1_2022/5.10.2.2', () => {
           <AdaptationSet mimeType="video/mp4"/>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 30,
           children: [
-            new DASH.EventStream({
+            new EventStream({
               xlinkHref: 'http://www.example.com/dash/remote-event-stream.mpd',
               xlinkActuate: 'onRequest',
               schemeIdUri: 'urn:scte:scte35:2013:xml',
             }),
-            new DASH.AdaptationSet({
+            new AdaptationSet({
               mimeType: 'video/mp4',
             }),
           ],
@@ -120,18 +122,18 @@ describe('ISO_IEC-23009-1_2022/5.10.2.2', () => {
           <AdaptationSet mimeType="video/mp4"/>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 30,
           children: [
-            new DASH.EventStream({
+            new EventStream({
               xlinkActuate: 'onRequest',
               schemeIdUri: 'urn:scte:scte35:2013:xml',
             }),
-            new DASH.AdaptationSet({
+            new AdaptationSet({
               mimeType: 'video/mp4',
             }),
           ],
@@ -155,17 +157,17 @@ describe('ISO_IEC-23009-1_2022/5.10.2.2', () => {
           <AdaptationSet mimeType="video/mp4"/>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 30,
           children: [
-            new DASH.EventStream({
+            new EventStream({
               schemeIdUri: 'urn:scte:scte35:2013:xml',
             }),
-            new DASH.AdaptationSet({
+            new AdaptationSet({
               mimeType: 'video/mp4',
             }),
           ],
@@ -183,17 +185,17 @@ describe('ISO_IEC-23009-1_2022/5.10.2.2', () => {
           <AdaptationSet mimeType="video/mp4"/>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 30,
           children: [
-            new DASH.EventStream({
+            new EventStream({
               xlinkHref: 'http://www.example.com/dash/remote-event-stream.mpd',
             }),
-            new DASH.AdaptationSet({
+            new AdaptationSet({
               mimeType: 'video/mp4',
             }),
           ],
@@ -216,18 +218,18 @@ describe('ISO_IEC-23009-1_2022/5.10.2.2', () => {
           <AdaptationSet mimeType="video/mp4"/>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 30,
           children: [
-            new DASH.EventStream({
+            new EventStream({
               schemeIdUri: 'urn:scte:scte35:2013:xml',
               value: 'SCTE-35::splice_insert()',
             }),
-            new DASH.AdaptationSet({
+            new AdaptationSet({
               mimeType: 'video/mp4',
             }),
           ],
@@ -246,18 +248,18 @@ describe('ISO_IEC-23009-1_2022/5.10.2.2', () => {
           <AdaptationSet mimeType="video/mp4"/>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 30,
           children: [
-            new DASH.EventStream({
+            new EventStream({
               schemeIdUri: 'urn:scte:scte35:2013:xml',
               value: '0',
             }),
-            new DASH.AdaptationSet({
+            new AdaptationSet({
               mimeType: 'video/mp4',
             }),
           ],
@@ -280,18 +282,18 @@ describe('ISO_IEC-23009-1_2022/5.10.2.2', () => {
           <AdaptationSet mimeType="video/mp4"/>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 30,
           children: [
-            new DASH.EventStream({
+            new EventStream({
               schemeIdUri: 'urn:scte:scte35:2013:xml',
               timescale: 90_000,
             }),
-            new DASH.AdaptationSet({
+            new AdaptationSet({
               mimeType: 'video/mp4',
             }),
           ],
@@ -310,18 +312,18 @@ describe('ISO_IEC-23009-1_2022/5.10.2.2', () => {
           <AdaptationSet mimeType="video/mp4"/>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 30,
           children: [
-            new DASH.EventStream({
+            new EventStream({
               schemeIdUri: 'urn:scte:scte35:2013:xml',
               timescale: 29.97,
             }),
-            new DASH.AdaptationSet({
+            new AdaptationSet({
               mimeType: 'video/mp4',
             }),
           ],
@@ -347,19 +349,19 @@ describe('ISO_IEC-23009-1_2022/5.10.2.2', () => {
           <AdaptationSet mimeType="video/mp4"/>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 30,
           children: [
-            new DASH.EventStream({
+            new EventStream({
               schemeIdUri: 'urn:scte:scte35:2013:xml',
               timescale: 90_000,
               presentationTimeOffset: 45_000,
             }),
-            new DASH.AdaptationSet({
+            new AdaptationSet({
               mimeType: 'video/mp4',
             }),
           ],
@@ -386,20 +388,20 @@ describe('ISO_IEC-23009-1_2022/5.10.2.2', () => {
           <AdaptationSet mimeType="video/mp4"/>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 30,
           children: [
-            new DASH.EventStream({
+            new EventStream({
               schemeIdUri: 'urn:scte:scte35:2013:xml',
               children: [
-                new DASH.Event(),
+                new Event(),
               ],
             }),
-            new DASH.AdaptationSet({
+            new AdaptationSet({
               mimeType: 'video/mp4',
             }),
           ],
@@ -425,23 +427,23 @@ describe('ISO_IEC-23009-1_2022/5.10.2.2', () => {
           <AdaptationSet mimeType="video/mp4"/>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 30,
           children: [
-            new DASH.EventStream({
+            new EventStream({
               schemeIdUri: 'urn:scte:scte35:2013:xml',
               timescale: 90_000,
               children: [
-                new DASH.Event({
+                new Event({
                   presentationTime: 2_700_000,
                 }),
               ],
             }),
-            new DASH.AdaptationSet({
+            new AdaptationSet({
               mimeType: 'video/mp4',
             }),
           ],
@@ -461,22 +463,22 @@ describe('ISO_IEC-23009-1_2022/5.10.2.2', () => {
           <AdaptationSet mimeType="video/mp4"/>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 30,
           children: [
-            new DASH.EventStream({
+            new EventStream({
               schemeIdUri: 'urn:scte:scte35:2013:xml',
               children: [
-                new DASH.Event(),
-                new DASH.Event({presentationTime: 0.1}),
-                new DASH.Event({presentationTime: 0.2}),
+                new Event(),
+                new Event({presentationTime: 0.1}),
+                new Event({presentationTime: 0.2}),
               ],
             }),
-            new DASH.AdaptationSet({
+            new AdaptationSet({
               mimeType: 'video/mp4',
             }),
           ],
@@ -496,22 +498,22 @@ describe('ISO_IEC-23009-1_2022/5.10.2.2', () => {
           <AdaptationSet mimeType="video/mp4"/>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 30,
           children: [
-            new DASH.EventStream({
+            new EventStream({
               schemeIdUri: 'urn:scte:scte35:2013:xml',
               children: [
-                new DASH.Event(),
-                new DASH.Event({presentationTime: 0.2}),
-                new DASH.Event({presentationTime: 0.1}),
+                new Event(),
+                new Event({presentationTime: 0.2}),
+                new Event({presentationTime: 0.1}),
               ],
             }),
-            new DASH.AdaptationSet({
+            new AdaptationSet({
               mimeType: 'video/mp4',
             }),
           ],
@@ -537,24 +539,24 @@ describe('ISO_IEC-23009-1_2022/5.10.2.2', () => {
           <AdaptationSet mimeType="video/mp4"/>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 30,
           children: [
-            new DASH.EventStream({
+            new EventStream({
               schemeIdUri: 'urn:scte:scte35:2013:xml',
               timescale: 90_000,
               children: [
-                new DASH.Event({
+                new Event({
                   presentationTime: 180_000,
                   duration: 2_700_000,
                 }),
               ],
             }),
-            new DASH.AdaptationSet({
+            new AdaptationSet({
               mimeType: 'video/mp4',
             }),
           ],
@@ -578,22 +580,22 @@ describe('ISO_IEC-23009-1_2022/5.10.2.2', () => {
           <AdaptationSet mimeType="video/mp4"/>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 30,
           children: [
-            new DASH.EventStream({
+            new EventStream({
               schemeIdUri: 'urn:scte:scte35:2013:xml',
               children: [
-                new DASH.Event({
+                new Event({
                   id: 1,
                 }),
               ],
             }),
-            new DASH.AdaptationSet({
+            new AdaptationSet({
               mimeType: 'video/mp4',
             }),
           ],
@@ -613,22 +615,22 @@ describe('ISO_IEC-23009-1_2022/5.10.2.2', () => {
           <AdaptationSet mimeType="video/mp4"/>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 30,
           children: [
-            new DASH.EventStream({
+            new EventStream({
               schemeIdUri: 'urn:scte:scte35:2013:xml',
               children: [
-                new DASH.Event({
+                new Event({
                   id: -1,
                 }),
               ],
             }),
-            new DASH.AdaptationSet({
+            new AdaptationSet({
               mimeType: 'video/mp4',
             }),
           ],
@@ -654,22 +656,22 @@ describe('ISO_IEC-23009-1_2022/5.10.2.2', () => {
           <AdaptationSet mimeType="video/mp4"/>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 30,
           children: [
-            new DASH.EventStream({
+            new EventStream({
               schemeIdUri: 'urn:scte:scte35:2013:xml',
               children: [
-                new DASH.Event({
+                new Event({
                   contentEncoding: 'base64',
                 }),
               ],
             }),
-            new DASH.AdaptationSet({
+            new AdaptationSet({
               mimeType: 'video/mp4',
             }),
           ],
@@ -696,22 +698,22 @@ describe('ISO_IEC-23009-1_2022/5.10.2.2', () => {
           <AdaptationSet mimeType="video/mp4"/>
         </Period>
       </MPD>
-    `, new DASH.MPD({
+    `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 2,
       children: [
-        new DASH.Period({
+        new Period({
           duration: 30,
           children: [
-            new DASH.EventStream({
+            new EventStream({
               schemeIdUri: 'urn:scte:scte35:2013:xml',
               children: [
-                new DASH.Event({
+                new Event({
                   messageData: 'xxx',
                 }),
               ],
             }),
-            new DASH.AdaptationSet({
+            new AdaptationSet({
               mimeType: 'video/mp4',
             }),
           ],
