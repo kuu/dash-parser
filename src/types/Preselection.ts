@@ -5,12 +5,12 @@ export class Preselection extends Element {
   public id?: string;
   public lang?: string;
 
-  constructor(initialValues?: Partial<Preselection>) {
-    super({name: 'Preselection', ...initialValues});
+  constructor(initialValues?: Partial<Preselection>, ctx?: ParsedObject) {
+    super({name: 'Preselection', ...initialValues}, ctx);
   }
 
-  override formatParams(initialValues?: Partial<ParsedObject>): void {
-    // NOP
+  override formatParams(initialValues?: Partial<ParsedObject>, ctx?: ParsedObject): void {
+    super.formatParams(initialValues, ctx);
   }
 
   override verifyAttributes(ctx: ParsedObject): void {
@@ -22,6 +22,6 @@ export class Preselection extends Element {
   }
 
   override get serializedProps(): ParsedObject {
-    return {};
+    return super.serializedProps;
   }
 }

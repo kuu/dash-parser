@@ -38,13 +38,11 @@ export class AdaptationSet extends RepresentationBase {
   public initializationSetRef?: number[];
   public initializationPrincipal?: string;
 
-  constructor(initialValues?: Partial<AdaptationSet>) {
-    super({name: 'AdaptationSet', ...initialValues});
+  constructor(initialValues?: Partial<AdaptationSet>, ctx?: ParsedObject) {
+    super({name: 'AdaptationSet', ...initialValues}, ctx);
   }
 
-  override formatParams(initialValues?: Partial<ParsedObject>): void {
-    super.formatParams(initialValues);
-
+  override formatParams(initialValues?: Partial<ParsedObject>, ctx?: ParsedObject): void {
     if (!initialValues) {
       return;
     }
@@ -71,6 +69,9 @@ export class AdaptationSet extends RepresentationBase {
     if (typeof segmentAlignment === 'string') {
       initialValues.segmentAlignment = segmentAlignment === 'true';
     }
+    if (typeof segmentAlignment === 'number') {
+      initialValues.segmentAlignment = segmentAlignment !== 0;
+    }
     if (typeof bitstreamSwitching === 'string') {
       initialValues.bitstreamSwitching = bitstreamSwitching === 'true';
     }
@@ -82,6 +83,7 @@ export class AdaptationSet extends RepresentationBase {
         .split(' ').map(value => Number.parseInt(value, 10))
         .filter(value => !Number.isNaN(value));
     }
+    super.formatParams(initialValues, ctx);
   }
 
   override verifyAttributes(ctx: ParsedObject): void {
@@ -186,5 +188,34 @@ export class AdaptationSet extends RepresentationBase {
       obj.initializationPrincipal = this.initializationPrincipal;
     }
     return obj;
+  }
+}
+
+export class EmptyAdaptationSet extends AdaptationSet {
+  static override readonly ALLOWED_CHILDREN = [
+    'EssentialProperty',
+    'SupplementalProperty',
+  ];
+
+  constructor(initialValues?: Partial<EmptyAdaptationSet>, ctx?: ParsedObject) {
+    super({name: 'EmptyAdaptationSet', ...initialValues}, ctx);
+  }
+
+  override formatParams(initialValues?: Partial<ParsedObject>, ctx?: ParsedObject): void {
+    super.formatParams(initialValues, ctx);
+  }
+
+  override verifyAttributes(ctx: ParsedObject): void {
+    if (this.xlinkHref) {
+      this.reject('EmptyAdaptationSet shall not contain an xlink');
+    }
+  }
+
+  override verifyChildren(ctx: ParsedObject): void {
+    // NOP
+  }
+
+  override get serializedProps(): ParsedObject {
+    return super.serializedProps;
   }
 }

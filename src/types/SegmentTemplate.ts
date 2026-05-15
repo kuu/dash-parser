@@ -7,12 +7,12 @@ export class SegmentTemplate extends MultipleSegmentBase {
   public initialization?: string;
   public bitstreamSwitching?: string;
 
-  constructor(initialValues?: Partial<SegmentTemplate>) {
-    super({name: 'SegmentTemplate', ...initialValues});
+  constructor(initialValues?: Partial<SegmentTemplate>, ctx?: ParsedObject) {
+    super({name: 'SegmentTemplate', ...initialValues}, ctx);
   }
 
-  override formatParams(initialValues?: Partial<ParsedObject>): void {
-    super.formatParams(initialValues);
+  override formatParams(initialValues?: Partial<ParsedObject>, ctx?: ParsedObject): void {
+    super.formatParams(initialValues, ctx);
   }
 
   override verifyAttributes(ctx: ParsedObject): void {

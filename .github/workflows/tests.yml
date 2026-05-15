@@ -1,11 +1,15 @@
-name: DASH parser tests
-on: [ push ]
+name: CI
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
 jobs:
   test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [ 'current', 'lts/*', 'lts/-1' ]
+        node-version: ['current', 'lts/*', 'lts/-1']
     steps:
       - uses: actions/checkout@v4
       - name: Setup Node ${{ matrix.node-version }}
@@ -13,5 +17,6 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm ci
-      - run: npm test
+      - run: npm run lint
       - run: npm run build
+      - run: npx jest --coverage

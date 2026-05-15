@@ -2,12 +2,12 @@ import type {ParsedObject} from './types';
 import {Label} from './Label';
 
 export class GroupLabel extends Label {
-  constructor(initialValues?: Partial<GroupLabel>) {
-    super({name: 'GroupLabel', ...initialValues});
+  constructor(initialValues?: Partial<GroupLabel>, ctx?: ParsedObject) {
+    super({name: 'GroupLabel', ...initialValues}, ctx);
   }
 
-  override formatParams(initialValues?: Partial<ParsedObject>): void {
-    super.formatParams(initialValues);
+  override formatParams(initialValues?: Partial<ParsedObject>, ctx?: ParsedObject): void {
+    super.formatParams(initialValues, ctx);
   }
 
   override verifyAttributes(ctx: ParsedObject): void {

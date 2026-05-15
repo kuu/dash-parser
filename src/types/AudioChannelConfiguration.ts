@@ -2,12 +2,12 @@ import type {ParsedObject} from './types';
 import {Descriptor} from './Descriptor';
 
 export class AudioChannelConfiguration extends Descriptor {
-  constructor(initialValues?: Partial<AudioChannelConfiguration>) {
-    super({name: 'AudioChannelConfiguration', ...initialValues});
+  constructor(initialValues?: Partial<AudioChannelConfiguration>, ctx?: ParsedObject) {
+    super({name: 'AudioChannelConfiguration', ...initialValues}, ctx);
   }
 
-  override formatParams(initialValues?: Partial<ParsedObject>): void {
-    super.formatParams(initialValues);
+  override formatParams(initialValues?: Partial<ParsedObject>, ctx?: ParsedObject): void {
+    super.formatParams(initialValues, ctx);
   }
 
   override verifyAttributes(ctx: ParsedObject): void {

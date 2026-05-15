@@ -4,12 +4,12 @@ import {Element} from './Element';
 export class InitializationGroup extends Element {
   public sourceURL?: string;
 
-  constructor(initialValues?: Partial<InitializationGroup>) {
-    super({name: 'InitializationGroup', ...initialValues});
+  constructor(initialValues?: Partial<InitializationGroup>, ctx?: ParsedObject) {
+    super({name: 'InitializationGroup', ...initialValues}, ctx);
   }
 
-  override formatParams(initialValues?: Partial<ParsedObject>): void {
-    // NOP
+  override formatParams(initialValues?: Partial<ParsedObject>, ctx?: ParsedObject): void {
+    super.formatParams(initialValues, ctx);
   }
 
   override verifyAttributes(ctx: ParsedObject): void {
@@ -21,6 +21,6 @@ export class InitializationGroup extends Element {
   }
 
   override get serializedProps(): ParsedObject {
-    return {};
+    return super.serializedProps;
   }
 }

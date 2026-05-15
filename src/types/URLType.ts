@@ -9,7 +9,7 @@ export abstract class URLType extends Element {
   public sourceURL?: string;
   public range?: Range;
 
-  override formatParams(initialValues?: Partial<ParsedObject>): void {
+  override formatParams(initialValues?: Partial<ParsedObject>, ctx?: ParsedObject): void {
     if (!initialValues) {
       return;
     }
@@ -21,6 +21,7 @@ export abstract class URLType extends Element {
     if (typeof range === 'string') {
       initialValues.range = fromByteRangeString(range.includes(',') ? range.slice(0, range.indexOf(',')) : range);
     }
+    super.formatParams(initialValues, ctx);
   }
 
   override verifyAttributes(ctx: ParsedObject): void {
@@ -32,7 +33,7 @@ export abstract class URLType extends Element {
   }
 
   override get serializedProps(): ParsedObject {
-    const obj: ParsedObject = {};
+    const obj = super.serializedProps;
     if (typeof this.sourceURL === 'string') {
       obj.sourceURL = this.sourceURL;
     }

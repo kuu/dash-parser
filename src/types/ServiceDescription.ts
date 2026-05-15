@@ -5,12 +5,12 @@ export class ServiceDescription extends Element {
   public lang?: string;
   public value?: string;
 
-  constructor(initialValues?: Partial<ServiceDescription>) {
-    super({name: 'ServiceDescription', ...initialValues});
+  constructor(initialValues?: Partial<ServiceDescription>, ctx?: ParsedObject) {
+    super({name: 'ServiceDescription', ...initialValues}, ctx);
   }
 
-  override formatParams(initialValues?: Partial<ParsedObject>): void {
-    // NOP
+  override formatParams(initialValues?: Partial<ParsedObject>, ctx?: ParsedObject): void {
+    super.formatParams(initialValues, ctx);
   }
 
   override verifyAttributes(ctx: ParsedObject): void {
@@ -22,6 +22,6 @@ export class ServiceDescription extends Element {
   }
 
   override get serializedProps(): ParsedObject {
-    return {};
+    return super.serializedProps;
   }
 }

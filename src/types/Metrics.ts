@@ -4,12 +4,12 @@ import {Element} from './Element';
 export class Metrics extends Element {
   public metrics?: string;
 
-  constructor(initialValues?: Partial<Metrics>) {
-    super({name: 'Metrics', ...initialValues});
+  constructor(initialValues?: Partial<Metrics>, ctx?: ParsedObject) {
+    super({name: 'Metrics', ...initialValues}, ctx);
   }
 
-  override formatParams(initialValues?: Partial<ParsedObject>): void {
-    // NOP
+  override formatParams(initialValues?: Partial<ParsedObject>, ctx?: ParsedObject): void {
+    super.formatParams(initialValues, ctx);
   }
 
   override verifyAttributes(ctx: ParsedObject): void {
@@ -21,6 +21,6 @@ export class Metrics extends Element {
   }
 
   override get serializedProps(): ParsedObject {
-    return {};
+    return super.serializedProps;
   }
 }

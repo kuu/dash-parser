@@ -9,11 +9,11 @@ export class ExtendedBandwidth extends Element {
 
   public vbr?: boolean;
 
-  constructor(initialValues?: Partial<ExtendedBandwidth>) {
-    super({name: 'ExtendedBandwidth', ...initialValues});
+  constructor(initialValues?: Partial<ExtendedBandwidth>, ctx?: ParsedObject) {
+    super({name: 'ExtendedBandwidth', ...initialValues}, ctx);
   }
 
-  override formatParams(initialValues?: Partial<ParsedObject>): void {
+  override formatParams(initialValues?: Partial<ParsedObject>, ctx?: ParsedObject): void {
     if (!initialValues) {
       return;
     }
@@ -25,6 +25,7 @@ export class ExtendedBandwidth extends Element {
     if (typeof vbr === 'string') {
       initialValues.vbr = vbr === 'true';
     }
+    super.formatParams(initialValues, ctx);
   }
 
   override verifyAttributes(ctx: ParsedObject): void {
@@ -36,7 +37,7 @@ export class ExtendedBandwidth extends Element {
   }
 
   override get serializedProps(): ParsedObject {
-    const obj: ParsedObject = {};
+    const obj = super.serializedProps;
     if (typeof this.vbr === 'boolean') {
       obj.vbr = this.vbr ? 'true' : 'false';
     }
@@ -48,11 +49,11 @@ export class ModelPair extends Element {
   public bufferTime?: number;
   public bandwidth?: number;
 
-  constructor(initialValues?: Partial<ModelPair>) {
-    super({name: 'ModelPair', ...initialValues});
+  constructor(initialValues?: Partial<ModelPair>, ctx?: ParsedObject) {
+    super({name: 'ModelPair', ...initialValues}, ctx);
   }
 
-  override formatParams(initialValues?: Partial<ParsedObject>): void {
+  override formatParams(initialValues?: Partial<ParsedObject>, ctx?: ParsedObject): void {
     if (!initialValues) {
       return;
     }
@@ -64,6 +65,7 @@ export class ModelPair extends Element {
     if (typeof bufferTime === 'string') {
       initialValues.bufferTime = fromTemporalDurationString(bufferTime);
     }
+    super.formatParams(initialValues, ctx);
   }
 
   override verifyAttributes(ctx: ParsedObject): void {
@@ -79,6 +81,7 @@ export class ModelPair extends Element {
 
   override get serializedProps(): ParsedObject {
     const obj: ParsedObject = {
+      ...super.serializedProps,
       bufferTime: toTemporalDurationString(this.bufferTime!),
       bandwidth: this.bandwidth,
     };

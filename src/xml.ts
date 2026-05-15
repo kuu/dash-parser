@@ -36,6 +36,6 @@ export function fromXML(xml: string): ParsedObject | undefined {
 }
 
 export function toXML(obj: ParsedObject): string | undefined {
-  const txt = builder.build(obj) as string;
+  const txt = builder.build(obj);
   return txt ? `<?xml version="1.0" encoding="UTF-8"?>\n${txt.trim()}` : undefined;
 }
