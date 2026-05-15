@@ -658,14 +658,14 @@ describe('ISO_IEC-23009-1_2022/5.3.1.2', () => {
         minBufferTime="PT4S"
       >
         <Period duration="PT0S"/>
-        <LeapSecondInformation/>
+        <LeapSecondInformation availabilityStartLeapOffset="1"/>
       </MPD>
     `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 4,
       children: [
         new Period({duration: 0}),
-        new LeapSecondInformation(),
+        new LeapSecondInformation({availabilityStartLeapOffset: 1}),
       ],
     }));
 
@@ -676,16 +676,16 @@ describe('ISO_IEC-23009-1_2022/5.3.1.2', () => {
         minBufferTime="PT4S"
       >
         <Period duration="PT0S"/>
-        <LeapSecondInformation/>
-        <LeapSecondInformation/>
+        <LeapSecondInformation availabilityStartLeapOffset="1"/>
+        <LeapSecondInformation availabilityStartLeapOffset="1"/>
       </MPD>
     `, new MPD({
       profiles: 'urn:mpeg:dash:profile:isoff-on-demand:2011',
       minBufferTime: 4,
       children: [
         new Period({duration: 0}),
-        new LeapSecondInformation(),
-        new LeapSecondInformation(),
+        new LeapSecondInformation({availabilityStartLeapOffset: 1}),
+        new LeapSecondInformation({availabilityStartLeapOffset: 1}),
       ],
     }));
   });

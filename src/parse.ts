@@ -19,13 +19,11 @@ export function parse(text: string): Element | undefined {
 }
 
 function parseElement(element: Element | undefined, obj: ParsedObject | undefined, ctx: Context): Element | undefined {
-  // console.log(`=== parseElement: Enter: element.name=${element.name}, ctx=${JSON.stringify(ctx, null, 2)}`);
   if (element) {
     element.verifyAttributes(ctx);
   }
 
   if (!obj) {
-    // console.log('=== parseElement: Exit-1');
     if (element) {
       element.verifyChildren(ctx);
     }
@@ -33,7 +31,6 @@ function parseElement(element: Element | undefined, obj: ParsedObject | undefine
   }
 
   if (typeof obj === 'string') {
-    // console.log('=== parseElement: Exit-2');
     if (element) {
       element.textContent = obj;
       element.verifyChildren(ctx);
@@ -42,11 +39,8 @@ function parseElement(element: Element | undefined, obj: ParsedObject | undefine
   }
 
   const originalContext = cloneContext(ctx);
-  // console.log(JSON.stringify(obj, null, 2));
   for (const key of Object.keys(obj)) {
-    // console.log(`--- parse key: '${key}'`);
     if (key === '@') {
-      // console.log('--- parse key end-1');
       continue;
     }
 
@@ -57,13 +51,11 @@ function parseElement(element: Element | undefined, obj: ParsedObject | undefine
     const type = getType(key, ctx);
     if (!type) {
       print(`Unknown element: ${key}`);
-      // console.log('--- parse key end-2');
       continue;
     }
     const o = obj[key] as ParsedObject | ParsedObject[];
     const children = Array.isArray(o) ? o : [o];
     for (const child of children) {
-      // console.log(`--- addElement: '${key}'`);
       const elem = new type(child['@'] as ParsedObject, ctx);
       if (element) {
         element.addElement(elem);
@@ -80,7 +72,6 @@ function parseElement(element: Element | undefined, obj: ParsedObject | undefine
     element.verifyChildren(ctx);
   }
   Object.assign(ctx, originalContext); // Restore the context
-  // console.log('=== parseElement: Exit-3');
   return element;
 }
 
